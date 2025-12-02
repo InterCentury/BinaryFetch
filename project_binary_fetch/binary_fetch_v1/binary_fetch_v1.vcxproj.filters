@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{e3b82b4c-e196-4622-9a1f-6bb2c497878b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\OS">
+      <UniqueIdentifier>{3acae55b-872b-40aa-a79c-2277381782d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\CPU">
+      <UniqueIdentifier>{f95b6725-b502-4d9e-80e6-5774b47f40a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Memory">
+      <UniqueIdentifier>{c932c51c-f311-457e-815f-a146892e8fda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Storage">
+      <UniqueIdentifier>{eb87bf5d-1481-45b8-98b0-78f016b0b847}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System">
+      <UniqueIdentifier>{3a6b848a-9f33-4a35-bf8a-986870a853d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Hardware">
+      <UniqueIdentifier>{2cd07408-adef-4ee0-841b-edd9928a4662}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Display">
+      <UniqueIdentifier>{5fa1b3c7-a01a-4bbf-9fd5-9abd3d6a29e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Compatibility">
+      <UniqueIdentifier>{82ca36a3-0cad-4bae-a1da-259da70c0785}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GPU">
+      <UniqueIdentifier>{7c0f34cb-56e9-4c66-9956-fb6fe3e504d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Utils">
+      <UniqueIdentifier>{48cc23e9-3ff6-49d2-bb06-8358721be7f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\User">
+      <UniqueIdentifier>{7e237554-596f-4900-a39c-de19ee4e8119}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Network">
+      <UniqueIdentifier>{b69df690-8ee1-43d0-a748-9c781249c4e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Enviornment">
+      <UniqueIdentifier>{552846b6-a3f1-43ea-b153-1eb2a1b99673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{053fd058-3926-406d-a7b0-8932e6feaa21}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>{5925ffaf-ac2d-4f7a-b8bf-820c91cbf583}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config/">
+      <UniqueIdentifier>{5a5c0ec7-b6da-4cbb-988d-36c16a18f868}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\Utlis">
+      <UniqueIdentifier>{bf1edf55-48e8-4d85-924b-b51f6b80ab27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="libs">
+      <UniqueIdentifier>{a44a5500-d339-44a9-be2f-20308fd8e9ea}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SystemInfo.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CPUInfo.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="GPUInfo.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="OSInfo.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryInfo.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="StorageInfo.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="NetworkInfo.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PerformanceInfo.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInfo.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="ExtraInfo.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CentralControl.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CompactMemory.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CompactAudio.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CompactOS.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CompactCPU.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CompactDisplay.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CompactScreen.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CompactSystem.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CompactGPU.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CompactPerformance.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CompactUser.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="CompactNetwork.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="AsciiArt.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="personalization_info.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="compact_disk_info.h">
+      <Filter>include</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="AsciiArt.txt">
+      <Filter>Resources</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="version_info.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="SystemInfo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CPUInfo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="GPUInfo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="OSInfo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="StorageInfo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkInfo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryInfo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayInfo.h">
+      <Filter>include</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayInfo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigReader.cpp">
+      <Filter>include\Utlis</Filter>
+    </ClCompile>
+    <ClCompile Include="ConsoleUtils.cpp">
+      <Filter>include\Utlis</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers.cpp">
+      <Filter>include\Utlis</Filter>
+    </ClCompile>
+    <ClCompile Include="DetailedGPUInfo.h">
+      <Filter>include</Filter>
+    </ClCompile>
+    <ClCompile Include="DtailedGPUInfo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="ExtraInfo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="PerformanceInfo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInfo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CentralControl.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CompactMemory.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CompactAudio.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CompactOS.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CompactCPU.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CompactDisplay.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CompactScreen.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CompactSystem.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CompactGPU.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CompactPerformance.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CompactUser.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="CompactNetwork.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="AsciiArt.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="personalization_info.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="compact_disk_info.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config.json" />
+  </ItemGroup>
+</Project>

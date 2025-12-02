@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AsciiArt.h" />
+    <ClInclude Include="CentralControl.h" />
+    <ClInclude Include="CompactAudio.h" />
+    <ClInclude Include="CompactCPU.h" />
+    <ClInclude Include="CompactDisplay.h" />
+    <ClInclude Include="CompactGPU.h" />
+    <ClInclude Include="CompactMemory.h" />
+    <ClInclude Include="CompactNetwork.h" />
+    <ClInclude Include="CompactOS.h" />
+    <ClInclude Include="CompactPerformance.h" />
+    <ClInclude Include="CompactScreen.h" />
+    <ClInclude Include="CompactSystem.h" />
+    <ClInclude Include="CompactUser.h" />
+    <ClInclude Include="compact_disk_info.h" />
+    <ClInclude Include="CPUInfo.h" />
+    <ClInclude Include="ExtraInfo.h" />
+    <ClInclude Include="GPUInfo.h" />
+    <ClInclude Include="json.hpp" />
+    <ClInclude Include="MemoryInfo.h" />
+    <ClInclude Include="NetworkInfo.h" />
+    <ClInclude Include="OSInfo.h" />
+    <ClInclude Include="PerformanceInfo.h" />
+    <ClInclude Include="personalization_info.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="StorageInfo.h" />
+    <ClInclude Include="SystemInfo.h" />
+    <ClInclude Include="UserInfo.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="AsciiArt.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="version_info.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="AsciiArt.cpp" />
+    <ClCompile Include="CentralControl.cpp" />
+    <ClCompile Include="CompactAudio.cpp" />
+    <ClCompile Include="CompactDisplay.cpp" />
+    <ClCompile Include="CompactGPU.cpp" />
+    <ClCompile Include="CompactMemory.cpp" />
+    <ClCompile Include="CompactNetwork.cpp" />
+    <ClCompile Include="CompactOS.cpp" />
+    <ClCompile Include="CompactPerformance.cpp" />
+    <ClCompile Include="CompactScreen.cpp" />
+    <ClCompile Include="CompactSystem.cpp" />
+    <ClCompile Include="CompactUser.cpp" />
+    <ClCompile Include="compact_disk_info.cpp" />
+    <ClCompile Include="ConfigReader.cpp" />
+    <ClCompile Include="ConsoleUtils.cpp" />
+    <ClCompile Include="CPUInfo.cpp" />
+    <ClCompile Include="DetailedGPUInfo.h" />
+    <ClCompile Include="DisplayInfo.cpp" />
+    <ClCompile Include="DisplayInfo.h" />
+    <ClCompile Include="DtailedGPUInfo.cpp" />
+    <ClCompile Include="ExtraInfo.cpp" />
+    <ClCompile Include="GPUInfo.cpp" />
+    <ClCompile Include="Helpers.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="MemoryInfo.cpp" />
+    <ClCompile Include="NetworkInfo.cpp" />
+    <ClCompile Include="OSInfo.cpp" />
+    <ClCompile Include="PerformanceInfo.cpp" />
+    <ClCompile Include="CompactCPU.cpp" />
+    <ClCompile Include="personalization_info.cpp" />
+    <ClCompile Include="StorageInfo.cpp" />
+    <ClCompile Include="SystemInfo.cpp" />
+    <ClCompile Include="UserInfo.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="config.json" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{70c59eb9-6171-4f3c-9808-798516771b04}</ProjectGuid>
+    <RootNamespace>binaryfetchv1</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>binary_fetch</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>C:\NVAPI\nvapi-main;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>C:\NVAPI\nvapi-main;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>"H:\programming\projects\project_binary_fetch\binary_fetch_v1\json.hpp"</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>"H:\programming\projects\project_binary_fetch\binary_fetch_v1\json.hpp"</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>"H:\programming\projects\project_binary_fetch\binary_fetch_v1\json.hpp"</AdditionalIncludeDirectories>
+      <AdditionalModuleDependencies>
+      </AdditionalModuleDependencies>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\NVAPI\nvapi-main\amd64;C:\Users\OBITO\Downloads\nvapi-main\nvapi-main\amd64\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>advapi32.lib;user32.lib;ole32.lib;Gdi32.lib
+;nvapi64.lib;Shell32.lib;Shell32.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>"H:\programming\projects\project_binary_fetch\binary_fetch_v1\json.hpp"</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);;nvapi64.lib;Shell32.lib;Shell32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\NVAPI\nvapi-main\amd64;</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
