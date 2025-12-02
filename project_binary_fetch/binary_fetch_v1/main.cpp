@@ -430,7 +430,7 @@ int main() {
 
 
 
-/*
+/*  4th main.cpp
 
 
 
@@ -777,7 +777,7 @@ int main() {
 
 */
 
-/*
+/* 3rd main.cpp
 
 
 #include <iostream>
@@ -1501,7 +1501,7 @@ int main() {
 */
 
 
-/* previous main.cpp---------------------------------------ignore for
+/* 1st main.cpp
 
 #include <iostream>
 #include "OSInfo.h"
