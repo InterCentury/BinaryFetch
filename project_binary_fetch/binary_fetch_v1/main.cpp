@@ -180,7 +180,6 @@ int main() {
         std::cout << std::endl;
 
 
-
         // ---------------- FULL DETAILED INFO (A order) ----------------
         cout << endl;
         cout << "---------------Memory Info--------------" << endl;
