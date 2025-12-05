@@ -420,7 +420,7 @@ int main() {
         cout << "Motherboard Model: " << sys.get_motherboard_model() << "\n";
         cout << "Motherboard Manufacturer: " << sys.get_motherboard_manufacturer() << "\n";
         cout << endl;
-
+        
         // --- User Info ---
         cout << "--- User Info ---\n";
         cout << "Username: " << user.get_username() << "\n";
