@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <iomanip>        // Formatting utilities (setw, precision)
 #include <vector>
