@@ -228,16 +228,18 @@ int main() {
                         return oss.str();
                         };
 
-                    cout << d.drive_letter << " [ (Used) "
-                        << fmt_storage(d.used_space) << " GiB / "
-                        << fmt_storage(d.total_space) << " GiB "
-                        << d.used_percentage
-                        << " - " << d.file_system;
+                    // Print: SSD Disk (C:)
+                    cout << d.storage_type <<" " << d.drive_letter
+                        << " [ (Used) " << fmt_storage(d.used_space)
+                        << " GiB / " << fmt_storage(d.total_space)
+                        << " GiB " << d.used_percentage
+                        << " - " << d.file_system << " ";
 
+                    // Only print Int/Ext here
                     if (d.is_external)
-                        cout << " Ext " << d.storage_type << "]";  // Add storage type here
+                        cout << "Ext]";
                     else
-                        cout << " Int " << d.storage_type << "]";  // Add storage type here
+                        cout << "Int]";
 
                     cout << "\n";
                 }
