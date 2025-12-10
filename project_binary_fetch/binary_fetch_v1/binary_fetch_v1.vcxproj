@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="AsciiArt.txt" />
-    <Text Include="main-6.txt" />
+    <Text Include="main-6 copy.txt" />
     <Text Include="temp_output.txt" />
     <Text Include="text infos\Info about main.cpp.txt" />
     <Text Include="text infos\main-5 copy.txt" />
