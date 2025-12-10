@@ -661,299 +661,261 @@ int main() {
 }
 
 
-/*
+/*  main.cpp documentation:
 
-PROJECT: BinaryFetch (main.cpp)
-
-PURPOSE:
-Collects and displays both compact and detailed system information
-side-by-side with ASCII art using a LivePrinter streaming system.
-
-===============================================================================
-USED CLASSES, OBJECTS, AND FUNCTIONS
-
-==================== ASCII / OUTPUT SYSTEM ====================
-
-Class: AsciiArt
-Object:
-AsciiArt art;
-
-Member Functions:
-bool loadFromFile(const std::string& filePath)
-- Loads ASCII art from a text file.
-- Returns true if load succeeds, false otherwise.
-
-Class: LivePrinter
-Object:
-LivePrinter lp(art);
-
-Member Functions:
-void push(const std::string& line)
-- Streams one line of output aligned with ASCII art.
-
-void finish()
-    - Outputs remaining ASCII art lines when info lines end.
-
-===============================================================================
-COMPACT MODE CLASSES (LIGHTWEIGHT SUMMARY)
-
-Class: CompactOS
-Object:
-CompactOS c_os;
-
-Functions:
-std::string getOSName()
-std::string getOSBuild()
-std::string getArchitecture()
-std::string getUptime()
-
-Class: CompactCPU
-Object:
-CompactCPU c_cpu;
-
-Functions:
-std::string getCPUName()
-int getCPUCores()
-int getCPUThreads()
-double getClockSpeed()
-
-Class: CompactScreen
-Object:
-CompactScreen c_screen;
-
-Functions:
-std::vector<ScreenInfo> get_screens()
-
-Struct: ScreenInfo
-std::string brand_name
-std::string resolution
-int refresh_rate
-
-Class: CompactMemory
-Object:
-CompactMemory c_memory;
-
-Functions:
-double get_total_memory()
-double get_free_memory()
-double get_used_memory_percent()
-
-Class: CompactAudio
-Object:
-CompactAudio c_audio;
-
-Functions:
-std::string active_audio_input()
-std::string active_audio_input_status()
-std::string active_audio_output()
-std::string active_audio_output_status()
-
-Class: CompactSystem
-Object:
-CompactSystem c_system;
-
-Functions:
-std::string getBIOSInfo()
-std::string getMotherboardInfo()
-
-Class: CompactGPU
-Object:
-CompactGPU c_gpu;
-
-Functions:
-std::string getGPUName()
-float getGPUUsagePercent()
-float getVRAMGB()
-std::string getGPUFrequency()
-
-Class: CompactPerformance
-Object:
-CompactPerformance c_perf;
-
-Functions:
-float getCPUUsage()
-float getGPUUsage()
-float getRAMUsage()
-float getDiskUsage()
-
-Class: CompactUser
-Object:
-CompactUser c_user;
-
-Functions:
-std::string getUsername()
-std::string getDomain()
-std::string isAdmin()
-
-Class: CompactNetwork
-Object:
-CompactNetwork c_net;
-
-Functions:
-std::string get_network_name()
-std::string get_network_type()
-std::string get_network_ip()
-
-Class: DiskInfo
-Object:
-DiskInfo disk;
-
-Functions:
-std::vector<std::pairstd::string,double
-> getAllDiskUsage()
-std::vector<std::pairstd::string,int
-> getDiskCapacity()
-
-===============================================================================
-FULL DETAIL SYSTEM CLASSES
-
-Class: OSInfo
-Object:
-OSInfo os;
-
-Functions:
-std::string GetOSName()
-std::string GetOSVersion()
-std::string GetOSArchitecture()
-std::string get_os_kernel_info()
-std::string get_os_uptime()
-std::string get_os_install_date()
-std::string get_os_serial_number()
-
-Class: CPUInfo
-Object:
-CPUInfo cpu;
-
-Functions:
-std::string get_cpu_info()
-float get_cpu_utilization()
-std::string get_cpu_speed()
-std::string get_cpu_base_speed()
-int get_cpu_cores()
-int get_cpu_logical_processors()
-int get_cpu_sockets()
-std::string get_cpu_virtualization()
-std::string get_cpu_l1_cache()
-std::string get_cpu_l2_cache()
-std::string get_cpu_l3_cache()
-
-Class: MemoryInfo
-Object:
-MemoryInfo ram;
-
-Functions:
-double getTotal()
-double getFree()
-float getUsedPercentage()
-std::vector<MemoryModule> getModules()
-
-Struct: MemoryModule
-std::string capacity
-std::string type
-std::string speed
-
-Class: GPUInfo
-Object:
-GPUInfo obj_gpu;
-
-Functions:
-std::vector<GPUData> get_all_gpu_info()
-
-Struct: GPUData
-std::string gpu_name
-std::string gpu_memory
-int gpu_usage
-std::string gpu_vendor
-std::string gpu_driver_version
-int gpu_temperature
-int gpu_core_count
-
-Class: DetailedGPUInfo
-Object:
-DetailedGPUInfo detailed_gpu_info;
-
-Functions:
-GPUDetail primary_gpu_info()
-
-Struct: GPUDetail
-std::string name
-float vram_gb
-float frequency_ghz
-
-Class: StorageInfo
-Object:
-StorageInfo storage;
-
-Functions:
-std::vector<StorageData> get_all_storage_info()
-
-Struct: StorageData
-std::string storage_type
-std::string drive_letter
-std::string used_space
-std::string total_space
-std::string used_percentage
-std::string file_system
-bool is_external
-std::string read_speed
-std::string write_speed
-std::string predicted_read_speed
-std::string predicted_write_speed
-std::string serial_number
-
-Class: DisplayInfo
-Object:
-DisplayInfo display;
-
-Functions:
-std::vector<MonitorInfo> get_all_displays()
-
-Struct: MonitorInfo
-std::string brand_name
-std::string resolution
-int refresh_rate
-
-Class: SystemInfo
-Object:
-SystemInfo sys;
-
-Functions:
-std::string get_bios_vendor()
-std::string get_bios_version()
-std::string get_bios_date()
-std::string get_motherboard_model()
-std::string get_motherboard_manufacturer()
-
-Class: UserInfo
-Object:
-UserInfo user;
-
-Functions:
-std::string get_username()
-std::string get_computer_name()
-std::string get_domain_name()
-std::string get_user_groups()
-
-Class: PerformanceInfo
-Object:
-PerformanceInfo perf;
-
-Functions:
-std::string get_system_uptime()
-float get_cpu_usage_percent()
-float get_ram_usage_percent()
-float get_disk_usage_percent()
-float get_gpu_usage_percent()
-
-Class: ExtraInfo
-Object:
-ExtraInfo extra;
-
-Functions:
-void get_audio_devices()
-void get_power_status()
-
-===============================================================================
-END OF DOCUMENTATION
-
+------------------------------------------------
+CLASS: AsciiArt
+OBJECT: art
+DESCRIPTION: Handles ASCII art loading and display.
+FUNCTIONS:
+    bool loadFromFile(const std::string& filename) -> bool
+        Loads ASCII art from a file. Returns true if successful.
+------------------------------------------------
+CLASS: LivePrinter
+OBJECT: lp
+DESCRIPTION: Streams system info line-by-line alongside ASCII art.
+FUNCTIONS:
+    void push(const std::string& line) -> void
+        Adds a line to the output queue.
+    void finish() -> void
+        Completes printing, including remaining ASCII art lines.
+------------------------------------------------
+CLASS: OSInfo
+OBJECT: os
+DESCRIPTION: Retrieves full OS details.
+FUNCTIONS:
+    std::string GetOSName() -> std::string
+    std::string GetOSVersion() -> std::string
+    std::string GetOSArchitecture() -> std::string
+    std::string get_os_kernel_info() -> std::string
+    std::string get_os_uptime() -> std::string
+    std::string get_os_install_date() -> std::string
+    std::string get_os_serial_number() -> std::string
+------------------------------------------------
+CLASS: CPUInfo
+OBJECT: cpu
+DESCRIPTION: Retrieves CPU details and statistics.
+FUNCTIONS:
+    std::string get_cpu_info() -> std::string
+    float get_cpu_utilization() -> float
+    float get_cpu_speed() -> float
+    float get_cpu_base_speed() -> float
+    int get_cpu_cores() -> int
+    int get_cpu_logical_processors() -> int
+    int get_cpu_sockets() -> int
+    bool get_cpu_virtualization() -> bool
+    std::string get_cpu_l1_cache() -> std::string
+    std::string get_cpu_l2_cache() -> std::string
+    std::string get_cpu_l3_cache() -> std::string
+------------------------------------------------
+CLASS: MemoryInfo
+OBJECT: ram
+DESCRIPTION: Retrieves RAM details.
+FUNCTIONS:
+    float getTotal() -> float
+    float getFree() -> float
+    float getUsedPercentage() -> float
+    struct Module {
+        std::string capacity;
+        std::string type;
+        std::string speed;
+    };
+    std::vector<Module> getModules() -> std::vector<Module>
+------------------------------------------------
+CLASS: GPUInfo
+OBJECT: obj_gpu
+DESCRIPTION: Retrieves GPU basic info.
+FUNCTIONS:
+    struct GPU {
+        std::string gpu_name;
+        std::string gpu_memory;
+        float gpu_usage;
+        std::string gpu_vendor;
+        std::string gpu_driver_version;
+        float gpu_temperature;
+        int gpu_core_count;
+    };
+    std::vector<GPU> get_all_gpu_info() -> std::vector<GPU>
+------------------------------------------------
+CLASS: DetailedGPUInfo
+OBJECT: detailed_gpu_info
+DESCRIPTION: Provides detailed GPU stats.
+FUNCTIONS:
+    struct PrimaryGPU {
+        std::string name;
+        float vram_gb;
+        float frequency_ghz;
+    };
+    PrimaryGPU primary_gpu_info() -> PrimaryGPU
+------------------------------------------------
+CLASS: StorageInfo
+OBJECT: storage
+DESCRIPTION: Detailed storage and disk info.
+FUNCTIONS:
+    struct Disk {
+        std::string storage_type;
+        std::string drive_letter;
+        std::string used_space;
+        std::string total_space;
+        float used_percentage;
+        std::string file_system;
+        bool is_external;
+        std::string read_speed;
+        std::string write_speed;
+        std::string predicted_read_speed;
+        std::string predicted_write_speed;
+        std::string serial_number;
+    };
+    std::vector<Disk> get_all_storage_info() -> std::vector<Disk>
+------------------------------------------------
+CLASS: NetworkInfo
+OBJECT: net
+DESCRIPTION: Retrieves network adapter info.
+FUNCTIONS:
+    std::string get_network_name() -> std::string
+    std::string get_network_type() -> std::string
+    std::string get_network_ip() -> std::string
+------------------------------------------------
+CLASS: UserInfo
+OBJECT: user
+DESCRIPTION: Retrieves logged-in user information.
+FUNCTIONS:
+    std::string get_username() -> std::string
+    std::string get_computer_name() -> std::string
+    std::string get_domain_name() -> std::string
+    std::string get_user_groups() -> std::string
+------------------------------------------------
+CLASS: PerformanceInfo
+OBJECT: perf
+DESCRIPTION: Retrieves system performance metrics.
+FUNCTIONS:
+    float get_cpu_usage_percent() -> float
+    float get_ram_usage_percent() -> float
+    float get_disk_usage_percent() -> float
+    float get_gpu_usage_percent() -> float
+    std::string get_system_uptime() -> std::string
+------------------------------------------------
+CLASS: DisplayInfo
+OBJECT: display
+DESCRIPTION: Retrieves connected monitor info.
+FUNCTIONS:
+    struct Monitor {
+        std::string brand_name;
+        std::string resolution;
+        int refresh_rate;
+    };
+    std::vector<Monitor> get_all_displays() -> std::vector<Monitor>
+------------------------------------------------
+CLASS: ExtraInfo
+OBJECTS: extra, audio
+DESCRIPTION: Provides additional system info such as audio and power.
+FUNCTIONS:
+    void get_audio_devices() -> void
+    void get_power_status() -> void
+------------------------------------------------
+CLASS: SystemInfo
+OBJECT: sys
+DESCRIPTION: Motherboard and BIOS info.
+FUNCTIONS:
+    std::string get_bios_vendor() -> std::string
+    std::string get_bios_version() -> std::string
+    std::string get_bios_date() -> std::string
+    std::string get_motherboard_model() -> std::string
+    std::string get_motherboard_manufacturer() -> std::string
+------------------------------------------------
+CLASS: CompactAudio
+OBJECT: c_audio
+DESCRIPTION: Lightweight audio info.
+FUNCTIONS:
+    std::string active_audio_input() -> std::string
+    std::string active_audio_input_status() -> std::string
+    std::string active_audio_output() -> std::string
+    std::string active_audio_output_status() -> std::string
+------------------------------------------------
+CLASS: CompactOS
+OBJECT: c_os
+DESCRIPTION: Lightweight OS summary.
+FUNCTIONS:
+    std::string getOSName() -> std::string
+    std::string getOSBuild() -> std::string
+    std::string getArchitecture() -> std::string
+    std::string getUptime() -> std::string
+------------------------------------------------
+CLASS: CompactCPU
+OBJECT: c_cpu
+DESCRIPTION: Lightweight CPU summary.
+FUNCTIONS:
+    std::string getCPUName() -> std::string
+    int getCPUCores() -> int
+    int getCPUThreads() -> int
+    float getClockSpeed() -> float
+------------------------------------------------
+CLASS: CompactMemory
+OBJECT: c_memory
+DESCRIPTION: Lightweight memory summary.
+FUNCTIONS:
+    float get_total_memory() -> float
+    float get_free_memory() -> float
+    float get_used_memory_percent() -> float
+------------------------------------------------
+CLASS: CompactScreen
+OBJECT: c_screen
+DESCRIPTION: Lightweight display summary.
+FUNCTIONS:
+    struct Screen {
+        std::string brand_name;
+        std::string resolution;
+        int refresh_rate;
+    };
+    std::vector<Screen> get_screens() -> std::vector<Screen>
+------------------------------------------------
+CLASS: CompactSystem
+OBJECT: c_system
+DESCRIPTION: Lightweight BIOS and motherboard summary.
+FUNCTIONS:
+    std::string getBIOSInfo() -> std::string
+    std::string getMotherboardInfo() -> std::string
+------------------------------------------------
+CLASS: CompactGPU
+OBJECT: c_gpu
+DESCRIPTION: Lightweight GPU summary.
+FUNCTIONS:
+    std::string getGPUName() -> std::string
+    float getGPUUsagePercent() -> float
+    float getVRAMGB() -> float
+    float getGPUFrequency() -> float
+------------------------------------------------
+CLASS: CompactPerformance
+OBJECT: c_perf
+DESCRIPTION: Lightweight performance metrics.
+FUNCTIONS:
+    float getCPUUsage() -> float
+    float getGPUUsage() -> float
+    float getRAMUsage() -> float
+    float getDiskUsage() -> float
+------------------------------------------------
+CLASS: CompactUser
+OBJECT: c_user
+DESCRIPTION: Lightweight user info.
+FUNCTIONS:
+    std::string getUsername() -> std::string
+    std::string getDomain() -> std::string
+    bool isAdmin() -> bool
+------------------------------------------------
+CLASS: CompactNetwork
+OBJECT: c_net
+DESCRIPTION: Lightweight network summary.
+FUNCTIONS:
+    std::string get_network_name() -> std::string
+    std::string get_network_type() -> std::string
+    std::string get_network_ip() -> std::string
+------------------------------------------------
+CLASS: DiskInfo
+OBJECT: disk
+DESCRIPTION: Compact disk usage info.
+FUNCTIONS:
+    std::vector<std::pair<std::string, float>> getAllDiskUsage() -> std::vector<std::pair<std::string, float>>
+    std::vector<std::pair<std::string, float>> getDiskCapacity() -> std::vector<std::pair<std::string, float>>
+------------------------------------------------
 */
+
