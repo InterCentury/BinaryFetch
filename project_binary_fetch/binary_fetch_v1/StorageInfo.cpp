@@ -315,10 +315,17 @@ vector<storage_data> StorageInfo::get_all_storage_info() {
                 // Storage type
                 disk.storage_type = get_storage_type(disk.drive_letter, root_path, is_external);
 
-                // Snapshot read/write speeds
-                // Use same order as your working example: first WRITE then READ
+                // If the drive type cannot be identified → skip it (example: Virtual CD drives)
+                if (disk.storage_type == "Unknown") {
+                    drive_mask >>= 1;
+                    drive_letter++;
+                    continue;   // do NOT add to all_disks
+                }
+
+                // Snapshot read/write speeds (ONLY for valid drives)
                 double w = measure_disk_speed(root_path, true);
                 double r = measure_disk_speed(root_path, false);
+
 
                 ostringstream ss;
                 ss << fixed << setprecision(2) << r;
