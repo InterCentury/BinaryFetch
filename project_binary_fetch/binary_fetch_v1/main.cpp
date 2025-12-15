@@ -247,7 +247,7 @@ int main() {
             lp.push(ss.str());
         }
     }
-
+     
     // Storage Info (detailed) - STREAMING VERSION
     {
         lp.push("");
