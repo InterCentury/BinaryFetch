@@ -517,7 +517,7 @@ int main() {
                         label << "GPU " << (i + 1);
                     }
                     else {
-                        label << "#-" << "GPU " << (i + 1) << "--------------------------------------------------------#";
+                        label << "#-" << "GPU " << (i + 1) << "-------------------------------------------------------#";
                     }
                     
                     std::string lbl = label.str();
@@ -567,7 +567,7 @@ int main() {
             auto primary = detailed_gpu_info.primary_gpu_info();
             {
                 std::ostringstream ss;
-                ss << "Primary GPU Details        :";
+                ss << "#-Primary GPU Details-----------------------------------------#";
                 lp.push(ss.str());
             }
             {
