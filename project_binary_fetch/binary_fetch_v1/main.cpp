@@ -289,7 +289,7 @@ int main() {
             ss << d.storage_type << " " << d.drive_letter
                 << " [ (Used) " << fmt_storage(d.used_space)
                 << " GiB /" << fmt_storage(d.total_space)
-                << " GiB " << d.used_percentage
+                << " GiB  " << d.used_percentage
                 << " - " << d.file_system << " "
                 << (d.is_external ? "Ext ]" : "Int ]");
             lp.push(ss.str());
