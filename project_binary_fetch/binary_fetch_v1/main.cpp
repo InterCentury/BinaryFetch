@@ -576,26 +576,26 @@ int main() {
     // BIOS & Motherboard Info
     {
         cout << endl;
-        lp.push("--- BIOS & Motherboard Info ---");
+        lp.push("#-BIOS & Motherboard Info -----------------------------------------#");
         {
             std::ostringstream ss;
-            ss << "Bios Vendor: " << sys.get_bios_vendor(); lp.push(ss.str());
+            ss << "Bios Vendor               : " << sys.get_bios_vendor(); lp.push(ss.str());
+        }
+        {
+            std::ostringstream ss; 
+            ss << "Bios Version              : " << sys.get_bios_version(); lp.push(ss.str());
         }
         {
             std::ostringstream ss;
-            ss << "Bios Version: " << sys.get_bios_version(); lp.push(ss.str());
+            ss << "Bios Date                 : " << sys.get_bios_date(); lp.push(ss.str());
         }
         {
             std::ostringstream ss;
-            ss << "Bios Date: " << sys.get_bios_date(); lp.push(ss.str());
+            ss << "Motherboard Model         : " << sys.get_motherboard_model(); lp.push(ss.str());
         }
         {
             std::ostringstream ss;
-            ss << "Motherboard Model: " << sys.get_motherboard_model(); lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << "Motherboard Manufacturer: " << sys.get_motherboard_manufacturer(); lp.push(ss.str());
+            ss << "Motherboard Manufacturer  : " << sys.get_motherboard_manufacturer(); lp.push(ss.str());
         }
     }
 
