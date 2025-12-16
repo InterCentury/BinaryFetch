@@ -1,4 +1,4 @@
-#include "NetworkInfo.h"
+﻿#include "NetworkInfo.h"
 #include <WinSock2.h>
 #include <iphlpapi.h>
 #include <WS2tcpip.h>
@@ -423,7 +423,7 @@ IMPROVEMENTS MADE TO get_network_speed():
    - Only returns physical Ethernet/WiFi adapters
 
 3. **Better Speed Formatting**
-   - Shows "1.0 Gbps" for gigabit+ connections (?1000 Mbps)
+   - Shows "1.0 Gbps" for gigabit+ connections (≥1000 Mbps)
    - Shows "100 Mbps" or "300 Mbps" for sub-gigabit speeds
    - Adds connection type: "(Ethernet)" or "(WiFi)"
 
