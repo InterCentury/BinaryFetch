@@ -26,10 +26,6 @@ string ExtraInfo::get_audio_devices()
         return "Audio Devices: Failed to enumerate.";
     }
 
-    cout << endl;
-    setColor(12); // Red
-    cout << "[Output Devices]\n";
-    setColor(7); // Default
 
     hr = pEnum->EnumAudioEndpoints(eRender, DEVICE_STATE_ACTIVE | DEVICE_STATE_DISABLED, &pDevices);
     if (SUCCEEDED(hr))
@@ -87,10 +83,7 @@ string ExtraInfo::get_audio_devices()
         pDevices->Release();
     }
 
-    // Input Devices
-    setColor(12); // Red
-    cout << "\n[Input Devices]\n";
-    setColor(7);
+    
 
     hr = pEnum->EnumAudioEndpoints(eCapture, DEVICE_STATE_ACTIVE | DEVICE_STATE_DISABLED, &pDevices);
     if (SUCCEEDED(hr))
