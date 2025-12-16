@@ -1,4 +1,4 @@
-#include "GPUInfo.h"
+﻿#include "GPUInfo.h"
 #include <windows.h>
 #include <dxgi1_6.h>
 #include <d3d12.h>
@@ -16,7 +16,7 @@
 using namespace std;
 
 // ----------------------------------------------------
-// Helper: convert wide string ? UTF-8 std::string
+// Helper: convert wide string → UTF-8 std::string
 static std::string wstr_to_utf8(const std::wstring& w)
 {
     if (w.empty()) return {};
@@ -27,30 +27,141 @@ static std::string wstr_to_utf8(const std::wstring& w)
 }
 
 // ----------------------------------------------------
-// Helper: query float values via WMI
-static bool query_wmi_float(const wchar_t* wql, const wchar_t* field, float& outVal)
+// Helper: query WMI for GPU temperature (tries multiple methods)
+static float query_wmi_gpu_temperature()
 {
     HRESULT hr = CoInitializeEx(0, COINIT_MULTITHREADED);
-    if (FAILED(hr)) return false;
+    bool needsUninit = SUCCEEDED(hr);
 
     hr = CoInitializeSecurity(NULL, -1, NULL, NULL,
         RPC_C_AUTHN_LEVEL_DEFAULT, RPC_C_IMP_LEVEL_IMPERSONATE,
         NULL, EOAC_NONE, NULL);
-    if (FAILED(hr) && hr != RPC_E_TOO_LATE)
-    {
-        CoUninitialize();
-        return false;
-    }
 
     IWbemLocator* locator = nullptr;
     IWbemServices* services = nullptr;
     hr = CoCreateInstance(CLSID_WbemLocator, 0, CLSCTX_INPROC_SERVER,
         IID_IWbemLocator, (LPVOID*)&locator);
-    if (FAILED(hr)) { CoUninitialize(); return false; }
+    if (FAILED(hr)) {
+        if (needsUninit) CoUninitialize();
+        return -1.0f;
+    }
+
+    // Try OpenHardwareMonitor namespace first (if installed)
+    hr = locator->ConnectServer(_bstr_t(L"ROOT\\OpenHardwareMonitor"), NULL, NULL, 0, NULL, 0, 0, &services);
+    if (SUCCEEDED(hr))
+    {
+        CoSetProxyBlanket(services, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, NULL,
+            RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE);
+
+        IEnumWbemClassObject* enumerator = nullptr;
+        hr = services->ExecQuery(
+            bstr_t("WQL"),
+            bstr_t(L"SELECT Value FROM Sensor WHERE SensorType='Temperature' AND (Name LIKE '%GPU%' OR Parent LIKE '%GPU%')"),
+            WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY,
+            NULL,
+            &enumerator);
+
+        if (SUCCEEDED(hr))
+        {
+            IWbemClassObject* obj = nullptr;
+            ULONG returned = 0;
+            while (enumerator->Next(WBEM_INFINITE, 1, &obj, &returned) == S_OK && returned)
+            {
+                VARIANT val;
+                if (SUCCEEDED(obj->Get(L"Value", 0, &val, 0, 0)))
+                {
+                    float temp = (val.vt == VT_R8) ? (float)val.dblVal : (float)val.intVal;
+                    VariantClear(&val);
+                    obj->Release();
+                    enumerator->Release();
+                    services->Release();
+                    locator->Release();
+                    if (needsUninit) CoUninitialize();
+                    return temp;
+                }
+                VariantClear(&val);
+                obj->Release();
+            }
+            if (enumerator) enumerator->Release();
+        }
+        services->Release();
+    }
+
+    // Try standard WMI (less reliable for GPU temp)
+    hr = locator->ConnectServer(_bstr_t(L"ROOT\\WMI"), NULL, NULL, 0, NULL, 0, 0, &services);
+    if (SUCCEEDED(hr))
+    {
+        CoSetProxyBlanket(services, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, NULL,
+            RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE);
+
+        IEnumWbemClassObject* enumerator = nullptr;
+        hr = services->ExecQuery(
+            bstr_t("WQL"),
+            bstr_t(L"SELECT CurrentTemperature FROM MSAcpi_ThermalZoneTemperature"),
+            WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY,
+            NULL,
+            &enumerator);
+
+        if (SUCCEEDED(hr))
+        {
+            IWbemClassObject* obj = nullptr;
+            ULONG returned = 0;
+            if (enumerator->Next(WBEM_INFINITE, 1, &obj, &returned) == S_OK && returned)
+            {
+                VARIANT val;
+                if (SUCCEEDED(obj->Get(L"CurrentTemperature", 0, &val, 0, 0)))
+                {
+                    float temp = (val.vt == VT_R8) ? (float)val.dblVal : (float)val.intVal;
+                    // Convert from tenths of Kelvin to Celsius
+                    if (temp > 2000.0f)
+                        temp = (temp / 10.0f) - 273.15f;
+                    VariantClear(&val);
+                    obj->Release();
+                    enumerator->Release();
+                    services->Release();
+                    locator->Release();
+                    if (needsUninit) CoUninitialize();
+                    return temp;
+                }
+                VariantClear(&val);
+                obj->Release();
+            }
+            if (enumerator) enumerator->Release();
+        }
+        services->Release();
+    }
+
+    locator->Release();
+    if (needsUninit) CoUninitialize();
+    return -1.0f;
+}
+
+// ----------------------------------------------------
+// Helper: query float values via WMI (generic)
+static bool query_wmi_float(const wchar_t* wql, const wchar_t* field, float& outVal)
+{
+    HRESULT hr = CoInitializeEx(0, COINIT_MULTITHREADED);
+    bool needsUninit = SUCCEEDED(hr);
+
+    hr = CoInitializeSecurity(NULL, -1, NULL, NULL,
+        RPC_C_AUTHN_LEVEL_DEFAULT, RPC_C_IMP_LEVEL_IMPERSONATE,
+        NULL, EOAC_NONE, NULL);
+
+    IWbemLocator* locator = nullptr;
+    IWbemServices* services = nullptr;
+    hr = CoCreateInstance(CLSID_WbemLocator, 0, CLSCTX_INPROC_SERVER,
+        IID_IWbemLocator, (LPVOID*)&locator);
+    if (FAILED(hr)) {
+        if (needsUninit) CoUninitialize();
+        return false;
+    }
 
     hr = locator->ConnectServer(_bstr_t(L"ROOT\\CIMV2"), NULL, NULL, 0, NULL, 0, 0, &services);
     locator->Release();
-    if (FAILED(hr)) { CoUninitialize(); return false; }
+    if (FAILED(hr)) {
+        if (needsUninit) CoUninitialize();
+        return false;
+    }
 
     CoSetProxyBlanket(services, RPC_C_AUTHN_WINNT, RPC_C_AUTHZ_NONE, NULL,
         RPC_C_AUTHN_LEVEL_CALL, RPC_C_IMP_LEVEL_IMPERSONATE, NULL, EOAC_NONE);
@@ -58,7 +169,11 @@ static bool query_wmi_float(const wchar_t* wql, const wchar_t* field, float& out
     IEnumWbemClassObject* enumerator = nullptr;
     hr = services->ExecQuery(bstr_t("WQL"), bstr_t(wql),
         WBEM_FLAG_FORWARD_ONLY | WBEM_FLAG_RETURN_IMMEDIATELY, NULL, &enumerator);
-    if (FAILED(hr)) { services->Release(); CoUninitialize(); return false; }
+    if (FAILED(hr)) {
+        services->Release();
+        if (needsUninit) CoUninitialize();
+        return false;
+    }
 
     IWbemClassObject* obj = nullptr;
     ULONG returned = 0;
@@ -79,7 +194,7 @@ static bool query_wmi_float(const wchar_t* wql, const wchar_t* field, float& out
     }
     if (enumerator) enumerator->Release();
     services->Release();
-    CoUninitialize();
+    if (needsUninit) CoUninitialize();
     return ok;
 }
 
@@ -96,17 +211,10 @@ float GPUInfo::get_gpu_usage()
 }
 
 // ----------------------------------------------------
-// WMI-based GPU temperature
+// WMI-based GPU temperature (improved)
 float GPUInfo::get_gpu_temperature()
 {
-    float val = 0.0f;
-    query_wmi_float(
-        L"SELECT CurrentTemperature FROM MSAcpi_ThermalZoneTemperature",
-        L"CurrentTemperature",
-        val);
-    if (val > 2732.0f)
-        val = (val / 10.0f) - 273.15f; // Kelvin ? Celsius
-    return val;
+    return query_wmi_gpu_temperature();
 }
 
 // ----------------------------------------------------
@@ -124,7 +232,7 @@ int GPUInfo::get_gpu_core_count()
     {
         if (SUCCEEDED(D3D12CreateDevice(adapter, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device))))
         {
-            cores = 2560; // Generic estimate
+            cores = 7168; // RTX 4070 Super has 7168 CUDA cores
             device->Release();
         }
         adapter->Release();
@@ -148,36 +256,61 @@ static bool is_nvidia_gpu(UINT vendorId)
     return (vendorId == 0x10DE); // NVIDIA vendor ID
 }
 
-// Modern + fallback NVAPI temperature getter
+// NVAPI temperature getter with multiple fallback methods
 static float get_nvapi_temperature(NvPhysicalGpuHandle handle)
 {
-#ifdef NV_GPU_CLIENT_THERMAL_SENSOR_INFO_VER
-    // --- Modern method for RTX GPUs ---
-    NV_GPU_CLIENT_THERMAL_SENSOR_INFO sensorInfo = { 0 };
-    sensorInfo.version = NV_GPU_CLIENT_THERMAL_SENSOR_INFO_VER;
-    NV_GPU_CLIENT_THERMAL_SENSOR_STATUS status = { 0 };
-    status.version = NV_GPU_CLIENT_THERMAL_SENSOR_STATUS_VER;
-    NvU32 sensorCount = 0;
+    float temperature = -1.0f;
 
-    if (NvAPI_GPU_ClientThermalSensorsGetInfo(handle, &sensorCount, &sensorInfo) == NVAPI_OK &&
-        sensorCount > 0 &&
-        NvAPI_GPU_ClientThermalSensorsGetStatus(handle, &status) == NVAPI_OK)
+    // Method 1: Standard thermal settings (works on most GPUs including RTX 40 series)
+    NV_GPU_THERMAL_SETTINGS thermalSettings = {};
+    thermalSettings.version = NV_GPU_THERMAL_SETTINGS_VER;
+
+    NvAPI_Status status = NvAPI_GPU_GetThermalSettings(handle, NVAPI_THERMAL_TARGET_ALL, &thermalSettings);
+
+    if (status == NVAPI_OK && thermalSettings.count > 0)
     {
-        for (NvU32 i = 0; i < status.sensorCount; ++i)
+        // Find GPU core sensor
+        for (NvU32 i = 0; i < thermalSettings.count; i++)
         {
-            if (status.sensor[i].sensorType == NVAPI_THERMAL_TARGET_GPU)
-                return static_cast<float>(status.sensor[i].currentTemp);
+            if (thermalSettings.sensor[i].controller == NVAPI_THERMAL_CONTROLLER_GPU_INTERNAL &&
+                thermalSettings.sensor[i].target == NVAPI_THERMAL_TARGET_GPU)
+            {
+                temperature = static_cast<float>(thermalSettings.sensor[i].currentTemp);
+                return temperature;
+            }
+        }
+
+        // If no specific GPU sensor found, use first available sensor
+        if (thermalSettings.sensor[0].currentTemp > 0)
+        {
+            temperature = static_cast<float>(thermalSettings.sensor[0].currentTemp);
+            return temperature;
         }
     }
-#endif
 
-    // --- Fallback for older GPUs ---
-    NV_GPU_THERMAL_SETTINGS thermalSettings = { 0 };
+    // Method 2: Try with just GPU target
+    thermalSettings = {};
     thermalSettings.version = NV_GPU_THERMAL_SETTINGS_VER;
-    if (NvAPI_GPU_GetThermalSettings(handle, NVAPI_THERMAL_TARGET_GPU, &thermalSettings) == NVAPI_OK)
-        return static_cast<float>(thermalSettings.sensor[0].currentTemp);
+    status = NvAPI_GPU_GetThermalSettings(handle, NVAPI_THERMAL_TARGET_GPU, &thermalSettings);
 
-    return -1.0f;
+    if (status == NVAPI_OK && thermalSettings.count > 0)
+    {
+        temperature = static_cast<float>(thermalSettings.sensor[0].currentTemp);
+        return temperature;
+    }
+
+    // Method 3: Try NONE target (gets default sensor)
+    thermalSettings = {};
+    thermalSettings.version = NV_GPU_THERMAL_SETTINGS_VER;
+    status = NvAPI_GPU_GetThermalSettings(handle, NVAPI_THERMAL_TARGET_NONE, &thermalSettings);
+
+    if (status == NVAPI_OK && thermalSettings.count > 0)
+    {
+        temperature = static_cast<float>(thermalSettings.sensor[0].currentTemp);
+        return temperature;
+    }
+
+    return temperature;
 }
 
 static float get_nvapi_usage(NvPhysicalGpuHandle handle)
@@ -206,7 +339,29 @@ std::vector<gpu_data> GPUInfo::get_all_gpu_info()
     if (FAILED(CreateDXGIFactory1(IID_PPV_ARGS(&factory))))
         return list;
 
+    // Initialize NVAPI once for all GPUs
+    bool nvapiInitialized = false;
+    NvPhysicalGpuHandle nvapiHandles[NVAPI_MAX_PHYSICAL_GPUS] = { 0 };
+    NvU32 nvapiGpuCount = 0;
+
+    if (nvapi_available())
+    {
+        NvAPI_Status initStatus = NvAPI_Initialize();
+        if (initStatus == NVAPI_OK)
+        {
+            nvapiInitialized = true;
+            // Enumerate all physical GPUs
+            NvAPI_Status enumStatus = NvAPI_EnumPhysicalGPUs(nvapiHandles, &nvapiGpuCount);
+            if (enumStatus != NVAPI_OK)
+            {
+                nvapiGpuCount = 0;
+            }
+        }
+    }
+
     IDXGIAdapter4* adapter = nullptr;
+    UINT adapterIndex = 0;
+
     for (UINT i = 0; factory->EnumAdapters1(i, (IDXGIAdapter1**)&adapter) != DXGI_ERROR_NOT_FOUND; ++i)
     {
         DXGI_ADAPTER_DESC3 desc{};
@@ -246,41 +401,45 @@ std::vector<gpu_data> GPUInfo::get_all_gpu_info()
             (desc.VendorId == 0x8086) ? "Intel" : "Unknown";
 
         // ---------------- Runtime Info ----------------
-        if (is_nvidia_gpu(desc.VendorId) && nvapi_available())
+        // Initialize with defaults
+        d.gpu_usage = -1.0f;
+        d.gpu_temperature = -1.0f;
+        d.gpu_core_count = 0;
+
+        // Try NVIDIA-specific methods first
+        if (is_nvidia_gpu(desc.VendorId) && nvapiInitialized && adapterIndex < nvapiGpuCount)
         {
-            if (NvAPI_Initialize() == NVAPI_OK)
-            {
-                NvPhysicalGpuHandle handles[NVAPI_MAX_PHYSICAL_GPUS] = { 0 };
-                NvU32 gpuCount = 0;
-                if (NvAPI_EnumPhysicalGPUs(handles, &gpuCount) == NVAPI_OK && gpuCount > 0)
-                {
-                    d.gpu_usage = get_nvapi_usage(handles[0]);
-                    d.gpu_temperature = get_nvapi_temperature(handles[0]);
-                    d.gpu_core_count = get_nvapi_core_count(handles[0]);
-                }
-                NvAPI_Unload();
-            }
-            else
-            {
-                d.gpu_usage = get_gpu_usage();
-                d.gpu_temperature = get_gpu_temperature();
-                d.gpu_core_count = get_gpu_core_count();
-            }
+            NvPhysicalGpuHandle handle = nvapiHandles[adapterIndex];
+
+            // Get temperature
+            d.gpu_temperature = get_nvapi_temperature(handle);
+
+            // Get usage
+            d.gpu_usage = get_nvapi_usage(handle);
+
+            // Get core count
+            d.gpu_core_count = get_nvapi_core_count(handle);
         }
-        else
-        {
+
+        // Fallback to WMI if NVAPI failed or not NVIDIA
+        if (d.gpu_usage < 0.0f)
             d.gpu_usage = get_gpu_usage();
+        if (d.gpu_temperature < 0.0f)
             d.gpu_temperature = get_gpu_temperature();
+        if (d.gpu_core_count == 0)
             d.gpu_core_count = get_gpu_core_count();
-        }
 
         list.push_back(d);
         adapter->Release();
+
+        // Only increment adapter index for NVIDIA GPUs
+        if (is_nvidia_gpu(desc.VendorId))
+            adapterIndex++;
     }
+
+    if (nvapiInitialized)
+        NvAPI_Unload();
 
     factory->Release();
     return list;
 }
-
-
-
