@@ -703,9 +703,11 @@ int main() {
         // Get and display OUTPUT devices
         vector<AudioDevice> outputDevices = audio.get_output_devices();
         lp.push("#-Audio Output ----------------------------------------------------#");
+        int audio_device_count = 0;
         for (const auto& device : outputDevices) {
+            audio_device_count++;
             ostringstream oss;
-            oss << "  " << device.name;
+            oss << "|-> " << audio_device_count <<" " << device.name;
             if (device.isActive) {
                 // You can add color codes here if LivePrinter supports it
                 oss << " (active)";
