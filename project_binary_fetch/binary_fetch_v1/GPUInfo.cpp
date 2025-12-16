@@ -281,3 +281,6 @@ std::vector<gpu_data> GPUInfo::get_all_gpu_info()
     factory->Release();
     return list;
 }
+
+
+
