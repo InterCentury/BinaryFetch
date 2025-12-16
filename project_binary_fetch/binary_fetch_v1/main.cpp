@@ -698,7 +698,7 @@ int main() {
         cout << endl;
         ExtraInfo audio;
 
-        lp.push("#-Audio & Power Info ----------------------------------------------#");
+       
 
         // Get and display OUTPUT devices
         vector<AudioDevice> outputDevices = audio.get_output_devices();
