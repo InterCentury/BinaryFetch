@@ -12,7 +12,7 @@
 ⠀⠀⠀⠀⠀⣸⣿⣿⣿⣷⡄⠀⠀⢠⣿⣴⠀⠀⣿⣿⣿⣧  [GPU] -> NVIDIA GeForce RTX 4070 SUPER (5%) (11.9941 GB) (@2535 MHz)
 ⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿⠇⠀⢠⠟⣿⠏⢀⣾⠟⢸⣿⡇  [Performance] -> (CPU: 40%) (GPU: 5%) (RAM: 54%) (Disk: 92%)
 ⠀⠀⢠⣿⣿⣿⣿⠟⠘⠁⢠⠜⢉⣐⡥⠞⠋⢁⣴⣿⣿⠃  [User] -> @coffee~ -> (Domain: MARUF) -> (Type: Admin)
-⠀⠀⣾⢻⣿⣿⠃⠀⠀⡀⢀⡄⠁⠀⠀⢠⡾       [network] -> (Name: Maruf Hasan) (Type: WiFi) (ip: 192.168.56.1)
+⠀⠀⣾⢻⣿⣿⠃⠀⠀⡀⢀⡄⠁⠀⠀⢠⡾       [network] -> (Name: Maruf Hasan) (Type: WiFi) (ip: 192.108.56.1)
 ⠀⠀⠃⢸⣿⡇⠀⢠⣾⡇⢸⡇⠀⠀⠀⡞        [Disk] -> (C: 92%) (D: 71%) (G: 93%) (H: 68%) (I: 62%) (Y: 22%)
 ⠀⠀⠀⠈⢿⡇⡰⠋⠈⠙⠂⠙⠢ ~STBX     [Disk Cap] -> (C-237GB)(D-465GB)(G-112GB)(H-931GB)(I-110GB)(Y-465GB)
 
@@ -48,11 +48,11 @@
                         Disk (Y:) [ Read:  140.00 MB/s | Write:  120.00 MB/s | SN-1005 Int ]
 
                         #-Network Info-----------------------------------------------------#
-                        ~ Network Name             : Maruf Hasan
+                        ~ Network Name             : Inter XC
                         ~ Network Type             : WiFi
-                        ~ IP                       : 103.204.209.14
+                        ~ IP                       : 103.204.809.14
                         ~ Locale                   : en-US
-                        ~ Mac address              : 0A:00:27:00:00:0F
+                        ~ Mac address              : 0A:B0:87:00:0i:0F
                         ~ avg upload speed         : 7.0 Mbps
                         ~ avg download speed       : 23.1 Mbps
 
