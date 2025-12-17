@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="config.json" />
+    <None Include="text infos\Engine_info.md" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
