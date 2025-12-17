@@ -267,5 +267,6 @@
   <ItemGroup>
     <None Include="config.json" />
     <None Include="text infos\Engine_info.md" />
+    <None Include="text infos\Current_Status_of_BinaryFetch.md" />
   </ItemGroup>
 </Project>
