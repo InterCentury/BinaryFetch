@@ -148,7 +148,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="AsciiArt.txt">
+    <Text Include="DefaultAsciiArt.txt">
       <Filter>Resources</Filter>
     </Text>
     <Text Include="text infos\Info about main.cpp.txt" />

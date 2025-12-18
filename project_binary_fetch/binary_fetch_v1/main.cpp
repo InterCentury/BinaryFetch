@@ -47,12 +47,12 @@ int main() {
 
     // Initialize ASCII Art
     AsciiArt art;
-    if (!art.loadFromFile("AsciiArt.txt")) {
+    if (!art.loadFromFile("DefaultAsciiArt.txt")) {
         // fallback: a small placeholder art (keeps indentation)
-        std::ofstream tmp("AsciiArt.txt"); // optional: create a default file
+        std::ofstream tmp("DefaultAsciiArt.txt"); // optional: create a default file
         tmp << "BinaryFetch\n";
         tmp.close();
-        art.loadFromFile("AsciiArt.txt");
+        art.loadFromFile("DefaultAsciiArt.txt");
         std::cout << "Note: ASCII art not loaded from file; using placeholder.\n";
     }
 
