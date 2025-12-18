@@ -97,6 +97,9 @@
     <ClInclude Include="compact_disk_info.h">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="AsciiArtControlEngine.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="AsciiArt.txt">

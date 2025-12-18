@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AsciiArt.h" />
+    <ClInclude Include="AsciiArtControlEngine.h" />
     <ClInclude Include="CompactAudio.h" />
     <ClInclude Include="CompactCPU.h" />
     <ClInclude Include="CompactDisplay.h" />
