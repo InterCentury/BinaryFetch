@@ -270,7 +270,8 @@ bool AsciiArt::loadFromFile() {
         if (!copyDefaultArt(userArtPath)) {
            // std::cerr << "Failed to copy default art. Using fallback." << std::endl;
             // Try to load from project folder as last resort
-            return loadArtFromPath("Default_Ascii_Art.txt");
+            return loadArtFromPath("DefaultAsciiArt.txt");
+
         }
     }
 
