@@ -570,37 +570,37 @@ int main() {
 
                 {
                     std::ostringstream ss;
-                    ss << "|-> " << "Name                   : " << g.gpu_name;
+                    ss << "|-> " << "Name                   " << ": " << g.gpu_name;
                     lp.push(ss.str());
                 }
                 {
                     std::ostringstream ss;
-                    ss << "|-> " << "Memory                 : " << g.gpu_memory;
+                    ss << "|-> " << "Memory                 " << ": " << g.gpu_memory;
                     lp.push(ss.str());
                 }
                 {
                     std::ostringstream ss;
-                    ss << "|-> " << "Usage                  : " << g.gpu_usage << "%";
+                    ss << "|-> " << "Usage                  " << ": " << g.gpu_usage << "%";
                     lp.push(ss.str());
                 }
                 {
                     std::ostringstream ss;
-                    ss << "|-> " << "Vendor                 : " << g.gpu_vendor;
+                    ss << "|-> " << "Vendor                 " << ": " << g.gpu_vendor;
                     lp.push(ss.str());
                 }
                 {
                     std::ostringstream ss;
-                    ss << "|-> " << "Driver Version         : " << g.gpu_driver_version;
+                    ss << "|-> " << "Driver Version         " << ": " << g.gpu_driver_version;
                     lp.push(ss.str());
                 }
                 {
                     std::ostringstream ss;
-                    ss << "|-> " << "Temperature            : " << g.gpu_temperature << " C";
+                    ss << "|-> " << "Temperature            " << ": " << g.gpu_temperature << " C";
                     lp.push(ss.str());
                 }
                 {
                     std::ostringstream ss;
-                    ss << "#-> " << "Core Count             : " << g.gpu_core_count;
+                    ss << "#-> " << "Core Count             " << ": " << g.gpu_core_count;
                     lp.push(ss.str());
                 }
             }
