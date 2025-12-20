@@ -239,8 +239,12 @@ int main() {
     // Full detailed section (Memory Info)
     {
         lp.push(""); // blank line
-        lp.push("---------------Memory Info--------------");
         {
+            std::ostringstream ss;
+            ss << "---------------" << "Memory Info" << "--------------";
+            lp.push(ss.str());
+
+
             std::ostringstream ss;
             ss << "(Total: " << ram.getTotal() << " GB) "
                 << "(Free: " << ram.getFree() << " GB) "
@@ -271,7 +275,10 @@ int main() {
     // Storage Info (detailed) - STREAMING VERSION
     {
         lp.push("");
-        lp.push("------------------------- STORAGE SUMMARY --------------------------");
+
+        std::ostringstream ss;
+        ss << "------------------------- " << "STORAGE SUMMARY" << " --------------------------";
+        lp.push(ss.str());
 
         auto fmt_storage = [](const std::string& s) -> std::string {
             std::ostringstream oss;
