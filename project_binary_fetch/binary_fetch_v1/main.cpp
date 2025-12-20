@@ -819,7 +819,7 @@ int main() {
         {
             std::ostringstream ss;
             ss << "#- " << "Power  " << "---------------------------------------------------------#";
-            lp.push(ss.str());
+            lp.push(ss.str()); 
         }
 
 
