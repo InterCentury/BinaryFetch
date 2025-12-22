@@ -42,6 +42,26 @@
 using namespace std;
 
 // ------------------ main (modified to stream output) ------------------
+/*
+Before you try to implement modifications inside the main() function:
+
+- main() is intended to act as an orchestrator/controller, not a logic container.
+- Avoid adding heavy logic, calculations, or system queries directly here.
+- All feature logic should live inside their respective modules/classes.
+- main() should only:
+    - initialize components
+    - control execution order
+    - format and stream output using LivePrinter (lp.push)
+
+Why this matters:
+- Keeps the codebase maintainable as the project scales
+- Prevents main.cpp from becoming unreadable and error-prone
+- Makes testing, refactoring, and debugging significantly easier
+
+If you feel the need to add complex logic here,
+it is a sign that the logic should be moved into a new module.
+*/
+
 
 int main() {
     // ========== SIMPLIFIED ASCII ART LOADING ==========
