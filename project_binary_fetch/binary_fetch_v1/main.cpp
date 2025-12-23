@@ -675,106 +675,118 @@ int main() {
         }
     }
 
-    // GPU Info (detailed)-------------------------------------------------------------
+   
+// GPU Info (detailed)-------------------------------------------------------------
     {
         cout << endl;
         auto all_gpu_info = obj_gpu.get_all_gpu_info();
         if (all_gpu_info.empty()) {
-
             std::ostringstream ss;
-            ss << "#- " << "GPU Info " << "--------------------------------------------------------#";
+            ss << blue << "#- " << reset << green << "GPU Info " << reset
+                << blue << "--------------------------------------------------------#" << reset;
             lp.push(ss.str());
 
-            lp.push("No GPU detected.");
+            lp.push(red + "No GPU detected." + reset);
         }
         else {
-            std::ostringstream ss;
-            ss << "#- " << "GPU Info " << "-------------------------------------------------------#";
-            lp.push(ss.str());
+            {
+                std::ostringstream ss;
+                ss << blue << "#- " << reset << green << "GPU Info " << reset
+                    << blue << "-------------------------------------------------------#" << reset;
+                lp.push(ss.str());
+            }
+
             for (size_t i = 0; i < all_gpu_info.size(); ++i) {
                 auto& g = all_gpu_info[i];
 
-                // GPU index line (dynamic length handled to meet 27-char rule)
+                // GPU index line
                 {
                     std::ostringstream label;
-                    if (i == 0)
-                    {
-                        label << "GPU " << (i + 1);
+                    if (i == 0) {
+                        label << blue << "GPU " << (i + 1) << reset;
                     }
                     else {
-                        label << "#-" << "GPU " << (i + 1) << "------------------------------------------------------------#";
+                        label << blue << "#-" << reset << green << "GPU " << (i + 1) << reset
+                            << blue << "------------------------------------------------------------#" << reset;
                     }
 
                     std::string lbl = label.str();
+                    // Note: Padding logic remains, but be aware color codes add 'invisible' length
                     if (lbl.length() < 27) lbl += std::string(27 - lbl.length(), ' ');
-                    std::ostringstream ss;
-                    ss << lbl;
-                    lp.push(ss.str());
+                    lp.push(lbl);
                 }
 
                 {
                     std::ostringstream ss;
-                    ss << "|-> " << "Name                   " << ": " << g.gpu_name;
+                    ss << blue << "|-> " << reset << green << "Name                   " << reset
+                        << blue << ": " << reset << yellow << g.gpu_name << reset;
                     lp.push(ss.str());
                 }
                 {
                     std::ostringstream ss;
-                    ss << "|-> " << "Memory                 " << ": " << g.gpu_memory;
+                    ss << blue << "|-> " << reset << green << "Memory                 " << reset
+                        << blue << ": " << reset << cyan << g.gpu_memory << reset;
                     lp.push(ss.str());
                 }
                 {
                     std::ostringstream ss;
-                    ss << "|-> " << "Usage                  " << ": " << g.gpu_usage << "%";
+                    ss << blue << "|-> " << reset << green << "Usage                  " << reset
+                        << blue << ": " << reset << red << g.gpu_usage << reset << green << "%" << reset;
                     lp.push(ss.str());
                 }
                 {
                     std::ostringstream ss;
-                    ss << "|-> " << "Vendor                 " << ": " << g.gpu_vendor;
+                    ss << blue << "|-> " << reset << green << "Vendor                 " << reset
+                        << blue << ": " << reset << yellow << g.gpu_vendor << reset;
                     lp.push(ss.str());
                 }
                 {
                     std::ostringstream ss;
-                    ss << "|-> " << "Driver Version         " << ": " << g.gpu_driver_version;
+                    ss << blue << "|-> " << reset << green << "Driver Version         " << reset
+                        << blue << ": " << reset << cyan << g.gpu_driver_version << reset;
                     lp.push(ss.str());
                 }
                 {
                     std::ostringstream ss;
-                    ss << "|-> " << "Temperature            " << ": " << g.gpu_temperature << " C";
+                    ss << blue << "|-> " << reset << green << "Temperature            " << reset
+                        << blue << ": " << reset << magenta << g.gpu_temperature << reset << green << " C" << reset;
                     lp.push(ss.str());
                 }
                 {
                     std::ostringstream ss;
-                    ss << "#-> " << "Core Count             " << ": " << g.gpu_core_count;
+                    ss << blue << "#-> " << reset << green << "Core Count             " << reset
+                        << blue << ": " << reset << yellow << g.gpu_core_count << reset;
                     lp.push(ss.str());
                 }
             }
 
             auto primary = detailed_gpu_info.primary_gpu_info();
             {
-
                 std::ostringstream ss;
-                ss << "#- " << "Primary GPU Details" << "---------------------------------------------#";
-                lp.push(ss.str());
-
-            }
-            {
-                std::ostringstream ss;
-                ss << "|-> " << "Name                   " << ": " << primary.name;
+                ss << blue << "#- " << reset << green << "Primary GPU Details" << reset
+                    << blue << "---------------------------------------------#" << reset;
                 lp.push(ss.str());
             }
             {
                 std::ostringstream ss;
-                ss << "|-> " << "VRAM                   " << ": " << primary.vram_gb << " GiB";
+                ss << blue << "|-> " << reset << green << "Name                   " << reset
+                    << blue << ": " << reset << yellow << primary.name << reset;
                 lp.push(ss.str());
             }
             {
                 std::ostringstream ss;
-                ss << "#-> " << "Frequency              " << ": " << primary.frequency_ghz << " GHz";
+                ss << blue << "|-> " << reset << green << "VRAM                   " << reset
+                    << blue << ": " << reset << cyan << primary.vram_gb << reset << green << " GiB" << reset;
+                lp.push(ss.str());
+            }
+            {
+                std::ostringstream ss;
+                ss << blue << "#-> " << reset << green << "Frequency              " << reset
+                    << blue << ": " << reset << magenta << primary.frequency_ghz << reset << green << " GHz" << reset;
                 lp.push(ss.str());
             }
         }
     }
-
 
     // Display Info
     {
