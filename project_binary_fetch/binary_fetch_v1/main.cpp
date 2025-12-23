@@ -791,32 +791,39 @@ int main() {
     // Display Info
     {
         lp.push("");
-        //lp.push("#-Display----------------------------------------------------------#");
         auto monitors = display.get_all_displays();
         if (monitors.empty()) {
-            lp.push("No monitors detected.");
+            std::ostringstream ss;
+            ss << blue << "#- " << reset << red << "Display" << reset
+                << blue << " ----------------------------------------------------------#" << reset;
+            lp.push(ss.str());
+            lp.push(red + "No monitors detected." + reset);
         }
         else {
             for (size_t i = 0; i < monitors.size(); ++i) {
                 auto& m = monitors[i];
                 {
                     std::ostringstream ss;
-                    ss << "#-Monitor " << (i + 1) << "--------------------------------------------------------#";
+                    ss << blue << "#- " << reset << green << "Monitor " << (i + 1) << " " << reset
+                        << blue << "--------------------------------------------------------#" << reset;
                     lp.push(ss.str());
                 }
                 {
                     std::ostringstream ss;
-                    ss << "~ " << "Brand                    " << ": " << m.brand_name;
+                    ss << blue << "~ " << reset << green << "Brand                    " << reset
+                        << blue << ": " << reset << yellow << m.brand_name << reset;
                     lp.push(ss.str());
                 }
                 {
                     std::ostringstream ss;
-                    ss << "~ " << "Resolution               " << ": " << m.resolution;
+                    ss << blue << "~ " << reset << green << "Resolution               " << reset
+                        << blue << ": " << reset << cyan << m.resolution << reset;
                     lp.push(ss.str());
                 }
                 {
                     std::ostringstream ss;
-                    ss << "~ " << "Refresh Rate             " << ": " << m.refresh_rate << " Hz";
+                    ss << blue << "~ " << reset << green << "Refresh Rate             " << reset
+                        << blue << ": " << reset << magenta << m.refresh_rate << reset << green << " Hz" << reset;
                     lp.push(ss.str());
                 }
             }
