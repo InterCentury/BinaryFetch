@@ -404,15 +404,16 @@ int main() {
 
             // Build and push SUMMARY line immediately
             std::ostringstream ss;
+            // Keeping your original structure: [ (Used) fmt GiB / fmt GiB % - fs Ext ]
             ss << yellow << d.storage_type << reset << " "
                 << cyan << d.drive_letter << reset
-                << " [ (Used) " << green << fmt_storage(d.used_space) << reset
-                << " GiB /" << green << fmt_storage(d.total_space) << reset
-                << " GiB  " << red << d.used_percentage << reset
-                << " - " << magenta << d.file_system << reset << " "
-                << (d.is_external ? blue : white)
-                << (d.is_external ? "Ext ]" : "Int ]")
-                << reset;
+                << green << " [" << reset << green << " (" << reset << green << "Used" << reset << green << ") " << reset
+                << green << fmt_storage(d.used_space) << reset
+                << green << " GiB " << reset << green << "/" << reset << green << fmt_storage(d.total_space) << reset
+                << green << " GiB  " << reset << red << d.used_percentage << reset
+                << green << " - " << reset << magenta << d.file_system << reset << " "
+                << (d.is_external ? blue : white) << (d.is_external ? "Ext" : "Int") << reset
+                << green << " ]" << reset;
             lp.push(ss.str());
 
             });
@@ -429,13 +430,19 @@ int main() {
 
 
             for (const auto& d : all_disks_captured) {
+
                 std::ostringstream ss;
-                ss << d.drive_letter << " [ Read: "
-                    << fmt_speed(d.read_speed)
-                    << " MB/s | Write: "
-                    << fmt_speed(d.write_speed)
-                    << " MB/s | " << d.serial_number
-                    << (d.is_external ? " Ext ]" : " Int ]");
+                ss << cyan << d.drive_letter << reset
+                    << green << " [" << reset << " "
+                    << green << "Read:" << reset << " "
+                    << yellow << fmt_speed(d.read_speed) << reset
+                    << green << " MB/s " << reset << green << "|" << reset << " "
+                    << green << "Write:" << reset << " "
+                    << yellow << fmt_speed(d.write_speed) << reset
+                    << green << " MB/s " << reset << green << "|" << reset << " "
+                    << magenta << d.serial_number << reset
+                    << (d.is_external ? blue : white) << (d.is_external ? " Ext" : " Int") << reset
+                    << green << " ]" << reset;
                 lp.push(ss.str());
             }
 
@@ -449,12 +456,17 @@ int main() {
 
             for (const auto& d : all_disks_captured) {
                 std::ostringstream ss;
-                ss << d.drive_letter << " [ Read: "
-                    << fmt_speed(d.predicted_read_speed)
-                    << " MB/s | Write: "
-                    << fmt_speed(d.predicted_write_speed)
-                    << " MB/s | " << d.serial_number
-                    << (d.is_external ? " Ext ]" : " Int ]");
+                ss << cyan << d.drive_letter << reset
+                    << green << " [" << reset << " "
+                    << green << "Read: " << reset
+                    << yellow << fmt_speed(d.predicted_read_speed) << reset
+                    << green << " MB/s " << reset << green << "|" << reset << " "
+                    << green << "Write: " << reset
+                    << yellow << fmt_speed(d.predicted_write_speed) << reset
+                    << green << " MB/s " << reset << green << "|" << reset << " "
+                    << magenta << d.serial_number << reset
+                    << (d.is_external ? blue : white) << (d.is_external ? " Ext" : " Int") << reset
+                    << green << " ]" << reset;
                 lp.push(ss.str());
             }
         }
@@ -465,52 +477,64 @@ int main() {
 
     // Network (Compact + Extra)
     {
-
-        std::ostringstream ss;
-        ss << "#- " << "Network Info" << "----------------------------------------------------#";
-        lp.push(ss.str());
+        {
+            std::ostringstream ss;
+            ss << blue << "#- " << reset << green << "Network Info " << reset
+                << blue << "----------------------------------------------------#" << reset;
+            lp.push(ss.str());
+        }
 
         {
             std::ostringstream ss;
-            ss << "~ " << "Network Name             " << ": " << net.get_network_name();
+            ss << blue << "~ " << reset << green << "Network Name             " << reset
+                << blue << ": " << reset << yellow << net.get_network_name() << reset;
             lp.push(ss.str());
         }
         {
             std::ostringstream ss;
-            ss << "~ " << "Network Type             " << ": " << c_net.get_network_type();
+            ss << blue << "~ " << reset << green << "Network Type             " << reset
+                << blue << ": " << reset << yellow << c_net.get_network_type() << reset;
             lp.push(ss.str());
         }
 
         /* temporary hide public ip due to privacy concerns
         {
             std::ostringstream ss;
-            ss << "~ " << "IP                       " << ": " << net.get_public_ip();
+            ss << blue << "~ " << reset << green << "IP                        " << reset
+               << blue << ": " << reset << magenta << net.get_public_ip() << reset;
             lp.push(ss.str());
         }
         */
         {
             // dummy public ip for testing and privacy
-            lp.push("~ IP                       : 12.23.34.5.345");
+            std::ostringstream ss;
+            ss << blue << "~ " << reset << green << "IP                        " << reset
+                << blue << ": " << reset << magenta << "12.23.34.5.345" << reset;
+            lp.push(ss.str());
         }
 
         {
             std::ostringstream ss;
-            ss << "~ " << "Locale                   " << ": " << net.get_locale();
+            ss << blue << "~ " << reset << green << "Locale                    " << reset
+                << blue << ": " << reset << cyan << net.get_locale() << reset;
             lp.push(ss.str());
         }
         {
             std::ostringstream ss;
-            ss << "~ " << "Mac address              " << ": " << net.get_mac_address();
+            ss << blue << "~ " << reset << green << "Mac address               " << reset
+                << blue << ": " << reset << cyan << net.get_mac_address() << reset;
             lp.push(ss.str());
         }
         {
             std::ostringstream ss;
-            ss << "~ " << "avg upload speed         " << ": " << net.get_network_upload_speed();
+            ss << blue << "~ " << reset << green << "avg upload speed          " << reset
+                << blue << ": " << reset << yellow << net.get_network_upload_speed() << reset;
             lp.push(ss.str());
         }
         {
             std::ostringstream ss;
-            ss << "~ " << "avg download speed       " << ": " << net.get_network_download_speed();
+            ss << blue << "~ " << reset << green << "avg download speed        " << reset
+                << blue << ": " << reset << yellow << net.get_network_download_speed() << reset;
             lp.push(ss.str());
         }
     }
@@ -521,43 +545,53 @@ int main() {
     // OS Info
     {
         lp.push("");
-        std::ostringstream ss;
-        ss << "#- " << "Operating System " << "-----------------------------------------------#";
-        lp.push(ss.str());
+        {
+            std::ostringstream ss;
+            ss << blue << "#- " << reset << green << "Operating System " << reset
+                << blue << "-----------------------------------------------#" << reset;
+            lp.push(ss.str());
+        }
 
         {
             std::ostringstream ss;
-            ss << "~ " << "Name                     " << ": " << os.GetOSName();
+            ss << blue << "~ " << reset << green << "Name                      " << reset
+                << blue << ": " << reset << yellow << os.GetOSName() << reset;
             lp.push(ss.str());
         }
         {
             std::ostringstream ss;
-            ss << "~ " << "Build                    " << ": " << os.GetOSVersion();
+            ss << blue << "~ " << reset << green << "Build                     " << reset
+                << blue << ": " << reset << yellow << os.GetOSVersion() << reset;
             lp.push(ss.str());
         }
         {
             std::ostringstream ss;
-            ss << "~ " << "Architecture             " << ": " << os.GetOSArchitecture();
+            ss << blue << "~ " << reset << green << "Architecture              " << reset
+                << blue << ": " << reset << cyan << os.GetOSArchitecture() << reset;
             lp.push(ss.str());
         }
         {
             std::ostringstream ss;
-            ss << "~ " << "Kernel                   " << ": " << os.get_os_kernel_info();
+            ss << blue << "~ " << reset << green << "Kernel                    " << reset
+                << blue << ": " << reset << cyan << os.get_os_kernel_info() << reset;
             lp.push(ss.str());
         }
         {
             std::ostringstream ss;
-            ss << "~ " << "Uptime                   " << ": " << os.get_os_uptime();
+            ss << blue << "~ " << reset << green << "Uptime                    " << reset
+                << blue << ": " << reset << magenta << os.get_os_uptime() << reset;
             lp.push(ss.str());
         }
         {
             std::ostringstream ss;
-            ss << "~ " << "Install Date             " << ": " << os.get_os_install_date();
+            ss << blue << "~ " << reset << green << "Install Date              " << reset
+                << blue << ": " << reset << magenta << os.get_os_install_date() << reset;
             lp.push(ss.str());
         }
         {
             std::ostringstream ss;
-            ss << "~ " << "Serial                   " << ": " << os.get_os_serial_number();
+            ss << blue << "~ " << reset << green << "Serial                    " << reset
+                << blue << ": " << reset << yellow << os.get_os_serial_number() << reset;
             lp.push(ss.str());
         }
     }
