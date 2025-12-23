@@ -170,8 +170,8 @@ int main() {
         ss << red << "[OS]" << reset << blue << "  -> " << reset
             << green << c_os.getOSName() << reset << " "
             << yellow << c_os.getOSBuild() << reset
-            << green << " (" << reset << cyan << c_os.getArchitecture() << reset << green << ")" << reset
-            << green << " (" << reset << green << "uptime: " << reset << magenta << c_os.getUptime() << reset << green << ")" << reset;
+            << red << " (" << reset << cyan << c_os.getArchitecture() << reset << red << ")" << reset
+            << red << " (" << reset << green << "uptime: " << reset << magenta << c_os.getUptime() << reset << red << ")" << reset;
         lp.push(ss.str());
     }
 
@@ -180,8 +180,8 @@ int main() {
         std::ostringstream ss;
         ss << red << "[CPU]" << reset << blue << " -> " << reset
             << green << c_cpu.getCPUName() << reset
-            << green << " (" << reset << yellow << c_cpu.getCPUCores() << reset << green << "C" << reset << green << "/" << reset
-            << yellow << c_cpu.getCPUThreads() << reset << green << "T" << reset << green << ")" << reset
+            << red << " (" << reset << yellow << c_cpu.getCPUCores() << reset << green << "C" << reset << blue << "/" << reset
+            << yellow << c_cpu.getCPUThreads() << reset << green << "T" << reset << red << ")" << reset
             << std::fixed << std::setprecision(2)
             << green << " @" << reset << cyan << " " << c_cpu.getClockSpeed() << " GHz" << reset;
         lp.push(ss.str());
@@ -199,7 +199,7 @@ int main() {
                 std::ostringstream ss;
                 ss << red << "[Display " << idx++ << "]" << reset << blue << " -> " << reset
                     << green << s.brand_name << reset
-                    << green << " (" << reset << yellow << s.resolution << reset << green << ") " << reset
+                    << red << " (" << reset << yellow << s.resolution << reset << red << ") " << reset
                     << green << "@" << reset << cyan << s.refresh_rate << "Hz" << reset;
                 lp.push(ss.str());
             }
@@ -210,9 +210,9 @@ int main() {
     {
         std::ostringstream ss;
         ss << red << "[Memory]" << reset << blue << " -> " << reset
-            << green << "(" << reset << green << "total: " << reset << green << c_memory.get_total_memory() << " GB" << reset << green << ")" << reset
-            << green << " (" << reset << green << "free: " << reset << yellow << c_memory.get_free_memory() << " GB" << reset << green << ")" << reset
-            << green << " (" << reset << magenta << c_memory.get_used_memory_percent() << "%" << reset << green << ")" << reset;
+            << red << "(" << reset << green << "total: " << reset << green << c_memory.get_total_memory() << " GB" << reset << red << ")" << reset
+            << red << " (" << reset << green << "free: " << reset << yellow << c_memory.get_free_memory() << " GB" << reset << red << ")" << reset
+            << red << " (" << reset << magenta << c_memory.get_used_memory_percent() << "%" << reset << red << ")" << reset;
         lp.push(ss.str());
     }
 
@@ -221,10 +221,10 @@ int main() {
         std::ostringstream ss1, ss2;
         ss1 << red << "[Audio Input]" << reset << blue << " -> " << reset
             << green << c_audio.active_audio_input() << reset << " "
-            << green << "[" << reset << yellow << c_audio.active_audio_input_status() << reset << green << "]" << reset;
+            << red << "[" << reset << yellow << c_audio.active_audio_input_status() << reset << red << "]" << reset;
         ss2 << red << "[Audio Output]" << reset << blue << " -> " << reset
             << green << c_audio.active_audio_output() << reset << " "
-            << green << "[" << reset << yellow << c_audio.active_audio_output_status() << reset << green << "]" << reset;
+            << red << "[" << reset << yellow << c_audio.active_audio_output_status() << reset << red << "]" << reset;
         lp.push(ss1.str());
         lp.push(ss2.str());
     }
@@ -234,9 +234,9 @@ int main() {
         std::ostringstream ss;
         ss << red << "[GPU]" << reset << blue << " -> " << reset
             << green << c_gpu.getGPUName() << reset
-            << green << " (" << reset << yellow << c_gpu.getGPUUsagePercent() << "%" << reset << green << ")" << reset
-            << green << " (" << reset << cyan << c_gpu.getVRAMGB() << " GB" << reset << green << ")" << reset
-            << green << " (" << reset << green << "@" << reset << magenta << c_gpu.getGPUFrequency() << reset << green << ")" << reset;
+            << red << " (" << reset << yellow << c_gpu.getGPUUsagePercent() << "%" << reset << red << ")" << reset
+            << red << " (" << reset << cyan << c_gpu.getVRAMGB() << " GB" << reset << red << ")" << reset
+            << red << " (" << reset << green << "@" << reset << magenta << c_gpu.getGPUFrequency() << reset << red << ")" << reset;
         lp.push(ss.str());
     }
 
@@ -244,10 +244,10 @@ int main() {
     {
         std::ostringstream ss;
         ss << red << "[Performance]" << reset << blue << " -> " << reset
-            << green << "(" << reset << green << "CPU: " << reset << green << c_perf.getCPUUsage() << "%" << reset << green << ") " << reset
-            << green << "(" << reset << green << "GPU: " << reset << yellow << c_perf.getGPUUsage() << "%" << reset << green << ") " << reset
-            << green << "(" << reset << green << "RAM: " << reset << cyan << c_perf.getRAMUsage() << "%" << reset << green << ") " << reset
-            << green << "(" << reset << green << "Disk: " << reset << magenta << c_perf.getDiskUsage() << "%" << reset << green << ")" << reset;
+            << red << "(" << reset << green << "CPU: " << reset << green << c_perf.getCPUUsage() << "%" << reset << red << ") " << reset
+            << red << "(" << reset << green << "GPU: " << reset << yellow << c_perf.getGPUUsage() << "%" << reset << red << ") " << reset
+            << red << "(" << reset << green << "RAM: " << reset << cyan << c_perf.getRAMUsage() << "%" << reset << red << ") " << reset
+            << red << "(" << reset << green << "Disk: " << reset << magenta << c_perf.getDiskUsage() << "%" << reset << red << ")" << reset;
         lp.push(ss.str());
     }
 
@@ -256,32 +256,33 @@ int main() {
         std::ostringstream ss;
         ss << red << "[User]" << reset << blue << " -> " << reset
             << green << "@" << c_user.getUsername() << reset
-            << blue << " -> " << reset << green << "(" << reset << green << "Domain: " << reset << yellow << c_user.getDomain() << reset << green << ")" << reset
-            << blue << " -> " << reset << green << "(" << reset << green << "Type: " << reset << cyan << c_user.isAdmin()   << reset << green << ")" << reset;
+            << blue << " -> " << reset << red << "(" << reset << green << "Domain: " << reset << yellow << c_user.getDomain() << reset << red << ")" << reset
+            << blue << " -> " << reset << red << "(" << reset << green << "Type: " << reset << cyan << c_user.isAdmin() << reset << red << ")" << reset;
         lp.push(ss.str());
     }
 
-    //------------------------------------------------------------------------------------
-    // Temporary minimal network's IP hiding due to privacy concerns
-    /*
-    Network minimal (commented)
-    {
-        std::ostringstream ss;
-        ss << red << "[network]" << reset << blue << " -> " << reset
-           << green << "(" << reset << green << "Name: " << reset << green << c_net.get_network_name() << reset << green << ") " << reset
-           << green << "(" << reset << green << "Type: " << reset << yellow << c_net.get_network_type() << reset << green << ") " << reset
-           << green << "(" << reset << green << "ip: " << reset << magenta << c_net.get_network_ip() << reset << green << ")" << reset;
-        lp.push(ss.str());
-    }
-    */
 
-    // Network minimal (with dummy IP for privacy)
+   //------------------------------------------------------------------------------------
+   // Temporary minimal network's IP hiding due to privacy concerns
+   /*
+   Network minimal (commented)
+   {
+       std::ostringstream ss;
+       ss << red << "[network]" << reset << blue << " -> " << reset
+          << green << "(" << reset << green << "Name: " << reset << green << c_net.get_network_name() << reset << green << ") " << reset
+          << green << "(" << reset << green << "Type: " << reset << yellow << c_net.get_network_type() << reset << green << ") " << reset
+          << green << "(" << reset << green << "ip: " << reset << magenta << c_net.get_network_ip() << reset << green << ")" << reset;
+       lp.push(ss.str());
+   }
+   */
+
+    // Network minimal
     {
         std::ostringstream ss;
         ss << red << "[network]" << reset << blue << " -> " << reset
-            << green << "(" << reset << green << "Name: " << reset << green << "Interblink" << reset << green << ") " << reset
-            << green << "(" << reset << green << "Type: " << reset << yellow << c_net.get_network_type() << reset << green << ") " << reset
-            << green << "(" << reset << green << "ip: " << reset << magenta << "123.23.423.1" << reset << green << ")" << reset;
+            << red << "(" << reset << green << "Name: " << reset << green << "Interblink" << reset << red << ") " << reset
+            << red << "(" << reset << green << "Type: " << reset << yellow << c_net.get_network_type() << reset << red << ") " << reset
+            << red << "(" << reset << green << "ip: " << reset << magenta << "123.23.423.1" << reset << red << ")" << reset;
         lp.push(ss.str());
     }
 
@@ -291,8 +292,8 @@ int main() {
         std::ostringstream ss;
         ss << red << "[Disk]" << reset << blue << " -> " << reset;
         for (const auto& d : disks) {
-            ss << green << "(" << reset << green << d.first[0] << ":" << reset
-                << " " << yellow << std::fixed << std::setprecision(1) << d.second << "%" << reset << green << ") " << reset;
+            ss << red << "(" << reset << green << d.first[0] << ":" << reset
+                << " " << yellow << std::fixed << std::setprecision(1) << d.second << "%" << reset << red << ") " << reset;
         }
         lp.push(ss.str());
 
@@ -301,8 +302,8 @@ int main() {
         std::ostringstream sc;
         sc << red << "[Disk Cap]" << reset << blue << " -> " << reset;
         for (const auto& c : caps) {
-            sc << green << "(" << reset << green << c.first[0] << reset << green << "-" << reset
-                << yellow << c.second << "GB" << reset << green << ") " << reset;
+            sc << red << "(" << reset << green << c.first[0] << reset << blue << "-" << reset
+                << yellow << c.second << "GB" << reset << red << ") " << reset;
         }
         lp.push(sc.str());
     }
@@ -315,9 +316,9 @@ int main() {
         {
             {
                 std::ostringstream ss;
-                ss << blue << "---------------" << reset
+                ss << blue << "----------------" << reset
                     << red << "Memory Info" << reset
-                    << blue << "--------------" << reset;
+                    << blue << "---------------" << reset;
                 lp.push(ss.str());
             }
 
@@ -326,10 +327,18 @@ int main() {
             // RAM minimal
             {
                 std::ostringstream ss;
-                ss << red << "[RAM]" << reset << blue << " -> " << reset
-                    << green << "(" << reset << green << "Total: " << reset << green << ram.getTotal() << " GB" << reset << green << ") " << reset
-                    << green << "(" << reset << green << "Free: " << reset << cyan << ram.getFree() << " GB" << reset << green << ") " << reset
-                    << green << "(" << reset << green << "Used: " << reset << red << ram.getUsedPercentage() << "%" << reset << green << ")" << reset;
+
+                // Prefix
+                // ss << red << "[RAM]" << reset << blue << " -> " << reset;
+                // Total Section
+                ss << blue << "(" << reset << green << "Total: " << reset
+                    << yellow << ram.getTotal() << reset << green << " GB" << reset << blue << ") " << reset;
+                // Free Section
+                ss << blue << "(" << reset << green << "Free: " << reset
+                    << cyan << ram.getFree() << reset << green << " GB" << reset << blue << ") " << reset;
+                // Used Section
+                ss << blue << "(" << reset << green << "Used: " << reset
+                    << red << ram.getUsedPercentage() << reset << red << "%" << reset << blue << ")" << reset;
                 lp.push(ss.str());
             }
 
@@ -345,13 +354,24 @@ int main() {
             std::ostringstream capOut;
             capOut << std::setw(2) << std::setfill('0') << num << "GB";
 
-            std::ostringstream ss;
-            ss << red << "[Memory " << i << "]" << reset << blue << " -> " << reset
-                << green << "(" << reset << green << "Used: " << reset << red << ram.getUsedPercentage() << "%" << reset << green << ") " << reset
-                << green << "[" << reset << green << capOut.str() << reset << green << "]" << reset << " "
-                << cyan << modules[i].type << reset << " "
-                << yellow << modules[i].speed << reset << green << "MHz" << reset;
-            lp.push(ss.str());
+            {
+                std::ostringstream ss;
+                // Structural Marker and Label
+                ss << blue << "~ " << reset << magenta << "Memory " << i << reset
+                    << blue << ": " << reset;
+
+                // Used Percentage in parentheses
+                ss << blue << "(" << reset << green << "Used: " << reset
+                    << red << ram.getUsedPercentage() << reset << red << "%" << reset
+                    << blue << ") " << reset;
+
+                // Capacity, Type, and Speed
+                ss << green << capOut.str() << reset << " "
+                    << cyan << modules[i].type << reset << " "
+                    << yellow << modules[i].speed << reset;
+
+                lp.push(ss.str());
+            }
 
         }
     }
@@ -367,7 +387,9 @@ int main() {
         lp.push("");
         {
             std::ostringstream ss;
-            ss << "------------------------- " << "STORAGE SUMMARY" << " --------------------------";
+            ss << red << "------------------------- " << reset
+                << blue << "STORAGE SUMMARY" << reset
+                << red << " --------------------------" << reset;
             lp.push(ss.str());
         }
 
@@ -425,7 +447,9 @@ int main() {
 
             {
                 std::ostringstream ss;
-                ss << "-------------------- " << "DISK PERFORMANCE & DETAILS" << " --------------------";
+                ss << red << "-------------------- " << reset
+                    << blue << "DISK PERFORMANCE & DETAILS" << reset
+                    << red << " --------------------" << reset;
                 lp.push(ss.str());
             }
 
@@ -450,7 +474,9 @@ int main() {
             lp.push("");
             {
                 std::ostringstream ss;
-                ss << "---------------- " << "DISK PERFORMANCE & DETAILS (Predicted)" << " ------------";
+                ss << red << "---------------- " << reset
+                    << blue << "DISK PERFORMANCE & DETAILS (Predicted)" << reset
+                    << red << " ------------" << reset;
                 lp.push(ss.str());
             }
 
