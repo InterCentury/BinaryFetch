@@ -33,13 +33,14 @@
     <ClInclude Include="CompactSystem.h" />
     <ClInclude Include="CompactUser.h" />
     <ClInclude Include="compact_disk_info.h" />
+    <ClInclude Include="ConfigReader.h" />
     <ClInclude Include="CPUInfo.h" />
     <ClInclude Include="ExtraInfo.h" />
     <ClInclude Include="GPUInfo.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="MemoryInfo.h" />
     <ClInclude Include="NetworkInfo.h" />
-    <ClInclude Include="nolhmann\json.hpp" />
+    <ClInclude Include="nlohmann\json.hpp" />
     <ClInclude Include="OSInfo.h" />
     <ClInclude Include="PerformanceInfo.h" />
     <ClInclude Include="personalization_info.h" />
@@ -101,9 +102,8 @@
     <ClCompile Include="UserInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="config.json" />
     <None Include="Documentation\BinaryFetch documentation.md" />
-    <None Include="nolhmann\BinaryFetch_config.json" />
+    <None Include="Config.json" />
     <None Include="text infos\BinaryFetch Community.md" />
     <None Include="text infos\Current_Status_of_BinaryFetch.txt" />
     <None Include="text infos\Engine_info.md" />

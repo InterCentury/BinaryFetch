@@ -11,14 +11,14 @@
     <Filter Include="src">
       <UniqueIdentifier>{5925ffaf-ac2d-4f7a-b8bf-820c91cbf583}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Config/">
-      <UniqueIdentifier>{5a5c0ec7-b6da-4cbb-988d-36c16a18f868}</UniqueIdentifier>
-    </Filter>
     <Filter Include="include\Utlis">
       <UniqueIdentifier>{bf1edf55-48e8-4d85-924b-b51f6b80ab27}</UniqueIdentifier>
     </Filter>
     <Filter Include="libs">
       <UniqueIdentifier>{a44a5500-d339-44a9-be2f-20308fd8e9ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Config">
+      <UniqueIdentifier>{5a5c0ec7-b6da-4cbb-988d-36c16a18f868}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -100,7 +100,10 @@
     <ClInclude Include="AsciiArtControlEngine.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="nolhmann\json.hpp" />
+    <ClInclude Include="nlohmann\json.hpp" />
+    <ClInclude Include="ConfigReader.h">
+      <Filter>include\Utlis</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="DefaultAsciiArt.txt">
@@ -228,14 +231,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="config.json" />
     <None Include="text infos\Engine_info.md" />
     <None Include="text infos\Current_Status_of_BinaryFetch.txt" />
     <None Include="text infos\locations.md" />
     <None Include="text infos\BinaryFetch Community.md" />
     <None Include="Documentation\BinaryFetch documentation.md" />
-    <None Include="nolhmann\BinaryFetch_config.json">
-      <Filter>Config/</Filter>
+    <None Include="Config.json">
+      <Filter>Config</Filter>
     </None>
   </ItemGroup>
 </Project>

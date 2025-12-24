@@ -1,122 +1,102 @@
 {
-  "main_modules": {
-    "ExtraInfo": true,
-    "DisplayInfo": true,
-    "SystemInfo": true,
-    "UserInfo": true,
-    "PerformanceInfo": true,
-    "GPUInfo": true,
-    "MemoryInfo": true,
-    "OSInfo": true,
-    "CPUInfo": true,
-    "StorageInfo": true,
-    "NetworkInfo": false
+  "header": {
+    "enabled": true,
+    "prefix_color": "bright_cyan",
+    "title_color": "white",
+    "line_color": "bright_blue"
   },
-  "submodules": {
-    "ExtraInfo": {
-      "audio_devices": true,
-      "power_status": true
-    },
-    "DisplayInfo": {
-      "monitors": true,
-      "show_brand": true,
-      "show_refresh_rate": true,
-      "show_resolution": true
-    },
-    "SystemInfo": {
-      "bios": {
-        "vendor": true,
-        "version": true,
-        "date": true
-      },
-      "motherboard": {
-        "model": true,
-        "manufacturer": true
-      }
-    },
-    "UserInfo": {
-      "username": true,
-      "computer_name": true,
-      "domain_name": true,
-      "user_groups": true
-    },
-    "PerformanceInfo": {
-      "uptime": true,
-      "cpu_usage": true,
-      "ram_usage": true,
-      "disk_usage": true,
-      "gpu_usage": true
-    },
-    "GPUInfo": {
-      "mode": "both",
-      "detailed_gpu_info": true,
-      "part_by_part_info": true,
-      "fields": {
-        "gpu_name": true,
-        "gpu_memory": true,
-        "gpu_usage": true,
-        "gpu_vendor": true,
-        "gpu_driver_version": true,
-        "gpu_temperature": true,
-        "gpu_core_count": true
-      }
-    },
-    "MemoryInfo": {
-      "total_memory": true,
-      "free_memory": true,
-      "used_percentage": true,
-      "formatted_memory_info": true
-    },
-    "OSInfo": {
-      "architecture": true,
-      "install_date": true,
-      "kernel_version": true,
-      "name": true,
-      "serial_number": true,
-      "uptime": true,
-      "version": true
-    },
-    "CPUInfo": {
-      "brand": true,
-      "utilization": true,
-      "speed": true,
-      "base_speed": true,
-      "sockets": true,
-      "cores": true,
-      "logical_processors": true,
-      "virtualization": true,
-      "cache": {
-        "l1": true,
-        "l2": true,
-        "l3": true
-      }
-    },
-    "StorageInfo": {
-      "fields": {
-        "drive_letter": true,
-        "used_space": true,
-        "total_space": true,
-        "used_percentage": true,
-        "file_system": true,
-        "is_external": true,
-        "read_speed": true,
-        "write_speed": true,
-        "predicted_read_speed": true,
-        "predicted_write_speed": true,
-        "serial_number": true
-      }
-    },
-    "NetworkInfo": {
-      "local_ip": true,
-      "mac_address": true,
-      "locale": true,
-      "public_ip": true,
-      "ssid": true,
-      "network_speed": true
-    }
+  "os": {
+    "enabled": true,
+    "bracket_color": "magenta",
+    "arrow_color": "white",
+    "name_color": "bright_magenta",
+    "build_color": "white",
+    "arch_color": "bright_cyan",
+    "uptime_label_color": "cyan",
+    "uptime_value_color": "bright_white"
   },
-  "preferences": {
-    "color_scheme": "default",
-    "highlight_color": "yellow"
+  "cpu": {
+    "enabled": true,
+    "bracket_color": "bright_cyan",
+    "arrow_color": "bright_magenta",
+    "name_color": "bright_green",
+    "core_color": "bright_yellow",
+    "thread_color": "yellow",
+    "text_color": "white",
+    "separator_color": "cyan",
+    "at_symbol_color": "magenta",
+    "clock_color": "bright_white"
+  },
+  "display": {
+    "enabled": true,
+    "bracket_color": "blue",
+    "arrow_color": "bright_cyan",
+    "name_color": "white",
+    "resolution_color": "bright_green",
+    "at_symbol_color": "bright_magenta",
+    "refresh_color": "bright_yellow"
+  },
+  "memory": {
+    "enabled": true,
+    "bracket_color": "magenta",
+    "arrow_color": "white",
+    "label_color": "bright_cyan",
+    "total_color": "white",
+    "free_color": "bright_green",
+    "percent_color": "bright_yellow"
+  },
+  "audio": {
+    "enabled": true,
+    "bracket_color": "bright_red",
+    "arrow_color": "white",
+    "device_color": "bright_white",
+    "status_color": "bright_cyan"
+  },
+  "gpu": {
+    "enabled": true,
+    "bracket_color": "bright_green",
+    "arrow_color": "bright_white",
+    "name_color": "bright_cyan",
+    "usage_color": "bright_yellow",
+    "vram_color": "bright_magenta",
+    "at_symbol_color": "white",
+    "freq_color": "cyan"
+  },
+  "performance": {
+    "enabled": true,
+    "bracket_color": "white",
+    "arrow_color": "bright_blue",
+    "label_color": "bright_magenta",
+    "cpu_color": "bright_cyan",
+    "gpu_color": "bright_green",
+    "ram_color": "bright_yellow",
+    "disk_color": "bright_red"
+  },
+  "user": {
+    "enabled": true,
+    "bracket_color": "bright_cyan",
+    "arrow_color": "white",
+    "username_color": "bright_green",
+    "label_color": "bright_white",
+    "domain_color": "bright_blue",
+    "type_color": "bright_magenta"
+  },
+  "network": {
+    "enabled": true,
+    "bracket_color": "blue",
+    "arrow_color": "bright_cyan",
+    "label_color": "white",
+    "name_color": "bright_green",
+    "type_color": "bright_yellow",
+    "ip_color": "bright_white"
+  },
+  "disk": {
+    "enabled": true,
+    "bracket_color": "bright_magenta",
+    "arrow_color": "white",
+    "letter_color": "bright_cyan",
+    "percent_color": "bright_yellow",
+    "separator_color": "bright_blue",
+    "capacity_color": "bright_white"
   }
 }

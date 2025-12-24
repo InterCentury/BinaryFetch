@@ -7,6 +7,8 @@
 #include <sstream>        // For string stream operations
 #include <fstream>
 #include <string>
+#include <fstream>
+#include <regex>
 
 // ASCII Art functionality
 #include "AsciiArt.h"
@@ -38,6 +40,10 @@
 #include "CompactUser.h"        // Lightweight user info
 #include "CompactNetwork.h"     // Lightweight network info
 #include "compact_disk_info.h"  // Lightweight storage/disk info (compact mode)
+
+#include "nlohmann/json.hpp"
+using json = nlohmann::json;
+
 
 using namespace std;
 
@@ -107,6 +113,277 @@ int main() {
     CompactNetwork c_net;
     DiskInfo disk;
 
+    //----------------- JSON CONFIG SYSTEM - INSERT AFTER OBJECT INITIALIZATION -----------------//
+
+// Place this RIGHT AFTER all your object declarations (after DiskInfo disk;)
+
+// 1. Color Map
+    std::map<std::string, std::string> colors = {
+        {"red", "\033[31m"}, {"green", "\033[32m"}, {"yellow", "\033[33m"},
+        {"blue", "\033[34m"}, {"magenta", "\033[35m"}, {"cyan", "\033[36m"},
+        {"white", "\033[37m"}, {"bright_red", "\033[91m"}, {"bright_green", "\033[92m"},
+        {"bright_yellow", "\033[93m"}, {"bright_blue", "\033[94m"},
+        {"bright_magenta", "\033[95m"}, {"bright_cyan", "\033[96m"},
+        {"bright_white", "\033[97m"}, {"reset", "\033[0m"}
+    };
+
+    // 2. Load Config
+    std::ifstream config_file("Config.json");
+    json config;
+    bool config_loaded = false;
+
+    if (config_file.is_open()) {
+        try {
+            config = json::parse(config_file);
+            config_loaded = true;
+        }
+        catch (const std::exception& e) {
+            // Config failed to load, will use defaults
+        }
+        config_file.close();
+    }
+
+    // 3. Helper functions
+    auto getColor = [&](const std::string& section, const std::string& key, const std::string& defaultColor = "white") -> std::string {
+        if (!config_loaded || !config.contains(section)) return colors[defaultColor];
+        if (!config[section].contains(key)) return colors[defaultColor];
+        std::string colorName = config[section][key].get<std::string>();
+        return colors.count(colorName) ? colors[colorName] : colors[defaultColor];
+        };
+
+    auto isEnabled = [&](const std::string& section) -> bool {
+        if (!config_loaded || !config.contains(section)) return true; // default enabled
+        return config[section].value("enabled", true);
+        };
+
+    std::string r = colors["reset"];
+
+    //----------------- REPLACE YOUR HARDCODED SECTIONS WITH THESE -----------------//
+
+    // BinaryFetch Header
+    if (isEnabled("header")) {
+        std::ostringstream ss;
+        ss << getColor("header", "prefix_color", "bright_red") << "~>> " << r
+            << getColor("header", "title_color", "green") << "BinaryFetch" << r
+            << getColor("header", "line_color", "red") << "_____________________________________________________" << r;
+        lp.push(ss.str());
+    }
+
+    // Compact OS
+    if (isEnabled("os")) {
+        std::ostringstream ss;
+        ss << getColor("os", "bracket_color", "red") << "[OS]" << r
+            << getColor("os", "arrow_color", "blue") << "  -> " << r
+            << getColor("os", "name_color", "green") << c_os.getOSName() << r << " "
+            << getColor("os", "build_color", "yellow") << c_os.getOSBuild() << r
+            << getColor("os", "bracket_color", "red") << " (" << r
+            << getColor("os", "arch_color", "cyan") << c_os.getArchitecture() << r
+            << getColor("os", "bracket_color", "red") << ")" << r
+            << getColor("os", "bracket_color", "red") << " (" << r
+            << getColor("os", "uptime_label_color", "green") << "uptime: " << r
+            << getColor("os", "uptime_value_color", "magenta") << c_os.getUptime() << r
+            << getColor("os", "bracket_color", "red") << ")" << r;
+        lp.push(ss.str());
+    }
+
+    // Compact CPU
+    if (isEnabled("cpu")) {
+        std::ostringstream ss;
+        ss << getColor("cpu", "bracket_color", "red") << "[CPU]" << r
+            << getColor("cpu", "arrow_color", "blue") << " -> " << r
+            << getColor("cpu", "name_color", "green") << c_cpu.getCPUName() << r
+            << getColor("cpu", "bracket_color", "red") << " (" << r
+            << getColor("cpu", "core_color", "yellow") << c_cpu.getCPUCores() << r
+            << getColor("cpu", "text_color", "green") << "C" << r
+            << getColor("cpu", "separator_color", "blue") << "/" << r
+            << getColor("cpu", "thread_color", "yellow") << c_cpu.getCPUThreads() << r
+            << getColor("cpu", "text_color", "green") << "T" << r
+            << getColor("cpu", "bracket_color", "red") << ")" << r
+            << std::fixed << std::setprecision(2)
+            << getColor("cpu", "at_symbol_color", "green") << " @" << r
+            << getColor("cpu", "clock_color", "cyan") << " " << c_cpu.getClockSpeed() << " GHz" << r;
+        lp.push(ss.str());
+    }
+
+    // Compact Display
+    if (isEnabled("display")) {
+        auto screens = c_screen.get_screens();
+        int idx = 1;
+        if (screens.empty()) {
+            lp.push(getColor("display", "bracket_color", "red") + "[Display]" + r +
+                getColor("display", "arrow_color", "blue") + " -> " + r + "No displays detected");
+        }
+        else {
+            for (const auto& s : screens) {
+                std::ostringstream ss;
+                ss << getColor("display", "bracket_color", "red") << "[Display " << idx++ << "]" << r
+                    << getColor("display", "arrow_color", "blue") << " -> " << r
+                    << getColor("display", "name_color", "green") << s.brand_name << r
+                    << getColor("display", "bracket_color", "red") << " (" << r
+                    << getColor("display", "resolution_color", "yellow") << s.resolution << r
+                    << getColor("display", "bracket_color", "red") << ") " << r
+                    << getColor("display", "at_symbol_color", "green") << "@" << r
+                    << getColor("display", "refresh_color", "cyan") << s.refresh_rate << "Hz" << r;
+                lp.push(ss.str());
+            }
+        }
+    }
+
+    // Compact Memory
+    if (isEnabled("memory")) {
+        std::ostringstream ss;
+        ss << getColor("memory", "bracket_color", "red") << "[Memory]" << r
+            << getColor("memory", "arrow_color", "blue") << " -> " << r
+            << getColor("memory", "bracket_color", "red") << "(" << r
+            << getColor("memory", "label_color", "green") << "total: " << r
+            << getColor("memory", "total_color", "green") << c_memory.get_total_memory() << " GB" << r
+            << getColor("memory", "bracket_color", "red") << ")" << r
+            << getColor("memory", "bracket_color", "red") << " (" << r
+            << getColor("memory", "label_color", "green") << "free: " << r
+            << getColor("memory", "free_color", "yellow") << c_memory.get_free_memory() << " GB" << r
+            << getColor("memory", "bracket_color", "red") << ")" << r
+            << getColor("memory", "bracket_color", "red") << " (" << r
+            << getColor("memory", "percent_color", "magenta") << c_memory.get_used_memory_percent() << "%" << r
+            << getColor("memory", "bracket_color", "red") << ")" << r;
+        lp.push(ss.str());
+    }
+
+    // Compact Audio
+    if (isEnabled("audio")) {
+        std::ostringstream ss1, ss2;
+        ss1 << getColor("audio", "bracket_color", "red") << "[Audio Input]" << r
+            << getColor("audio", "arrow_color", "blue") << " -> " << r
+            << getColor("audio", "device_color", "green") << c_audio.active_audio_input() << r << " "
+            << getColor("audio", "bracket_color", "red") << "[" << r
+            << getColor("audio", "status_color", "yellow") << c_audio.active_audio_input_status() << r
+            << getColor("audio", "bracket_color", "red") << "]" << r;
+        ss2 << getColor("audio", "bracket_color", "red") << "[Audio Output]" << r
+            << getColor("audio", "arrow_color", "blue") << " -> " << r
+            << getColor("audio", "device_color", "green") << c_audio.active_audio_output() << r << " "
+            << getColor("audio", "bracket_color", "red") << "[" << r
+            << getColor("audio", "status_color", "yellow") << c_audio.active_audio_output_status() << r
+            << getColor("audio", "bracket_color", "red") << "]" << r;
+        lp.push(ss1.str());
+        lp.push(ss2.str());
+    }
+
+    // Compact GPU
+    if (isEnabled("gpu")) {
+        std::ostringstream ss;
+        ss << getColor("gpu", "bracket_color", "red") << "[GPU]" << r
+            << getColor("gpu", "arrow_color", "blue") << " -> " << r
+            << getColor("gpu", "name_color", "blue") << c_gpu.getGPUName() << r
+            << getColor("gpu", "bracket_color", "red") << " (" << r
+            << getColor("gpu", "usage_color", "yellow") << c_gpu.getGPUUsagePercent() << "%" << r
+            << getColor("gpu", "bracket_color", "red") << ")" << r
+            << getColor("gpu", "bracket_color", "red") << " (" << r
+            << getColor("gpu", "vram_color", "cyan") << c_gpu.getVRAMGB() << " GB" << r
+            << getColor("gpu", "bracket_color", "red") << ")" << r
+            << getColor("gpu", "bracket_color", "red") << " (" << r
+            << getColor("gpu", "at_symbol_color", "green") << "@" << r
+            << getColor("gpu", "freq_color", "magenta") << c_gpu.getGPUFrequency() << r
+            << getColor("gpu", "bracket_color", "red") << ")" << r;
+        lp.push(ss.str());
+    }
+
+    // Compact Performance
+    if (isEnabled("performance")) {
+        std::ostringstream ss;
+        ss << getColor("performance", "bracket_color", "red") << "[Performance]" << r
+            << getColor("performance", "arrow_color", "blue") << " -> " << r
+            << getColor("performance", "bracket_color", "red") << "(" << r
+            << getColor("performance", "label_color", "green") << "CPU: " << r
+            << getColor("performance", "cpu_color", "green") << c_perf.getCPUUsage() << "%" << r
+            << getColor("performance", "bracket_color", "red") << ") " << r
+            << getColor("performance", "bracket_color", "red") << "(" << r
+            << getColor("performance", "label_color", "green") << "GPU: " << r
+            << getColor("performance", "gpu_color", "yellow") << c_perf.getGPUUsage() << "%" << r
+            << getColor("performance", "bracket_color", "red") << ") " << r
+            << getColor("performance", "bracket_color", "red") << "(" << r
+            << getColor("performance", "label_color", "green") << "RAM: " << r
+            << getColor("performance", "ram_color", "cyan") << c_perf.getRAMUsage() << "%" << r
+            << getColor("performance", "bracket_color", "red") << ") " << r
+            << getColor("performance", "bracket_color", "red") << "(" << r
+            << getColor("performance", "label_color", "green") << "Disk: " << r
+            << getColor("performance", "disk_color", "magenta") << c_perf.getDiskUsage() << "%" << r
+            << getColor("performance", "bracket_color", "red") << ")" << r;
+        lp.push(ss.str());
+    }
+
+    // Compact User
+    if (isEnabled("user")) {
+        std::ostringstream ss;
+        ss << getColor("user", "bracket_color", "red") << "[User]" << r
+            << getColor("user", "arrow_color", "blue") << " -> " << r
+            << getColor("user", "username_color", "green") << "@" << c_user.getUsername() << r
+            << getColor("user", "arrow_color", "blue") << " -> " << r
+            << getColor("user", "bracket_color", "red") << "(" << r
+            << getColor("user", "label_color", "green") << "Domain: " << r
+            << getColor("user", "domain_color", "yellow") << c_user.getDomain() << r
+            << getColor("user", "bracket_color", "red") << ")" << r
+            << getColor("user", "arrow_color", "blue") << " -> " << r
+            << getColor("user", "bracket_color", "red") << "(" << r
+            << getColor("user", "label_color", "green") << "Type: " << r
+            << getColor("user", "type_color", "cyan") << c_user.isAdmin() << r
+            << getColor("user", "bracket_color", "red") << ")" << r;
+        lp.push(ss.str());
+    }
+
+    // Compact Network
+    if (isEnabled("network")) {
+        std::ostringstream ss;
+        ss << getColor("network", "bracket_color", "red") << "[network]" << r
+            << getColor("network", "arrow_color", "blue") << " -> " << r
+            << getColor("network", "bracket_color", "red") << "(" << r
+            << getColor("network", "label_color", "green") << "Name: " << r
+            << getColor("network", "name_color", "green") << "Interblink" << r
+            << getColor("network", "bracket_color", "red") << ") " << r
+            << getColor("network", "bracket_color", "red") << "(" << r
+            << getColor("network", "label_color", "green") << "Type: " << r
+            << getColor("network", "type_color", "yellow") << c_net.get_network_type() << r
+            << getColor("network", "bracket_color", "red") << ") " << r
+            << getColor("network", "bracket_color", "red") << "(" << r
+            << getColor("network", "label_color", "green") << "ip: " << r
+            << getColor("network", "ip_color", "magenta") << "123.23.423.1" << r
+            << getColor("network", "bracket_color", "red") << ")" << r;
+        lp.push(ss.str());
+    }
+
+    // Compact Disk
+    if (isEnabled("disk")) {
+        auto disks = disk.getAllDiskUsage();
+        std::ostringstream ss;
+        ss << getColor("disk", "bracket_color", "red") << "[Disk]" << r
+            << getColor("disk", "arrow_color", "blue") << " -> " << r;
+        for (const auto& d : disks) {
+            ss << getColor("disk", "bracket_color", "red") << "(" << r
+                << getColor("disk", "letter_color", "green") << d.first[0] << ":" << r
+                << " " << getColor("disk", "percent_color", "yellow")
+                << std::fixed << std::setprecision(1) << d.second << "%" << r
+                << getColor("disk", "bracket_color", "red") << ") " << r;
+        }
+        lp.push(ss.str());
+
+        auto caps = disk.getDiskCapacity();
+        std::ostringstream sc;
+        sc << getColor("disk", "bracket_color", "red") << "[Disk Cap]" << r
+            << getColor("disk", "arrow_color", "blue") << " -> " << r;
+        for (const auto& c : caps) {
+            sc << getColor("disk", "bracket_color", "red") << "(" << r
+                << getColor("disk", "letter_color", "green") << c.first[0] << r
+                << getColor("disk", "separator_color", "blue") << "-" << r
+                << getColor("disk", "capacity_color", "yellow") << c.second << "GB" << r
+                << getColor("disk", "bracket_color", "red") << ")" << r;
+        }
+        lp.push(sc.str());
+    }
+
+    //----------------- END OF JSON-CONTROLLED COMPACT SECTIONS -----------------//
+
+
+
+
+
     // ---------------- Now stream info line-by-line ----------------
     // please don't use "cout" directly - use lp.push() instead!
     // "cout" could break the ascii art alignment.
@@ -167,6 +444,10 @@ int main() {
         lp.push(ss.str());
     }
 //---------------------beginning of compact section-----------------------
+
+/**/
+
+
 // compact  OS----------------------------------------------------------
     {
         std::ostringstream ss;
