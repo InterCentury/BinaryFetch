@@ -3,100 +3,100 @@
     "enabled": true,
     "prefix_color": "bright_red",
     "title_color": "bright_white",
-    "line_color": "red"
+    "line_color": "bright_blue"
   },
   "os": {
     "enabled": true,
-    "bracket_color": "red",
+    "bracket_color": "bright_blue",
     "arrow_color": "bright_red",
     "name_color": "bright_white",
-    "build_color": "yellow",
-    "arch_color": "bright_red",
+    "build_color": "cyan",
+    "arch_color": "bright_blue",
     "uptime_label_color": "red",
     "uptime_value_color": "white"
   },
   "cpu": {
     "enabled": true,
-    "bracket_color": "red",
-    "arrow_color": "bright_red",
+    "bracket_color": "bright_red",
+    "arrow_color": "bright_blue",
     "name_color": "bright_white",
-    "core_color": "bright_red",
-    "thread_color": "bright_red",
+    "core_color": "bright_blue",
+    "thread_color": "bright_blue",
     "text_color": "white",
     "separator_color": "red",
-    "at_symbol_color": "yellow",
-    "clock_color": "bright_yellow"
+    "at_symbol_color": "cyan",
+    "clock_color": "bright_cyan"
   },
   "display": {
     "enabled": true,
-    "bracket_color": "red",
+    "bracket_color": "bright_blue",
     "arrow_color": "bright_red",
     "name_color": "bright_white",
-    "resolution_color": "yellow",
-    "at_symbol_color": "red",
-    "refresh_color": "bright_red"
+    "resolution_color": "cyan",
+    "at_symbol_color": "bright_red",
+    "refresh_color": "bright_blue"
   },
   "memory": {
     "enabled": true,
-    "bracket_color": "red",
-    "arrow_color": "bright_red",
+    "bracket_color": "bright_red",
+    "arrow_color": "bright_blue",
     "label_color": "bright_red",
     "total_color": "bright_white",
-    "free_color": "white",
-    "percent_color": "yellow"
+    "free_color": "cyan",
+    "percent_color": "bright_blue"
   },
   "audio": {
     "enabled": true,
-    "bracket_color": "red",
+    "bracket_color": "bright_blue",
     "arrow_color": "bright_red",
     "device_color": "bright_white",
-    "status_color": "yellow"
+    "status_color": "cyan"
   },
   "gpu": {
     "enabled": true,
-    "bracket_color": "red",
-    "arrow_color": "bright_red",
+    "bracket_color": "bright_red",
+    "arrow_color": "bright_blue",
     "name_color": "bright_white",
-    "usage_color": "yellow",
-    "vram_color": "bright_red",
+    "usage_color": "bright_blue",
+    "vram_color": "cyan",
     "at_symbol_color": "white",
-    "freq_color": "bright_yellow"
+    "freq_color": "bright_cyan"
   },
   "performance": {
     "enabled": true,
-    "bracket_color": "red",
+    "bracket_color": "bright_blue",
     "arrow_color": "bright_red",
-    "label_color": "red",
-    "cpu_color": "bright_white",
-    "gpu_color": "bright_white",
+    "label_color": "cyan",
+    "cpu_color": "bright_red",
+    "gpu_color": "bright_blue",
     "ram_color": "bright_white",
-    "disk_color": "bright_white"
+    "disk_color": "white"
   },
   "user": {
     "enabled": true,
-    "bracket_color": "red",
-    "arrow_color": "bright_red",
+    "bracket_color": "bright_red",
+    "arrow_color": "bright_blue",
     "username_color": "bright_white",
-    "label_color": "red",
+    "label_color": "cyan",
     "domain_color": "white",
-    "type_color": "yellow"
+    "type_color": "bright_red"
   },
   "network": {
     "enabled": true,
-    "bracket_color": "red",
+    "bracket_color": "bright_blue",
     "arrow_color": "bright_red",
     "label_color": "red",
     "name_color": "bright_white",
     "type_color": "white",
-    "ip_color": "yellow"
+    "ip_color": "cyan"
   },
   "disk": {
     "enabled": true,
-    "bracket_color": "red",
-    "arrow_color": "bright_red",
+    "bracket_color": "bright_red",
+    "arrow_color": "bright_blue",
     "letter_color": "bright_white",
-    "percent_color": "yellow",
-    "separator_color": "red",
+    "percent_color": "cyan",
+    "separator_color": "bright_blue",
     "capacity_color": "bright_red"
   }
 }
