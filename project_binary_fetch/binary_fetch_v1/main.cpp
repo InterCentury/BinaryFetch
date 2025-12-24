@@ -113,7 +113,8 @@ int main() {
     CompactNetwork c_net;
     DiskInfo disk;
 
-//----------------- JSON CONFIG SYSTEM - INSERT AFTER OBJECT INITIALIZATION -----------------//
+
+    //----------------- JSON CONFIG SYSTEM - INSERT AFTER OBJECT INITIALIZATION -----------------//
 
 // Place this RIGHT AFTER all your object declarations (after DiskInfo disk;)
 
@@ -138,7 +139,7 @@ int main() {
             config_loaded = true;
         }
         catch (const std::exception& e) {
-            // Config failed to load, will use defaults
+            std::cerr << "Config parse error: " << e.what() << std::endl;
         }
         config_file.close();
     }
@@ -205,7 +206,7 @@ int main() {
         if (isEnabled("compact_os", "show_kernel")) {
             ss << getColor("compact_os", "bracket_color", "red") << "(" << r
                 << getColor("compact_os", "kernel_label_color", "green") << "kernel: " << r
-                << getColor("compact_os", "kernel_value_color", "yellow") << c_os.getArchitecture() << r
+                << getColor("compact_os", "kernel_value_color", "yellow") << os.get_os_kernel_info() << r
                 << getColor("compact_os", "bracket_color", "red") << ") " << r;
             has_content = true;
         }
@@ -213,7 +214,7 @@ int main() {
         if (isEnabled("compact_os", "show_install_date")) {
             ss << getColor("compact_os", "bracket_color", "red") << "(" << r
                 << getColor("compact_os", "install_label_color", "green") << "installed: " << r
-                << getColor("compact_os", "install_value_color", "cyan") << os.get_os_install_date () << r
+                << getColor("compact_os", "install_value_color", "cyan") << os.get_os_install_date() << r
                 << getColor("compact_os", "bracket_color", "red") << ") " << r;
             has_content = true;
         }
@@ -512,7 +513,7 @@ int main() {
         if (isEnabled("compact_network", "show_name")) {
             ss << getColor("compact_network", "bracket_color", "red") << "(" << r
                 << getColor("compact_network", "label_color", "green") << "Name: " << r
-                << getColor("compact_network", "name_color", "green") << c_net.get_network_name() << r
+                << getColor("compact_network", "name_color", "green") << "Interblink" << r
                 << getColor("compact_network", "bracket_color", "red") << ") " << r;
             has_content = true;
         }
@@ -528,7 +529,7 @@ int main() {
         if (isEnabled("compact_network", "show_ip")) {
             ss << getColor("compact_network", "bracket_color", "red") << "(" << r
                 << getColor("compact_network", "label_color", "green") << "ip: " << r
-                << getColor("compact_network", "ip_color", "magenta") << c_net.get_network_ip() << r
+                << getColor("compact_network", "ip_color", "magenta") << "123.23.423.1" << r
                 << getColor("compact_network", "bracket_color", "red") << ")" << r;
             has_content = true;
         }
@@ -570,56 +571,100 @@ int main() {
             lp.push(sc.str());
         }
     }
-    // Individual Memory Modules
-    if (isEnabled("detailed_memory", "show_modules")) {
-        const auto& modules = ram.getModules();
-        for (size_t i = 0; i < modules.size(); ++i) {
-            // Zero-pad capacity
-            std::string cap = modules[i].capacity;
-            int num = 0;
-            try { num = std::stoi(cap); }
-            catch (...) { num = 0; }
-            std::ostringstream capOut;
-            capOut << std::setw(2) << std::setfill('0') << num << "GB";
 
+    // Full Detailed Memory Info Section
+    if (isEnabled("detailed_memory")) {
+        lp.push(""); // blank line
+
+        // Header
+        if (isEnabled("detailed_memory", "show_header")) {
+            std::ostringstream ss;
+            ss << getColor("detailed_memory", "divider_color", "blue") << "----------------" << r
+                << getColor("detailed_memory", "header_color", "red") << "Memory Info" << r
+                << getColor("detailed_memory", "divider_color", "blue") << "---------------" << r;
+            lp.push(ss.str());
+        }
+
+        // RAM Summary Line
+        if (isEnabled("detailed_memory", "show_summary")) {
             std::ostringstream ss;
 
-            // Module marker and label
-            ss << getColor("detailed_memory", "module_marker_color", "blue") << "~ " << r
-                << getColor("detailed_memory", "module_label_color", "magenta") << "Memory " << i << r
-                << getColor("detailed_memory", "colon_color", "blue") << ": " << r;
+            if (isEnabled("detailed_memory", "show_total")) {
+                ss << getColor("detailed_memory", "bracket_color", "blue") << "(" << r
+                    << getColor("detailed_memory", "label_color", "green") << "Total: " << r
+                    << getColor("detailed_memory", "total_color", "yellow") << ram.getTotal() << r
+                    << getColor("detailed_memory", "unit_color", "green") << " GB" << r
+                    << getColor("detailed_memory", "bracket_color", "blue") << ") " << r;
+            }
 
-            // Used percentage for this module
-            if (isEnabled("detailed_memory", "show_module_used")) {
+            if (isEnabled("detailed_memory", "show_free")) {
+                ss << getColor("detailed_memory", "bracket_color", "blue") << "(" << r
+                    << getColor("detailed_memory", "label_color", "green") << "Free: " << r
+                    << getColor("detailed_memory", "free_color", "cyan") << ram.getFree() << r
+                    << getColor("detailed_memory", "unit_color", "green") << " GB" << r
+                    << getColor("detailed_memory", "bracket_color", "blue") << ") " << r;
+            }
+
+            if (isEnabled("detailed_memory", "show_used_percent")) {
                 ss << getColor("detailed_memory", "bracket_color", "blue") << "(" << r
                     << getColor("detailed_memory", "label_color", "green") << "Used: " << r
                     << getColor("detailed_memory", "used_percent_color", "red") << ram.getUsedPercentage() << r
                     << getColor("detailed_memory", "percent_symbol_color", "red") << "%" << r
-                    << getColor("detailed_memory", "bracket_color", "blue") << ") " << r;
-            }
-
-            // Capacity
-            if (isEnabled("detailed_memory", "show_module_capacity")) {
-                ss << getColor("detailed_memory", "module_capacity_color", "green") << capOut.str() << r << " ";
-            }
-
-            // Type
-            if (isEnabled("detailed_memory", "show_module_type")) {
-                ss << getColor("detailed_memory", "module_type_color", "cyan") << modules[i].type << r << " ";
-            }
-
-            // Speed
-            if (isEnabled("detailed_memory", "show_module_speed")) {
-                ss << getColor("detailed_memory", "module_speed_color", "yellow") << modules[i].speed << r;
+                    << getColor("detailed_memory", "bracket_color", "blue") << ")" << r;
             }
 
             lp.push(ss.str());
         }
+
+        // Individual Memory Modules
+        if (isEnabled("detailed_memory", "show_modules")) {
+            const auto& modules = ram.getModules();
+            for (size_t i = 0; i < modules.size(); ++i) {
+                // Zero-pad capacity
+                std::string cap = modules[i].capacity;
+                int num = 0;
+                try { num = std::stoi(cap); }
+                catch (...) { num = 0; }
+                std::ostringstream capOut;
+                capOut << std::setw(2) << std::setfill('0') << num << "GB";
+
+                std::ostringstream ss;
+
+                // Module marker and label
+                ss << getColor("detailed_memory", "module_marker_color", "blue") << "~ " << r
+                    << getColor("detailed_memory", "module_label_color", "magenta") << "Memory " << i << r
+                    << getColor("detailed_memory", "colon_color", "blue") << ": " << r;
+
+                // Used percentage for this module
+                if (isEnabled("detailed_memory", "show_module_used")) {
+                    ss << getColor("detailed_memory", "bracket_color", "blue") << "(" << r
+                        << getColor("detailed_memory", "label_color", "green") << "Used: " << r
+                        << getColor("detailed_memory", "used_percent_color", "red") << ram.getUsedPercentage() << r
+                        << getColor("detailed_memory", "percent_symbol_color", "red") << "%" << r
+                        << getColor("detailed_memory", "bracket_color", "blue") << ") " << r;
+                }
+
+                // Capacity
+                if (isEnabled("detailed_memory", "show_module_capacity")) {
+                    ss << getColor("detailed_memory", "module_capacity_color", "green") << capOut.str() << r << " ";
+                }
+
+                // Type
+                if (isEnabled("detailed_memory", "show_module_type")) {
+                    ss << getColor("detailed_memory", "module_type_color", "cyan") << modules[i].type << r << " ";
+                }
+
+                // Speed
+                if (isEnabled("detailed_memory", "show_module_speed")) {
+                    ss << getColor("detailed_memory", "module_speed_color", "yellow") << modules[i].speed << r;
+                }
+
+                lp.push(ss.str());
+            }
+        }
     }
 
-
     //----------------- END OF JSON-CONTROLLED COMPACT SECTIONS -----------------//
-
 
 
 

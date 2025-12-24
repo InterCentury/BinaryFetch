@@ -139,8 +139,7 @@
     "percent_color": "bright_yellow",
     "separator_color": "bright_yellow",
     "capacity_color": "bright_yellow"
-  }
-},
+  },
   "detailed_memory": {
     "enabled": true,
     "show_header": true,
