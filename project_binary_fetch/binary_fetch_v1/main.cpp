@@ -113,7 +113,7 @@ int main() {
     CompactNetwork c_net;
     DiskInfo disk;
 
-    //----------------- JSON CONFIG SYSTEM - INSERT AFTER OBJECT INITIALIZATION -----------------//
+//----------------- JSON CONFIG SYSTEM - INSERT AFTER OBJECT INITIALIZATION -----------------//
 
 // Place this RIGHT AFTER all your object declarations (after DiskInfo disk;)
 
@@ -512,7 +512,7 @@ int main() {
         if (isEnabled("compact_network", "show_name")) {
             ss << getColor("compact_network", "bracket_color", "red") << "(" << r
                 << getColor("compact_network", "label_color", "green") << "Name: " << r
-                << getColor("compact_network", "name_color", "green") << "Interblink" << r
+                << getColor("compact_network", "name_color", "green") << c_net.get_network_name() << r
                 << getColor("compact_network", "bracket_color", "red") << ") " << r;
             has_content = true;
         }
@@ -528,7 +528,7 @@ int main() {
         if (isEnabled("compact_network", "show_ip")) {
             ss << getColor("compact_network", "bracket_color", "red") << "(" << r
                 << getColor("compact_network", "label_color", "green") << "ip: " << r
-                << getColor("compact_network", "ip_color", "magenta") << "123.23.423.1" << r
+                << getColor("compact_network", "ip_color", "magenta") << c_net.get_network_ip() << r
                 << getColor("compact_network", "bracket_color", "red") << ")" << r;
             has_content = true;
         }
@@ -739,10 +739,8 @@ int main() {
     }
 
 
-   //------------------------------------------------------------------------------------
-   // Temporary minimal network's IP hiding due to privacy concerns
-   /*
-   Network minimal (commented)
+  
+  // Network minimal 
    {
        std::ostringstream ss;
        ss << red << "[network]" << reset << blue << " -> " << reset
@@ -751,17 +749,9 @@ int main() {
           << green << "(" << reset << green << "ip: " << reset << magenta << c_net.get_network_ip() << reset << green << ")" << reset;
        lp.push(ss.str());
    }
-   */
+   
 
-    // Network minimal----------------------------------------------------------
-    {
-        std::ostringstream ss;
-        ss << red << "[network]" << reset << blue << " -> " << reset
-            << red << "(" << reset << green << "Name: " << reset << green << "Interblink" << reset << red << ") " << reset
-            << red << "(" << reset << green << "Type: " << reset << yellow << c_net.get_network_type() << reset << red << ") " << reset
-            << red << "(" << reset << green << "ip: " << reset << magenta << "123.23.423.1" << reset << red << ")" << reset;
-        lp.push(ss.str());
-    }
+    
 
     // Disk usage (compact)----------------------------------------------------------
     {
