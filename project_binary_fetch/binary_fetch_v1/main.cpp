@@ -268,21 +268,21 @@ int main() {
     }
 
     // Compact GPU
-    if (isEnabled("gpu")) {
+    if (isEnabled("compact_gpu")) {
         std::ostringstream ss;
-        ss << getColor("gpu", "bracket_color", "red") << "[GPU]" << r
-            << getColor("gpu", "arrow_color", "blue") << " -> " << r
-            << getColor("gpu", "name_color", "blue") << c_gpu.getGPUName() << r
-            << getColor("gpu", "bracket_color", "red") << " (" << r
-            << getColor("gpu", "usage_color", "yellow") << c_gpu.getGPUUsagePercent() << "%" << r
-            << getColor("gpu", "bracket_color", "red") << ")" << r
-            << getColor("gpu", "bracket_color", "red") << " (" << r
-            << getColor("gpu", "vram_color", "cyan") << c_gpu.getVRAMGB() << " GB" << r
-            << getColor("gpu", "bracket_color", "red") << ")" << r
-            << getColor("gpu", "bracket_color", "red") << " (" << r
-            << getColor("gpu", "at_symbol_color", "green") << "@" << r
-            << getColor("gpu", "freq_color", "magenta") << c_gpu.getGPUFrequency() << r
-            << getColor("gpu", "bracket_color", "red") << ")" << r;
+        ss << getColor("compact_gpu", "bracket_color", "red") << "[GPU]" << r
+            << getColor("compact_gpu", "arrow_color", "blue") << " -> " << r
+            << getColor("compact_gpu", "name_color", "blue") << c_gpu.getGPUName() << r
+            << getColor("compact_gpu", "bracket_color", "red") << " (" << r
+            << getColor("compact_gpu", "usage_color", "yellow") << c_gpu.getGPUUsagePercent() << "%" << r
+            << getColor("compact_gpu", "bracket_color", "red") << ")" << r
+            << getColor("compact_gpu", "bracket_color", "red") << " (" << r
+            << getColor("compact_gpu", "vram_color", "cyan") << c_gpu.getVRAMGB() << " GB" << r
+            << getColor("compact_gpu", "bracket_color", "red") << ")" << r
+            << getColor("compact_gpu", "bracket_color", "red") << " (" << r
+            << getColor("compact_gpu", "at_symbol_color", "green") << "@" << r
+            << getColor("compact_gpu", "freq_color", "magenta") << c_gpu.getGPUFrequency() << r
+            << getColor("compact_gpu", "bracket_color", "red") << ")" << r;
         lp.push(ss.str());
     }
 

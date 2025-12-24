@@ -52,15 +52,15 @@
     "device_color": "yellow",
     "status_color": "yellow"
   },
-  "gpu": {
+  "compact_gpu": {
     "enabled": true,
-    "bracket_color": "bright_red",
-    "arrow_color": "bright_blue",
-    "name_color": "bright_white",
-    "usage_color": "bright_blue",
-    "vram_color": "cyan",
-    "at_symbol_color": "white",
-    "freq_color": "bright_cyan"
+    "bracket_color": "green",
+    "arrow_color": "green",
+    "name_color": "green",
+    "usage_color": "green",
+    "vram_color": "green",
+    "at_symbol_color": "green",
+    "freq_color": "green"
   },
   "performance": {
     "enabled": true,
