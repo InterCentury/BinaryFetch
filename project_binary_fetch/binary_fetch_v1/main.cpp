@@ -166,8 +166,8 @@ int main() {
             << red << "_____________________________________________________" << reset;
         lp.push(ss.str());
     }
-    //---------------------beginning of compact section-----------------------
-// Minimal OS
+//---------------------beginning of compact section-----------------------
+// compact  OS----------------------------------------------------------
     {
         std::ostringstream ss;
         ss << red << "[OS]" << reset << blue << "  -> " << reset
@@ -178,7 +178,7 @@ int main() {
         lp.push(ss.str());
     }
 
-    // Minimal CPU
+    // compact CPU ----------------------------------------------------------
     {
         std::ostringstream ss;
         ss << red << "[CPU]" << reset << blue << " -> " << reset
@@ -190,7 +190,7 @@ int main() {
         lp.push(ss.str());
     }
 
-    // Displays
+    // compact Displays ----------------------------------------------------------
     {
         auto screens = c_screen.get_screens();
         int idx = 1;
@@ -209,7 +209,7 @@ int main() {
         }
     }
 
-    // Memory minimal
+    // compact memory (ram) ----------------------------------------------------------
     {
         std::ostringstream ss;
         ss << red << "[Memory]" << reset << blue << " -> " << reset
@@ -219,7 +219,7 @@ int main() {
         lp.push(ss.str());
     }
 
-    // Audio
+    //compact Audio----------------------------------------------------------
     {
         std::ostringstream ss1, ss2;
         ss1 << red << "[Audio Input]" << reset << blue << " -> " << reset
@@ -232,7 +232,7 @@ int main() {
         lp.push(ss2.str());
     }
 
-    // GPU minimal
+    // GPU minimal----------------------------------------------------------
     {
         std::ostringstream ss;
         ss << red << "[GPU]" << reset << blue << " -> " << reset
@@ -243,7 +243,7 @@ int main() {
         lp.push(ss.str());
     }
 
-    // Minimal Performance
+    // Minimal Performance----------------------------------------------------------
     {
         std::ostringstream ss;
         ss << red << "[Performance]" << reset << blue << " -> " << reset
@@ -254,7 +254,7 @@ int main() {
         lp.push(ss.str());
     }
 
-    // User
+    // compact User----------------------------------------------------------
     {
         std::ostringstream ss;
         ss << red << "[User]" << reset << blue << " -> " << reset
@@ -279,7 +279,7 @@ int main() {
    }
    */
 
-    // Network minimal
+    // Network minimal----------------------------------------------------------
     {
         std::ostringstream ss;
         ss << red << "[network]" << reset << blue << " -> " << reset
@@ -289,7 +289,7 @@ int main() {
         lp.push(ss.str());
     }
 
-    // Disk usage (compact)
+    // Disk usage (compact)----------------------------------------------------------
     {
         auto disks = disk.getAllDiskUsage();
         std::ostringstream ss;
@@ -300,7 +300,7 @@ int main() {
         }
         lp.push(ss.str());
 
-        // Disk capacities
+        // Disk capacities----------------------------------------------------------
         auto caps = disk.getDiskCapacity();
         std::ostringstream sc;
         sc << red << "[Disk Cap]" << reset << blue << " -> " << reset;
