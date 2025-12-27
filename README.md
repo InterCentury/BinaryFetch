@@ -1,159 +1,250 @@
-# BinaryFetch - Ongoing Development
+Alright — this **deserves** a real, professional README.
+What you’ve built is not a toy, and the documentation should reflect that.
 
-BinaryFetch is an evolving, lightweight system information tool inspired by Neofetch, built in C++ and optimized for Windows. This README documents the current development progress, upcoming features, and active tasks.
-
----
-
-## 🚀 Overview
-
-BinaryFetch displays essential system information such as:
-
-- OS Details
-
-- CPU Information
-
-- RAM Capacity, Type & Speeds
-
-- GPU Information (Basic + Advanced)
-
-- Storage Information (Per-disk usage, alignment formatting)
-
-- Custom ASCII Art Rendering (Optional)
-
-This project is actively evolving with continuous improvements across code structure, performance, and feature coverage.
+Below is a **complete GitHub-ready README** you can paste directly into your BinaryFetch repo and adjust names/links later.
 
 ---
 
-## 📌 Current Development Status
+# 🧬 BinaryFetch
 
-### ✔️ Completed / Stable Modules
+> **A next-generation, modular system information fetcher for Windows — engineered for reliability, customization, and community-driven profiles.**
 
-- **ASCII Art Loader** (with fallback if missing)
-
-- **Operating System Info** (OSInfo)
-
-- **CPU Information** (CPUInfo)
-
-- **Memory Information**
-  
-  - RAM capacity per slot
-  
-  - RAM type & speed fetching
-  
-  - Slot-detection
-
-- **GPU Information**
-  
-  - Basic GPU detection
-  
-  - Detailed GPU stats (Dedicated VRAM, utilizes NVML if available)
-
-- **Storage Information**
-  
-  - All disk detection
-  
-  - Filesystem type
-  
-  - Used/Free space calculation
-  
-  - Percentage calculation per disk
-  
-  - Alignment formatting (0000.00 style)
+BinaryFetch is not “another neofetch clone.”
+It is a **systems engineering project** focused on **clean architecture**, **self-healing configuration**, and **extreme customization with minimal user effort**.
 
 ---
 
-## 🔨 Work In Progress (Ongoing)
+## ✨ Key Philosophy
 
-- **Refactoring Code Structure** into cleaner modules
+> **Simplicity is the priority.**
 
-- **Improved Alignment System** for Storage Summary
-
-- **More Detailed GPU Info** (temperature, clocks, fan speeds – if libraries allow)
-
-- **Better Error Handling** across all modules
-
-- **Optimizing for Faster Load Time** (remove redundant calls)
-
-- **Improved ASCII Art Handling** (auto-resize for smaller terminals)
+* Two user-editable files
+* Self-healing engine
+* Modular, scalable design
+* Clean separation between *data*, *logic*, and *presentation*
 
 ---
 
-## 🧪 Upcoming Features & Ideas
+## 🚀 What Makes BinaryFetch Different?
 
-- **Config File (config.json)**
-  
-  - Theme colors
-  
-  - Toggle modules ON/OFF
-  
-  - ASCII art path selection
+### 🧠 Engine-First Design
 
-- **Plugin System**
-  
-  - Users can write small C++/DLL plugins for extra info
+BinaryFetch guarantees that **the program never crashes due to missing user files**.
 
-- **Cross-platform Support** (Linux first)
+If a user:
 
-- **Fancy Colored Output** using ANSI escape sequences
+* deletes `BinaryArt.txt`
+* deletes `BinaryFetch.json`
+* corrupts configuration
+* runs BinaryFetch for the first time
 
-- **Benchmark Mode**
-  
-  - CPU quick benchmark
-  
-  - Disk quick I/O test
+👉 **The engine automatically recreates everything from defaults.**
+
+No prompts.
+No errors.
+No user intervention.
 
 ---
 
-## 🗂️ Folder Structure (Planned Final Layout)
+## 🗂️ User Customization (Only 2 Files)
+
+| File               | Purpose                         |
+| ------------------ | ------------------------------- |
+| `BinaryArt.txt`    | User ASCII art (fully editable, copy-paste-done !) |
+| `BinaryFetch.json` | Module configuration & layout   |
+
+That’s it.
+
+No profiles.
+No databases.
+No complex formats.
+
+---
+
+## 🧩 Core Features Overview
+
+* Modular system info engine
+* Compact mode & expanded mode
+* Multi-GPU support
+* Multi-monitor support
+* Audio input/output detection
+* Power & battery detection
+* Predictive disk performance 
+* Clean ASCII rendering pipeline
+* Community-shareable profiles (just JSON + ASCII)
+
+---
+
+## 🧱 Project Architecture
+
+BinaryFetch follows a **module-per-domain** architecture.
+
+Each system category is implemented as an **independent class** with no side effects.
+
+### 📦 Total Modules
+
+* **17+ core modules**
+* **80+ system info functions**
+* **Zero hard dependencies between modules**
+
+---
+
+## 🧠 Core Information Modules
+
+### 1️⃣ Operating System (`OSInfo.h`)
+
+* OS name, version, build
+* Architecture (32/64-bit)
+* Kernel info
+* Install date
+* Serial number
+* Uptime
+
+---
+
+### 2️⃣ CPU / Processor (`CPUInfo.h`)
+
+* Brand & model
+* Utilization
+* Current & base frequency
+* Cores / threads
+* Virtualization support
+* Cache (L1/L2/L3)
+* Process / thread / handle counts
+
+---
+
+### 3️⃣ Memory / RAM (`RAMInfo.h`)
+
+* Total RAM
+* Free RAM
+* Used percentage
+* Detailed formatted output
+
+---
+
+### 4️⃣ GPU (`GPUInfo.h`, `DetailedGPUInfo.h`)
+
+* GPU name & vendor
+* VRAM total
+* Driver version
+* GPU usage
+* Core count
+* Temperature
+* Multi-GPU detection
+* Primary GPU selection
+
+---
+
+### 5️⃣ Storage (`StorageInfo.h`)
+
+* Disk list
+* Total & free space
+* Disk type (SSD/HDD)
+* Serial numbers
+* Read/write speed
+* Predicted performance
+
+---
+
+### 6️⃣ Network (`NetworkInfo.h`)
+
+* Local IP
+* Public IP
+* MAC address
+* SSID / adapter name
+* Network speed
+* Locale
+
+---
+
+### 7️⃣ Performance (`PerformanceInfo.h`)
+
+* CPU usage
+* RAM usage
+* Disk usage
+* GPU usage
+* System uptime
+
+---
+
+### 8️⃣ User Info (`UserInfo.h`)
+
+* Username
+* Computer name
+* Domain
+* User groups
+* Admin status
+
+---
+
+### 9️⃣ BIOS / Motherboard (`SystemInfo.h`)
+
+* BIOS vendor, version, date
+* Motherboard model & manufacturer
+* Environment variables
+
+---
+
+### 🔟 Display (`DisplayInfo.h`)
+
+* Multi-monitor detection
+* Resolution
+* Refresh rate
+* Monitor model & brand
+
+---
+
+### 🔊 Extras (`ExtraInfo.h`)
+
+* Audio input/output devices
+* Active device detection
+* Power status (desktop/laptop)
+* Battery percentage & charging state
+
+---
+
+## 🧬 Compact Mode
+
+BinaryFetch includes a **Compact Mode** for clean, readable output.
+
+Example:
 
 ```
-BinaryFetch/
-├─ src/
-│  ├─ main.cpp
-│  ├─ ascii_art.cpp
-│  ├─ cpu_info.cpp
-│  ├─ gpu_info.cpp
-│  ├─ memory_info.cpp
-│  ├─ storage_info.cpp
-│  └─ utils.cpp
-├─ include/
-│  ├─ ascii_art.h
-│  ├─ cpu_info.h
-│  ├─ gpu_info.h
-│  ├─ memory_info.h
-│  ├─ storage_info.h
-│  └─ utils.h
-├─ assets/
-│  └─ AsciiArt.txt
-├─ config/
-│  └─ config.json (future)
-└─ README.md
+[OS]      -> Windows 11 10.0 (Build 22631) (64-bit)
+[CPU]     -> Ryzen 5 5600G (6C/12T) @ 3.89 GHz
+[GPU]     -> RTX 4070 SUPER (9%) (11.99 GB)
+[Memory]  -> 47.79 GB (Free: 28.44 GB) (40%)
+[Display] -> 2 Monitors @ 60Hz
+[User]    -> @coffee~ (Admin)
 ```
 
----
-
-## ✍️ Developer Notes
-
-- BinaryFetch is built entirely for learning + showcasing real Windows API usage.
-
-- Focused on low-level system programming using **Win32 API**, **WMI**, and **NVML** (optional).
-
-- Project meant for internship portfolio & personal improvement.
+Each compact section is powered by **dedicated lightweight classes** (`CompactCPU`, `CompactGPU`, etc.).
 
 ---
 
-## 🤝 Contributing
+## 🛡️ Self-Healing Engine (Worst-Case Handling)
 
-For now, BinaryFetch is a solo project. Future contributions may be accepted after version 1.0.
+BinaryFetch **never breaks** due to user mistakes.
+
+### Automatic Recovery Includes:
+
+* Missing ASCII art file → recreated from bundled default
+* Missing JSON config → recreated from default schema
+* Deleted directories → recreated silently
+* Corrupted config → safely regenerated
+
+> **Main never manages files. The engine does everything.**
 
 ---
 
-## 📜 License
+## 🧪 Engineering Back-Bone
 
-To be added soon (likely MIT).
+* ✅ First run always succeeds
+* ✅ User customization preserved
+* ✅ No duplicated logic
+* ✅ No orchestration spaghetti
+* ✅ Clean single-call API
+* ✅ Future-proof modularity
 
 ---
-
-## 📅 Last Updated
-
-**December 2025**
