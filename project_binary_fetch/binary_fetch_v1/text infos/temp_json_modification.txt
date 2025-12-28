@@ -2,13 +2,13 @@
   "detailed_storage": {
     "enabled": true,
     "sections": {
-      "header": true,
       "storage_summary": true,
       "disk_performance": true,
       "disk_performance_predicted": true
     },
     "storage_summary": 
     "header": {
+      "header": true,
       "line_color": "red",
       "title_color": "blue"
     },
@@ -35,6 +35,7 @@
     },
     "disk_performance": 
     "header": {
+    "header": true,
       "line_color": "red",
       "title_color": "blue"
     },
@@ -54,6 +55,7 @@
     },
     "disk_performance_predicted": {
     "header": {
+    "header": true,
       "line_color": "red",
       "title_color": "blue"
     },
