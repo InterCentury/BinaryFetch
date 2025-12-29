@@ -755,7 +755,7 @@ int main() {
                 }
             }
 
-            // DISK PERFORMANCE PREDICTED SECTION
+            // DISK PERFORMANCE PREDICTED ////////////////////////////////////////////////////////////////////////////////////////////////////////
             if (!all_disks_captured.empty() && getNestedBool("sections.disk_performance_predicted", true)) {
 
                 lp.push("");
@@ -777,7 +777,7 @@ int main() {
                         ss << getNestedColor("disk_performance_predicted.drive_letter_color", "cyan") << d.drive_letter << r;
                     }
 
-                    ss << getNestedColor("storage_summary.brackets_color", "green") << " [" << r << " ";
+                    ss << getNestedColor("storage_summary.[", "green") << " [" << r << " ";
 
                     // Read speed
                     if (getNestedBool("disk_performance_predicted.show_read_speed", true)) {
@@ -786,7 +786,7 @@ int main() {
                     }
 
                     ss << getNestedColor("disk_performance_predicted.speed_unit_color", "green") << " MB/s " << r
-                        << getNestedColor("disk_performance_predicted.pipe_color", "green") << "|" << r << " ";
+                        << getNestedColor("disk_performance_predicted.|", "green") << "|" << r << " ";
 
                     // Write speed
                     if (getNestedBool("disk_performance_predicted.show_write_speed", true)) {
@@ -795,7 +795,7 @@ int main() {
                     }
 
                     ss << getNestedColor("disk_performance_predicted.speed_unit_color", "green") << " MB/s " << r
-                        << getNestedColor("disk_performance_predicted.pipe_color", "green") << "|" << r << " ";
+                        << getNestedColor("disk_performance_predicted.|", "green") << "|" << r << " ";
 
                     // Serial number
                     if (getNestedBool("disk_performance_predicted.show_serial_number", true)) {
@@ -812,7 +812,7 @@ int main() {
                         }
                     }
 
-                    ss << getNestedColor("storage_summary.brackets_color", "green") << " ]" << r;
+                    ss << getNestedColor("storage_summary.]", "green") << " ]" << r;
 
                     lp.push(ss.str());
                 }
