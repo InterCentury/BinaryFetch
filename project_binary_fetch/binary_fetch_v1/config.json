@@ -197,7 +197,9 @@
       "show_external_status": true,
       "external_text_color": "blue",
       "internal_text_color": "blue",
-      "brackets_color": "blue",
+      "]": "red",
+      "[": "red",
+      "(": "green",
       "/": "red",
       "-": "green",
       "unit_color": "blue"

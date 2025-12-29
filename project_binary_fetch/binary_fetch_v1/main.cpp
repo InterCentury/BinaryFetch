@@ -636,13 +636,13 @@ int main() {
                     }
 
                     // Opening bracket
-                    ss << getNestedColor("storage_summary.brackets_color", "green") << " [" << r;
+                    ss << getNestedColor("storage_summary.[", "green") << " [" << r;
 
                     // (Used) label
                     if (getNestedBool("storage_summary.show_used_label", true)) {
-                        ss << getNestedColor("storage_summary.brackets_color", "green") << " (" << r
+                        ss << getNestedColor("storage_summary.(", "green") << " (" << r
                             << getNestedColor("storage_summary.used_label_color", "green") << "Used" << r
-                            << getNestedColor("storage_summary.brackets_color", "green") << ") " << r;
+                            << getNestedColor("storage_summary.)", "green") << ") " << r;
                     }
 
                     // Used space
@@ -686,7 +686,7 @@ int main() {
                     }
 
                     // Closing bracket
-                    ss << getNestedColor("storage_summary.brackets_color", "green") << " ]" << r;
+                    ss << getNestedColor("storage_summary.]", "green") << " ]" << r;
 
                     lp.push(ss.str());
                     });
