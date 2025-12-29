@@ -653,7 +653,7 @@ int main() {
                     ss << getNestedColor("storage_summary.unit_color", "green") << " GiB " << r;
 
                     // Separator
-                    ss << getNestedColor("storage_summary.separator_color", "green") << "/" << r;
+                    ss << getNestedColor("storage_summary./", "green") << "/" << r;
 
                     // Total space
                     if (getNestedBool("storage_summary.show_total_space", true)) {
@@ -668,7 +668,7 @@ int main() {
                     }
 
                     // Separator
-                    ss << getNestedColor("storage_summary.separator_color", "green") << " - " << r;
+                    ss << getNestedColor("storage_summary.-", "green") << " - " << r;
 
                     // File system
                     if (getNestedBool("storage_summary.show_file_system", true)) {

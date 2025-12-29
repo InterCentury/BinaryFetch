@@ -198,7 +198,8 @@
       "external_text_color": "blue",
       "internal_text_color": "blue",
       "brackets_color": "blue",
-      "separator_color": "blue",
+      "/": "red",
+      "-": "green",
       "unit_color": "blue"
     },
     "disk_performance": {
