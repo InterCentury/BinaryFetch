@@ -202,7 +202,7 @@
       "(": "green",
       "/": "bright_black",
       "-": "green",
-      "used_GIB": "blue",
+      "used_GIB":"blue",
       "total_GIB": "blue" 
     },
     "disk_performance": {
