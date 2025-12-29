@@ -651,7 +651,7 @@ int main() {
                         ss << getNestedColor("storage_summary.used_space_color", "green") << fmt_storage(d.used_space) << r;
                     }
 
-                    ss << getNestedColor("storage_summary.unit_color", "green") << " GiB " << r;
+                    ss << getNestedColor("storage_summary.used_GIB", "green") << " GiB " << r;
 
                     // Separator
                     ss << getNestedColor("storage_summary./", "green") << "/" << r;

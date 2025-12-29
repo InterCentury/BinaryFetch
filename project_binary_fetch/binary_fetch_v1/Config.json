@@ -202,7 +202,8 @@
       "(": "green",
       "/": "bright_black",
       "-": "green",
-      "GIB": "white"
+      "used_GIB": "blue",
+      "total_GIB":"green"
     },
     "disk_performance": {
       "header": {
