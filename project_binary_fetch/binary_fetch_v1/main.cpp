@@ -714,7 +714,7 @@ int main() {
                         ss << getNestedColor("disk_performance.drive_letter_color", "cyan") << d.drive_letter << r;
                     }
 
-                    ss << getNestedColor("storage_summary.brackets_color", "green") << " [" << r << " ";
+                    ss << getNestedColor("storage_summary.[", "green") << " [" << r << " ";
 
                     // Read speed
                     if (getNestedBool("disk_performance.show_read_speed", true)) {
