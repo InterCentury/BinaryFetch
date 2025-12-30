@@ -192,7 +192,7 @@ int main() {
         // Compact OS
         if (isEnabled("compact_os")) {
             std::ostringstream ss;
-            ss << getColor("compact_os", "(", "red") << "[OS]" << r
+            ss << getColor("compact_os", "[OS]", "red") << "[OS]" << r
                 << getColor("compact_os", "->", "blue") << "  -> " << r;
 
             if (isSubEnabled("compact_os", "show_name")) ss << getColor("compact_os", "name_color", "green") << c_os.getOSName() << r << " ";
