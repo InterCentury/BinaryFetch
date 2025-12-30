@@ -248,7 +248,7 @@ int main() {
             else {
                 for (const auto& s : screens) {
                     std::ostringstream ss;
-                    ss << getColor("compact_display", "(", "red") << "[Display " << idx++ << "]" << r
+                    ss << getColor("compact_display", "[Display]", "red") << "[Display " << idx++ << "]" << r
                         << getColor("compact_display", "->", "blue") << " -> " << r;
 
                     if (isSubEnabled("compact_display", "show_name")) ss << getColor("compact_display", "name_color", "green") << s.brand_name << r;
