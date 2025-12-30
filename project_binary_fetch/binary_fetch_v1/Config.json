@@ -199,11 +199,12 @@
       "internal_text_color": "green",
       "[": "red",
       "]": "red",
-      "(": "green",
-      "/": "red",
+      "(": "cyan",
+      ")": "cyan",
+      "/": "red", 
       "-": "cyan",
-      "used_GIB":"blue",
-      "total_GIB": "blue" 
+      "used_GIB": "blue",
+      "total_GIB": "blue"
     },
     "disk_performance": {
       "header": {

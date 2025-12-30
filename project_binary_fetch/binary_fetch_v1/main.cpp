@@ -641,9 +641,9 @@ int main() {
 
                     // (Used) label
                     if (getNestedBool("storage_summary.show_used_label", true)) {
-                        ss << getNestedColor("storage_summary.(", "green") << " (" << r
+                        ss << getNestedColor("storage_summary.(", "white") << " (" << r
                             << getNestedColor("storage_summary.used_label_color", "green") << "Used" << r
-                            << getNestedColor("storage_summary.)", "green") << ") " << r;
+                            << getNestedColor("storage_summary.)", "white") << ") " << r;
                     }
 
                     // Used space
