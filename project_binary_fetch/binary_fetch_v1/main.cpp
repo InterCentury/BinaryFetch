@@ -1489,9 +1489,76 @@ int main() {
             }
         }
 
+		// end of the User info section////////////////////////////////////////////////
 
+        // Performance Info (JSON Driven)
+        if (isEnabled("performance_info")) {
+            lp.push("");
 
+            // Header
+            if (isSubEnabled("performance_info", "show_header")) {
+                std::ostringstream ss;
+                ss << getColor("performance_info", "#-", "white") << "#- " << r
+                    << getColor("performance_info", "header_text_color", "white") << "Performance Info " << r
+                    << getColor("performance_info", "separator_line", "white")
+                    << "-----------------------------------------------#" << r;
+                lp.push(ss.str());
+            }
 
+            // System Uptime
+            if (isSubEnabled("performance_info", "show_uptime")) {
+                std::ostringstream ss;
+                ss << getColor("performance_info", "~", "white") << "~ " << r
+                    << getColor("performance_info", "label_color", "white") << "System Uptime            " << r
+                    << getColor("performance_info", ":", "white") << ": " << r
+                    << getColor("performance_info", "uptime_value_color", "white") << perf.get_system_uptime() << r;
+                lp.push(ss.str());
+            }
+
+            // CPU Usage
+            if (isSubEnabled("performance_info", "show_cpu_usage")) {
+                std::ostringstream ss;
+                ss << getColor("performance_info", "~", "white") << "~ " << r
+                    << getColor("performance_info", "label_color", "white") << "CPU Usage                " << r
+                    << getColor("performance_info", ":", "white") << ": " << r
+                    << getColor("performance_info", "usage_value_color", "white") << perf.get_cpu_usage_percent() << r
+                    << getColor("performance_info", "%", "white") << "%" << r;
+                lp.push(ss.str());
+            }
+
+            // RAM Usage
+            if (isSubEnabled("performance_info", "show_ram_usage")) {
+                std::ostringstream ss;
+                ss << getColor("performance_info", "~", "white") << "~ " << r
+                    << getColor("performance_info", "label_color", "white") << "RAM Usage                " << r
+                    << getColor("performance_info", ":", "white") << ": " << r
+                    << getColor("performance_info", "usage_value_color", "white") << perf.get_ram_usage_percent() << r
+                    << getColor("performance_info", "%", "white") << "%" << r;
+                lp.push(ss.str());
+            }
+
+            // Disk Usage
+            if (isSubEnabled("performance_info", "show_disk_usage")) {
+                std::ostringstream ss;
+                ss << getColor("performance_info", "~", "white") << "~ " << r
+                    << getColor("performance_info", "label_color", "white") << "Disk Usage               " << r
+                    << getColor("performance_info", ":", "white") << ": " << r
+                    << getColor("performance_info", "usage_value_color", "white") << perf.get_disk_usage_percent() << r
+                    << getColor("performance_info", "%", "white") << "%" << r;
+                lp.push(ss.str());
+            }
+
+            // GPU Usage
+            if (isSubEnabled("performance_info", "show_gpu_usage")) {
+                std::ostringstream ss;
+                ss << getColor("performance_info", "~", "white") << "~ " << r
+                    << getColor("performance_info", "label_color", "white") << "GPU Usage                " << r
+                    << getColor("performance_info", ":", "white") << ": " << r
+                    << getColor("performance_info", "usage_value_color", "white") << perf.get_gpu_usage_percent() << r
+                    << getColor("performance_info", "%", "white") << "%" << r;
+                lp.push(ss.str());
+            }
+        }
 
 
 

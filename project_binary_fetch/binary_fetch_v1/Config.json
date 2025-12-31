@@ -469,5 +469,26 @@
     "username_value_color": "cyan",
     "computer_name_value_color": "cyan",
     "domain_value_color": "cyan"
+  },
+  "performance_info": {
+    "enabled": true,
+    "show_header": true,
+    "show_uptime": true,
+    "show_cpu_usage": true,
+    "show_ram_usage": true,
+    "show_disk_usage": true,
+    "show_gpu_usage": true,
+
+    "#-": "cyan",
+    "~": "cyan",
+    ":": "cyan",
+    "%": "cyan",
+    "separator_line": "cyan",
+
+    "header_text_color": "cyan",
+    "label_color": "cyan",
+
+    "uptime_value_color": "cyan",
+    "usage_value_color": "cyan"
   }
 }
