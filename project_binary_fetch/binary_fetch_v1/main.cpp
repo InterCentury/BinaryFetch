@@ -925,6 +925,96 @@ int main() {
                 lp.push(ss.str());
             }
         }
+// end of the detailed network section////////////////////////////////////////////////
+
+
+
+        // OS Info (JSON Driven)
+        if (isEnabled("os_info")) {
+            lp.push("");
+
+            // Header
+            if (isSubEnabled("os_info", "show_header")) {
+                std::ostringstream ss;
+                ss << getColor("os_info", "#-", "blue") << "#- " << r
+                    << getColor("os_info", "header_text_color", "green") << "Operating System " << r
+                    << getColor("os_info", "separator_line", "blue")
+                    << "-----------------------------------------------#" << r;
+                lp.push(ss.str());
+            }
+
+            // Name
+            if (isSubEnabled("os_info", "show_name")) {
+                std::ostringstream ss;
+                ss << getColor("os_info", "~", "blue") << "~ " << r
+                    << getColor("os_info", "label_color", "green") << "Name                      " << r
+                    << getColor("os_info", ":", "blue") << ": " << r
+                    << getColor("os_info", "name_value_color", "yellow") << os.GetOSName() << r;
+                lp.push(ss.str());
+            }
+
+            // Build
+            if (isSubEnabled("os_info", "show_build")) {
+                std::ostringstream ss;
+                ss << getColor("os_info", "~", "blue") << "~ " << r
+                    << getColor("os_info", "label_color", "green") << "Build                     " << r
+                    << getColor("os_info", ":", "blue") << ": " << r
+                    << getColor("os_info", "build_value_color", "yellow") << os.GetOSVersion() << r;
+                lp.push(ss.str());
+            }
+
+            // Architecture
+            if (isSubEnabled("os_info", "show_architecture")) {
+                std::ostringstream ss;
+                ss << getColor("os_info", "~", "blue") << "~ " << r
+                    << getColor("os_info", "label_color", "green") << "Architecture              " << r
+                    << getColor("os_info", ":", "blue") << ": " << r
+                    << getColor("os_info", "arch_value_color", "cyan") << os.GetOSArchitecture() << r;
+                lp.push(ss.str());
+            }
+
+            // Kernel
+            if (isSubEnabled("os_info", "show_kernel")) {
+                std::ostringstream ss;
+                ss << getColor("os_info", "~", "blue") << "~ " << r
+                    << getColor("os_info", "label_color", "green") << "Kernel                    " << r
+                    << getColor("os_info", ":", "blue") << ": " << r
+                    << getColor("os_info", "kernel_value_color", "cyan") << os.get_os_kernel_info() << r;
+                lp.push(ss.str());
+            }
+
+            // Uptime
+            if (isSubEnabled("os_info", "show_uptime")) {
+                std::ostringstream ss;
+                ss << getColor("os_info", "~", "blue") << "~ " << r
+                    << getColor("os_info", "label_color", "green") << "Uptime                    " << r
+                    << getColor("os_info", ":", "blue") << ": " << r
+                    << getColor("os_info", "uptime_value_color", "magenta") << os.get_os_uptime() << r;
+                lp.push(ss.str());
+            }
+
+            // Install Date
+            if (isSubEnabled("os_info", "show_install_date")) {
+                std::ostringstream ss;
+                ss << getColor("os_info", "~", "blue") << "~ " << r
+                    << getColor("os_info", "label_color", "green") << "Install Date              " << r
+                    << getColor("os_info", ":", "blue") << ": " << r
+                    << getColor("os_info", "install_date_value_color", "magenta")
+                    << os.get_os_install_date() << r;
+                lp.push(ss.str());
+            }
+
+            // Serial
+            if (isSubEnabled("os_info", "show_serial")) {
+                std::ostringstream ss;
+                ss << getColor("os_info", "~", "blue") << "~ " << r
+                    << getColor("os_info", "label_color", "green") << "Serial                    " << r
+                    << getColor("os_info", ":", "blue") << ": " << r
+                    << getColor("os_info", "serial_value_color", "yellow")
+                    << os.get_os_serial_number() << r;
+                lp.push(ss.str());
+            }
+        }
 
 
  

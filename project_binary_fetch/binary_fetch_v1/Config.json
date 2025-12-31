@@ -299,6 +299,36 @@
     "mac_value_color": "cyan",
     "upload_value_color": "blue",
     "download_value_color": "blue"
+  },
+
+  "os_info": {
+    "enabled": true,
+
+    "show_header": true,
+    "show_name": true,
+    "show_build": true,
+    "show_architecture": true,
+    "show_kernel": true,
+    "show_uptime": true,
+    "show_install_date": true,
+    "show_serial": true,
+
+    "#-": "cyan",
+    "~": "cyan",
+    ":": "cyan",
+    "separator_line": "cyan",
+
+    "header_text_color": "cyan",
+    "label_color": "cyan",
+
+    "name_value_color": "cyan",
+    "build_value_color": "cyan",
+    "arch_value_color": "cyan",
+    "kernel_value_color": "cyan",
+    "uptime_value_color": "cyan",
+    "install_date_value_color": "cyan",
+    "serial_value_color": "cyan"
   }
+
 
 }
