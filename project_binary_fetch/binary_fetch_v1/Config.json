@@ -367,8 +367,43 @@
     "l1_cache_value_color": "cyan",
     "l2_cache_value_color": "cyan",
     "l3_cache_value_color": "cyan"
+  },
+
+  "gpu_info": {
+    "enabled": true,
+    "show_header": true,
+    "show_gpu_index": true,
+    "show_name": true,
+    "show_memory": true,
+    "show_usage": true,
+    "show_vendor": true,
+    "show_driver": true,
+    "show_temperature": true,
+    "show_cores": true,
+    "show_primary_details": true,
+
+    "#-": "cyan",
+    "|->": "cyan",
+    "#->": "cyan",
+    ":": "cyan",
+    "%": "cyan",
+    "unit_color": "cyan",
+    "separator_line": "cyan",
+
+    "header_text_color": "cyan",
+    "primary_header_color": "cyan",
+    "gpu_label_color": "cyan",
+    "label_color": "cyan",
+    "error_color": "cyan",
+
+    "name_value_color": "cyan",
+    "memory_value_color": "cyan",
+    "usage_value_color": "cyan",
+    "vendor_value_color": "cyan",
+    "driver_value_color": "cyan",
+    "temp_value_color": "cyan",
+    "cores_value_color": "cyan",
+    "freq_value_color": "cyan"
   }
-
-
 
 }
