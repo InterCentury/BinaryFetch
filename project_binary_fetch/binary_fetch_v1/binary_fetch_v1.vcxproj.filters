@@ -241,5 +241,8 @@
     <None Include="Config.json">
       <Filter>Config</Filter>
     </None>
+    <None Include="AsciiArt_Documentation.md">
+      <Filter>Resources</Filter>
+    </None>
   </ItemGroup>
 </Project>

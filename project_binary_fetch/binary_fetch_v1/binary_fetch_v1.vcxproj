@@ -104,6 +104,7 @@
     <ClCompile Include="UserInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="AsciiArt_Documentation.md" />
     <None Include="Documentation\BinaryFetch documentation.md" />
     <None Include="Config.json" />
     <None Include="text infos\BinaryFetch Community.md" />
