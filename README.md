@@ -27,7 +27,7 @@ BinaryFetch guarantees that **the program never crashes due to missing user file
 If a user:
 
 * deletes `BinaryArt.txt`
-* deletes `BinaryFetch.json`
+* deletes `BinaryFetch_Config.json`
 * corrupts configuration
 * runs BinaryFetch for the first time
 
@@ -74,19 +74,19 @@ Use `$n` in your `BinaryArt.txt` file where `n` is the color number:
 
 **Single color per line:**
 ```
-$1⠀⣄⠀⠀⠏⣤⣤⣀⡀⠀⠀⠀⠀⠀⠾⢯⣀
+$1⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
 ```
 Output: Entire line in red
 
 **Multiple colors per line:**
 ```
-$2⠀⡠⠋⡤⠠$3⢀⠐⠁⠀⠈$1⣙⢯⡃⠀⢈⡻⣦
+$2⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
 ```
 Output: Green → Yellow → Red
 
 **No color (default white):**
 ```
-⠀⠀⣻⠃⠀⣰⡿⠛⠁⠀⠀⠀⢤⣀⡀⠀⠺⣿⡟⠛⠁
+⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
 ```
 Output: Standard white text
 ---
