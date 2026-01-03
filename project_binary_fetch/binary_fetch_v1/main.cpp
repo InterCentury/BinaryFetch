@@ -74,7 +74,7 @@ it is a sign that the logic should be moved into a new module.
 */
 
 
-int main() {
+int main(){
     // ========== SIMPLIFIED ASCII ART LOADING ==========
         // Just call loadFromFile() - it handles everything automatically!
         // - Checks C:\Users\<User>\AppData\BinaryFetch\BinaryArt.txt
@@ -174,6 +174,8 @@ int main() {
         {"bright_white", "\033[97m"}, {"reset", "\033[0m"}
     };
 
+    /*
+    
     // 2. Load Config from USER LOCATION (not Default_ file)
     std::ifstream config_file(userConfigPath);
     json config;
@@ -186,8 +188,40 @@ int main() {
         catch (const std::exception& e) {}
         config_file.close();
     }
+    
+    */
 
-    // 3. Helper functions - FIXED VERSION
+
+
+// ================= CONFIG LOAD SWITCH =================
+// true  = load Default_BinaryFetch_Config.json
+// false = load user config from AppData
+    bool LOAD_DEFAULT_CONFIG = true;
+    // ======================================================
+
+
+    // 2. Load Config (user OR default based on flag)
+    json config;
+    bool config_loaded = false;
+
+    std::string configPath = LOAD_DEFAULT_CONFIG
+        ? "Default_BinaryFetch_Config.json"
+        : userConfigPath;
+
+    std::ifstream config_file(configPath);
+    if (config_file.is_open()) {
+        try {
+            config = json::parse(config_file);
+            config_loaded = true;
+        }
+        catch (const std::exception&) {
+            // silently fail, fallback behavior handled elsewhere
+        }
+        config_file.close();
+    }
+
+
+    // 3. Helper functions
     auto getColor = [&](const std::string& section, const std::string& key, const std::string& defaultColor = "white") -> std::string {
         if (!config_loaded || !config.contains(section)) return colors[defaultColor];
 
@@ -224,6 +258,13 @@ int main() {
         return config[module]["sections"].value(section, true);
         };
 
+    // Helper for nested section enabled status (for compact_time style)
+    auto isNestedEnabled = [&](const std::string& module, const std::string& section, const std::string& key) -> bool {
+        if (!config_loaded || !config.contains(module)) return true;
+        if (!config[module].contains(section)) return true;
+        return config[module][section].value(key, true);
+        };
+
     std::string r = colors["reset"];
 
 
@@ -239,7 +280,8 @@ int main() {
         }
 
         // Compact Time
-        if (isEnabled("compact_time")) {
+        if (isEnabled("compact_time"))
+        {
             TimeInfo time;
             std::ostringstream ss;
 
@@ -289,7 +331,8 @@ int main() {
             }
 
             // ---------- DATE SECTION ----------
-            if (isSubEnabled("compact_time", "date_section.enabled")) {
+            if (isSubEnabled("compact_time", "date_section.enabled"))
+            {
                 ss << getTimeColor("date_section", "bracket", "white") << "(" << r;
 
                 if (isSubEnabled("compact_time", "date_section.show_label")) {
@@ -327,14 +370,14 @@ int main() {
             }
 
             // ---------- WEEK SECTION ----------
-            if (isSubEnabled("compact_time", "week_section.enabled")) {
+            if (isNestedEnabled("compact_time", "week_section", "enabled")) {
                 ss << getTimeColor("week_section", "bracket", "white") << "(" << r;
 
-                if (isSubEnabled("compact_time", "week_section.show_label")) {
+                if (isNestedEnabled("compact_time", "week_section", "show_label")) {
                     ss << getTimeColor("week_section", "label", "white") << "Week: " << r;
                 }
 
-                if (isSubEnabled("compact_time", "week_section.show_num")) {
+                if (isNestedEnabled("compact_time", "week_section", "show_num")) {
                     ss << getTimeColor("week_section", "num", "white")
                         << time.getWeekNumber() << r;
                 }
@@ -343,22 +386,20 @@ int main() {
             }
 
             // ---------- LEAP YEAR SECTION ----------
-            if (isSubEnabled("compact_time", "leap_section.enabled")) {
+            if (isNestedEnabled("compact_time", "leap_section", "enabled")) {
                 ss << getTimeColor("leap_section", "bracket", "white") << "(" << r;
 
-                if (isSubEnabled("compact_time", "leap_section.show_label")) {
+                if (isNestedEnabled("compact_time", "leap_section", "show_label")) {
                     ss << getTimeColor("leap_section", "label", "white") << "Leap Year: " << r;
                 }
 
-                if (isSubEnabled("compact_time", "leap_section.show_val")) {
+                if (isNestedEnabled("compact_time", "leap_section", "show_val")) {
                     ss << getTimeColor("leap_section", "val", "white")
                         << time.getLeapYear() << r;
                 }
 
                 ss << getTimeColor("leap_section", "bracket", "white") << ")" << r;
             }
-
-            lp.push(ss.str());
         }
 
         // Compact OS
@@ -1869,946 +1910,7 @@ int main() {
 
     //----------------- END OF JSON-CONTROLLED COMPACT SECTIONS -----------------//
 
-    
-
-
-
-    // ---------------- Now stream info line-by-line ----------------
-    // please don't use "cout" directly - use lp.push() instead!
-    // "cout" could break the ascii art alignment.
-    // Each lp.push() call prints the next art line + info line.
-    // Don't use: cout << "some info" << endl;
-    // Instead use: (example)
-    // {
-    //    std::ostringstream ss;
-    //    ss << "~>> " << "BinaryFetch" << "_____________________________________________________";
-    //    lp.push(ss.str());
-    // }
-
-    // Header
-    //lp.push(""); // keep art line similar as cout << endl; 
-
-
-    //comment the previous header of binaryfetch
-    //lp.push("~>> BinaryFetch_____________________________________________________");
-
-    // ANSI color definitions---------------------------------------------------
-
-    const std::string reset = "\033[0m";
-    // -----------------------------
-    // ANSI RESET CODE
-    // -----------------------------
-    // The 'reset' string holds the ANSI escape sequence to reset
-    // all terminal text formatting, including colors, bold, underline, etc.
-    // Usage:
-    //     std::cout << "\033[31mRed Text" << reset << " Normal Text\n";
-    // This ensures that after printing colored text, subsequent output
-    // returns to the terminal's default style.
-    // ---------------------------------------------------------------------------
-
-
-    const std::string red = "\033[31m";
-    const std::string green = "\033[32m";
-    const std::string yellow = "\033[33m";
-    const std::string blue = "\033[34m";
-    const std::string magenta = "\033[35m";
-    const std::string cyan = "\033[36m";
-    const std::string white = "\033[37m";
-    const std::string bright_red = "\033[91m";
-    const std::string bright_green = "\033[92m";
-    const std::string bright_yellow = "\033[93m";
-    const std::string bright_blue = "\033[94m";
-    const std::string bright_magenta = "\033[95m";
-    const std::string bright_cyan = "\033[96m";
-    const std::string bright_white = "\033[97m";
-
-
-    //BinaryFetch Header-----------------------------------------------#
-    {
-        // Colored header
-        std::ostringstream ss;
-        ss << bright_red << "~>> " << reset
-            << green << "BinaryFetch" << reset
-            << red << "_____________________________________________________" << reset;
-        lp.push(ss.str());
-    }
-//---------------------beginning of compact section-----------------------
-
-/**/
-
-
-// compact  OS----------------------------------------------------------
-    {
-        std::ostringstream ss;
-        ss << red << "[OS]" << reset << blue << "  -> " << reset
-            << green << c_os.getOSName() << reset << " "
-            << yellow << c_os.getOSBuild() << reset
-            << red << " (" << reset << cyan << c_os.getArchitecture() << reset << red << ")" << reset
-            << red << " (" << reset << green << "uptime: " << reset << magenta << c_os.getUptime() << reset << red << ")" << reset;
-        lp.push(ss.str());
-    }
-
-    // compact CPU ----------------------------------------------------------
-    {
-        std::ostringstream ss;
-        ss << red << "[CPU]" << reset << blue << " -> " << reset
-            << green << c_cpu.getCPUName() << reset
-            << red << " (" << reset << yellow << c_cpu.getCPUCores() << reset << green << "C" << reset << blue << "/" << reset
-            << yellow << c_cpu.getCPUThreads() << reset << green << "T" << reset << red << ")" << reset
-            << std::fixed << std::setprecision(2)
-            << green << " @" << reset << cyan << " " << c_cpu.getClockSpeed() << " GHz" << reset;
-        lp.push(ss.str());
-    }
-
-    // compact Displays ----------------------------------------------------------
-    {
-        auto screens = c_screen.get_screens();
-        int idx = 1;
-        if (screens.empty()) {
-            lp.push(red + "[Display]" + reset + blue + " -> " + reset + "No displays detected");
-        }
-        else {
-            for (const auto& s : screens) {
-                std::ostringstream ss;
-                ss << red << "[Display " << idx++ << "]" << reset << blue << " -> " << reset
-                    << green << s.brand_name << reset
-                    << red << " (" << reset << yellow << s.resolution << reset << red << ") " << reset
-                    << green << "@" << reset << cyan << s.refresh_rate << "Hz" << reset;
-                lp.push(ss.str());
-            }
-        }
-    }
-
-    // compact memory (ram) ----------------------------------------------------------
-    {
-        std::ostringstream ss;
-        ss << red << "[Memory]" << reset << blue << " -> " << reset
-            << red << "(" << reset << green << "total: " << reset << green << c_memory.get_total_memory() << " GB" << reset << red << ")" << reset
-            << red << " (" << reset << green << "free: " << reset << yellow << c_memory.get_free_memory() << " GB" << reset << red << ")" << reset
-            << red << " (" << reset << magenta << c_memory.get_used_memory_percent() << "%" << reset << red << ")" << reset;
-        lp.push(ss.str());
-    }
-
-    //compact Audio----------------------------------------------------------
-    {
-        std::ostringstream ss1, ss2;
-        ss1 << red << "[Audio Input]" << reset << blue << " -> " << reset
-            << green << c_audio.active_audio_input() << reset << " "
-            << red << "[" << reset << yellow << c_audio.active_audio_input_status() << reset << red << "]" << reset;
-        ss2 << red << "[Audio Output]" << reset << blue << " -> " << reset
-            << green << c_audio.active_audio_output() << reset << " "
-            << red << "[" << reset << yellow << c_audio.active_audio_output_status() << reset << red << "]" << reset;
-        lp.push(ss1.str());
-        lp.push(ss2.str());
-    }
-
-    // GPU minimal----------------------------------------------------------
-    {
-        std::ostringstream ss;
-        ss << red << "[GPU]" << reset << blue << " -> " << reset
-            << blue << c_gpu.getGPUName() << reset
-            << red << " (" << reset << yellow << c_gpu.getGPUUsagePercent() << "%" << reset << red << ")" << reset
-            << red << " (" << reset << cyan << c_gpu.getVRAMGB() << " GB" << reset << red << ")" << reset
-            << red << " (" << reset << green << "@" << reset << magenta << c_gpu.getGPUFrequency() << reset << red << ")" << reset;
-        lp.push(ss.str());
-    }
-
-    // Minimal Performance----------------------------------------------------------
-    {
-        std::ostringstream ss;
-        ss << red << "[Performance]" << reset << blue << " -> " << reset
-            << red << "(" << reset << green << "CPU: " << reset << green << c_perf.getCPUUsage() << "%" << reset << red << ") " << reset
-            << red << "(" << reset << green << "GPU: " << reset << yellow << c_perf.getGPUUsage() << "%" << reset << red << ") " << reset
-            << red << "(" << reset << green << "RAM: " << reset << cyan << c_perf.getRAMUsage() << "%" << reset << red << ") " << reset
-            << red << "(" << reset << green << "Disk: " << reset << magenta << c_perf.getDiskUsage() << "%" << reset << red << ")" << reset;
-        lp.push(ss.str());
-    }
-
-    // compact User----------------------------------------------------------
-    {
-        std::ostringstream ss;
-        ss << red << "[User]" << reset << blue << " -> " << reset
-            << green << "@" << c_user.getUsername() << reset
-            << blue << " -> " << reset << red << "(" << reset << green << "Domain: " << reset << yellow << c_user.getDomain() << reset << red << ")" << reset
-            << blue << " -> " << reset << red << "(" << reset << green << "Type: " << reset << cyan << c_user.isAdmin() << reset << red << ")" << reset;
-        lp.push(ss.str());
-    }
-
-
-  
-  // Network minimal (commented)
-   {
-       std::ostringstream ss;
-       ss << red << "[network]" << reset << blue << " -> " << reset
-          << green << "(" << reset << green << "Name: " << reset << green << c_net.get_network_name() << reset << green << ") " << reset
-          << green << "(" << reset << green << "Type: " << reset << yellow << c_net.get_network_type() << reset << green << ") " << reset
-          << green << "(" << reset << green << "ip: " << reset << magenta << c_net.get_network_ip() << reset << green << ")" << reset;
-       lp.push(ss.str());
-   }
-   
-
-    
-
-    // Disk usage (compact)----------------------------------------------------------
-    {
-        auto disks = disk.getAllDiskUsage();
-        std::ostringstream ss;
-        ss << red << "[Disk]" << reset << blue << " -> " << reset;
-        for (const auto& d : disks) {
-            ss << red << "(" << reset << green << d.first[0] << ":" << reset
-                << " " << yellow << std::fixed << std::setprecision(1) << d.second << "%" << reset << red << ") " << reset;
-        }
-        lp.push(ss.str());
-
-        // Disk capacities----------------------------------------------------------
-        auto caps = disk.getDiskCapacity();
-        std::ostringstream sc;
-        sc << red << "[Disk Cap]" << reset << blue << " -> " << reset;
-        for (const auto& c : caps) {
-            sc << red << "(" << reset << green << c.first[0] << reset << blue << "-" << reset
-                << yellow << c.second << "GB" << reset << red << ")" << reset;
-        }
-        lp.push(sc.str());
-    }
-
-    //-------------------------------------end of compact section---------------------------------
-
-    // Full detailed section (Memory Info)
-    {
-        lp.push(""); // blank line
-        {
-            {
-                std::ostringstream ss;
-                ss << blue << "----------------" << reset
-                    << red << "Memory Info" << reset
-                    << blue << "---------------" << reset;
-                lp.push(ss.str());
-            }
-
-
-
-            // RAM minimal
-            {
-                std::ostringstream ss;
-
-                // Prefix
-                // ss << red << "[RAM]" << reset << blue << " -> " << reset;
-                // Total Section
-                ss << blue << "(" << reset << green << "Total: " << reset
-                    << yellow << ram.getTotal() << reset << green << " GB" << reset << blue << ") " << reset;
-                // Free Section
-                ss << blue << "(" << reset << green << "Free: " << reset
-                    << cyan << ram.getFree() << reset << green << " GB" << reset << blue << ") " << reset;
-                // Used Section
-                ss << blue << "(" << reset << green << "Used: " << reset
-                    << red << ram.getUsedPercentage() << reset << red << "%" << reset << blue << ")" << reset;
-                lp.push(ss.str());
-            }
-
-        }
-
-        const auto& modules = ram.getModules();
-        for (size_t i = 0; i < modules.size(); ++i) {
-            // --- Zero-pad capacity ---
-            std::string cap = modules[i].capacity;   // e.g. "8GB"
-            int num = 0;
-            try { num = std::stoi(cap); }
-            catch (...) { num = 0; }
-            std::ostringstream capOut;
-            capOut << std::setw(2) << std::setfill('0') << num << "GB";
-
-            {
-                std::ostringstream ss;
-                // Structural Marker and Label
-                ss << blue << "~ " << reset << magenta << "Memory " << i << reset
-                    << blue << ": " << reset;
-
-                // Used Percentage in parentheses
-                ss << blue << "(" << reset << green << "Used: " << reset
-                    << red << ram.getUsedPercentage() << reset << red << "%" << reset
-                    << blue << ") " << reset;
-
-                // Capacity, Type, and Speed
-                ss << green << capOut.str() << reset << " "
-                    << cyan << modules[i].type << reset << " "
-                    << yellow << modules[i].speed << reset;
-
-                lp.push(ss.str());
-            }
-
-        }
-    }
-
-
-
-
-
-
-
-    // Storage Info (detailed) - STREAMING VERSION
-    {
-        lp.push("");
-        {
-            std::ostringstream ss;
-            ss << red << "------------------------- " << reset
-                << blue << "STORAGE SUMMARY" << reset
-                << red << " --------------------------" << reset;
-            lp.push(ss.str());
-        }
-
-
-        auto fmt_storage = [](const std::string& s) -> std::string {
-            std::ostringstream oss;
-            double v = 0.0;
-            try { v = stod(s); }
-            catch (...) { v = 0.0; }
-            oss << std::fixed << std::setprecision(2)
-                << std::setw(7) << std::right << std::setfill(' ')
-                << v;
-            return oss.str();
-            };
-
-        auto fmt_speed = [](const std::string& s) -> std::string {
-            std::ostringstream tmp;
-            double v = 0.0;
-            try { v = stod(s); }
-            catch (...) { v = 0.0; }
-            tmp << std::fixed << std::setprecision(2) << v;
-            std::string val = tmp.str();
-            int padding = 7 - (int)val.size();
-            if (padding < 0) padding = 0;
-            return std::string(padding, ' ') + val;
-            };
-
-        // Track disks for later sections
-        std::vector<storage_data> all_disks_captured;
-
-        // Process each disk as it's ready
-        storage.process_storage_info([&](const storage_data& d) {
-            // Store for later sections
-            all_disks_captured.push_back(d);
-
-            // Build and push SUMMARY line immediately
-            std::ostringstream ss;
-            // Keeping your original structure: [ (Used) fmt GiB / fmt GiB % - fs Ext ]
-            ss << yellow << d.storage_type << reset << " "
-                << cyan << d.drive_letter << reset
-                << green << " [" << reset << green << " (" << reset << green << "Used" << reset << green << ") " << reset
-                << green << fmt_storage(d.used_space) << reset
-                << green << " GiB " << reset << green << "/" << reset << green << fmt_storage(d.total_space) << reset
-                << green << " GiB  " << reset << red << d.used_percentage << reset
-                << green << " - " << reset << magenta << d.file_system << reset << " "
-                << (d.is_external ? blue : white) << (d.is_external ? "Ext" : "Int") << reset
-                << green << " ]" << reset;
-            lp.push(ss.str());
-
-            });
-
-        // Now print performance sections using captured data
-        if (!all_disks_captured.empty()) {
-            lp.push("");
-
-            {
-                std::ostringstream ss;
-                ss << red << "-------------------- " << reset
-                    << blue << "DISK PERFORMANCE & DETAILS" << reset
-                    << red << " --------------------" << reset;
-                lp.push(ss.str());
-            }
-
-
-            for (const auto& d : all_disks_captured) {
-
-                std::ostringstream ss;
-                ss << cyan << d.drive_letter << reset
-                    << green << " [" << reset << " "
-                    << green << "Read:" << reset << " "
-                    << yellow << fmt_speed(d.read_speed) << reset
-                    << green << " MB/s " << reset << green << "|" << reset << " "
-                    << green << "Write:" << reset << " "
-                    << yellow << fmt_speed(d.write_speed) << reset
-                    << green << " MB/s " << reset << green << "|" << reset << " "
-                    << magenta << d.serial_number << reset
-                    << (d.is_external ? blue : white) << (d.is_external ? " Ext" : " Int") << reset
-                    << green << " ]" << reset;
-                lp.push(ss.str());
-            }
-
-            lp.push("");
-            {
-                std::ostringstream ss;
-                ss << red << "---------------- " << reset
-                    << blue << "DISK PERFORMANCE & DETAILS (Predicted)" << reset
-                    << red << " ------------" << reset;
-                lp.push(ss.str());
-            }
-
-
-            for (const auto& d : all_disks_captured) {
-                std::ostringstream ss;
-                ss << cyan << d.drive_letter << reset
-                    << green << " [" << reset << " "
-                    << green << "Read: " << reset
-                    << yellow << fmt_speed(d.predicted_read_speed) << reset
-                    << green << " MB/s " << reset << green << "|" << reset << " "
-                    << green << "Write: " << reset
-                    << yellow << fmt_speed(d.predicted_write_speed) << reset
-                    << green << " MB/s " << reset << green << "|" << reset << " "
-                    << magenta << d.serial_number << reset
-                    << (d.is_external ? blue : white) << (d.is_external ? " Ext" : " Int") << reset
-                    << green << " ]" << reset;
-                lp.push(ss.str());
-            }
-        }
-        else {
-            lp.push("No drives detected.");
-        }
-    }
-
-    // Network (Compact + Extra)
-    {
-        {
-            std::ostringstream ss;
-            ss << blue << "#- " << reset << green << "Network Info " << reset
-                << blue << "----------------------------------------------------#" << reset;
-            lp.push(ss.str());
-        }
-
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Network Name              " << reset
-                << blue << ": " << reset << yellow << net.get_network_name() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Network Type              " << reset
-                << blue << ": " << reset << yellow << c_net.get_network_type() << reset;
-            lp.push(ss.str());
-        }
-
-        /* temporary hide public ip due to privacy concerns
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "IP                        " << reset
-               << blue << ": " << reset << magenta << net.get_public_ip() << reset;
-            lp.push(ss.str());
-        }
-        */
-        {
-            // dummy public ip for testing and privacy
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "IP                        " << reset
-                << blue << ": " << reset << magenta << "12.23.34.5.345" << reset;
-            lp.push(ss.str());
-        }
-
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Locale                    " << reset
-                << blue << ": " << reset << cyan << net.get_locale() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Mac address               " << reset
-                << blue << ": " << reset << cyan << net.get_mac_address() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "avg upload speed          " << reset
-                << blue << ": " << reset << yellow << net.get_network_upload_speed() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "avg download speed        " << reset
-                << blue << ": " << reset << yellow << net.get_network_download_speed() << reset;
-            lp.push(ss.str());
-        }
-    }
-
-
-
-
-    // OS Info
-    {
-        lp.push("");
-        {
-            std::ostringstream ss;
-            ss << blue << "#- " << reset << green << "Operating System " << reset
-                << blue << "-----------------------------------------------#" << reset;
-            lp.push(ss.str());
-        }
-
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Name                      " << reset
-                << blue << ": " << reset << yellow << os.GetOSName() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Build                     " << reset
-                << blue << ": " << reset << yellow << os.GetOSVersion() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Architecture              " << reset
-                << blue << ": " << reset << cyan << os.GetOSArchitecture() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Kernel                    " << reset
-                << blue << ": " << reset << cyan << os.get_os_kernel_info() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Uptime                    " << reset
-                << blue << ": " << reset << magenta << os.get_os_uptime() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Install Date              " << reset
-                << blue << ": " << reset << magenta << os.get_os_install_date() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Serial                    " << reset
-                << blue << ": " << reset << yellow << os.get_os_serial_number() << reset;
-            lp.push(ss.str());
-        }
-    }
-
-
-    // CPU Info
-    {
-        lp.push("");
-        {
-            std::ostringstream ss;
-            ss << blue << "#- " << reset << green << "CPU Info " << reset
-                << blue << "-------------------------------------------------------#" << reset;
-            lp.push(ss.str());
-        }
-
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Brand                    " << reset
-                << blue << ": " << reset << yellow << cpu.get_cpu_info() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Utilization              " << reset
-                << blue << ": " << reset << red << cpu.get_cpu_utilization() << reset << green << "%" << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Speed                    " << reset
-                << blue << ": " << reset << cyan << cpu.get_cpu_speed() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Base Speed               " << reset
-                << blue << ": " << reset << cyan << cpu.get_cpu_base_speed() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Cores                    " << reset
-                << blue << ": " << reset << yellow << cpu.get_cpu_cores() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Logical Processors       " << reset
-                << blue << ": " << reset << yellow << cpu.get_cpu_logical_processors() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Sockets                  " << reset
-                << blue << ": " << reset << yellow << cpu.get_cpu_sockets() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Virtualization           " << reset
-                << blue << ": " << reset << cyan << cpu.get_cpu_virtualization() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "L1 Cache                 " << reset
-                << blue << ": " << reset << magenta << cpu.get_cpu_l1_cache() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "L2 Cache                 " << reset
-                << blue << ": " << reset << magenta << cpu.get_cpu_l2_cache() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "L3 Cache                 " << reset
-                << blue << ": " << reset << magenta << cpu.get_cpu_l3_cache() << reset;
-            lp.push(ss.str());
-        }
-    }
-
-   
-// GPU Info (detailed)-------------------------------------------------------------
-    {
-        lp.push("");
-        auto all_gpu_info = obj_gpu.get_all_gpu_info();
-        if (all_gpu_info.empty()) {
-            std::ostringstream ss;
-            ss << blue << "#- " << reset << green << "GPU Info " << reset
-                << blue << "--------------------------------------------------------#" << reset;
-            lp.push(ss.str());
-
-            lp.push(red + "No GPU detected." + reset);
-        }
-        else {
-            {
-                std::ostringstream ss;
-                ss << blue << "#- " << reset << green << "GPU Info " << reset
-                    << blue << "-------------------------------------------------------#" << reset;
-                lp.push(ss.str());
-            }
-
-            for (size_t i = 0; i < all_gpu_info.size(); ++i) {
-                auto& g = all_gpu_info[i];
-
-                // GPU index line
-                {
-                    std::ostringstream label;
-                    if (i == 0) {
-                        label << blue << "GPU " << (i + 1) << reset;
-                    }
-                    else {
-                        label << blue << "#-" << reset << green << "GPU " << (i + 1) << reset
-                            << blue << "------------------------------------------------------------#" << reset;
-                    }
-
-                    std::string lbl = label.str();
-                    // Note: Padding logic remains, but be aware color codes add 'invisible' length
-                    if (lbl.length() < 27) lbl += std::string(27 - lbl.length(), ' ');
-                    lp.push(lbl);
-                }
-
-                {
-                    std::ostringstream ss;
-                    ss << blue << "|-> " << reset << green << "Name                   " << reset
-                        << blue << ": " << reset << yellow << g.gpu_name << reset;
-                    lp.push(ss.str());
-                }
-                {
-                    std::ostringstream ss;
-                    ss << blue << "|-> " << reset << green << "Memory                 " << reset
-                        << blue << ": " << reset << cyan << g.gpu_memory << reset;
-                    lp.push(ss.str());
-                }
-                {
-                    std::ostringstream ss;
-                    ss << blue << "|-> " << reset << green << "Usage                  " << reset
-                        << blue << ": " << reset << red << g.gpu_usage << reset << green << "%" << reset;
-                    lp.push(ss.str());
-                }
-                {
-                    std::ostringstream ss;
-                    ss << blue << "|-> " << reset << green << "Vendor                 " << reset
-                        << blue << ": " << reset << yellow << g.gpu_vendor << reset;
-                    lp.push(ss.str());
-                }
-                {
-                    std::ostringstream ss;
-                    ss << blue << "|-> " << reset << green << "Driver Version         " << reset
-                        << blue << ": " << reset << cyan << g.gpu_driver_version << reset;
-                    lp.push(ss.str());
-                }
-                {
-                    std::ostringstream ss;
-                    ss << blue << "|-> " << reset << green << "Temperature            " << reset
-                        << blue << ": " << reset << magenta << g.gpu_temperature << reset << green << " C" << reset;
-                    lp.push(ss.str());
-                }
-                {
-                    std::ostringstream ss;
-                    ss << blue << "#-> " << reset << green << "Core Count             " << reset
-                        << blue << ": " << reset << yellow << g.gpu_core_count << reset;
-                    lp.push(ss.str());
-                }
-            }
-
-            auto primary = detailed_gpu_info.primary_gpu_info();
-            {
-                std::ostringstream ss;
-                ss << blue << "#- " << reset << green << "Primary GPU Details" << reset
-                    << blue << "---------------------------------------------#" << reset;
-                lp.push(ss.str());
-            }
-            {
-                std::ostringstream ss;
-                ss << blue << "|-> " << reset << green << "Name                   " << reset
-                    << blue << ": " << reset << yellow << primary.name << reset;
-                lp.push(ss.str());
-            }
-            {
-                std::ostringstream ss;
-                ss << blue << "|-> " << reset << green << "VRAM                   " << reset
-                    << blue << ": " << reset << cyan << primary.vram_gb << reset << green << " GiB" << reset;
-                lp.push(ss.str());
-            }
-            {
-                std::ostringstream ss;
-                ss << blue << "#-> " << reset << green << "Frequency              " << reset
-                    << blue << ": " << reset << magenta << primary.frequency_ghz << reset << green << " GHz" << reset;
-                lp.push(ss.str());
-            }
-        }
-    }
-
-    // Display Info
-    {
-        lp.push("");
-        auto monitors = display.get_all_displays();
-        if (monitors.empty()) {
-            std::ostringstream ss;
-            ss << blue << "#- " << reset << red << "Display" << reset
-                << blue << " ----------------------------------------------------------#" << reset;
-            lp.push(ss.str());
-            lp.push(red + "No monitors detected." + reset);
-        }
-        else {
-            for (size_t i = 0; i < monitors.size(); ++i) {
-                auto& m = monitors[i];
-                {
-                    std::ostringstream ss;
-                    ss << blue << "#- " << reset << green << "Monitor " << (i + 1) << " " << reset
-                        << blue << "--------------------------------------------------------#" << reset;
-                    lp.push(ss.str());
-                }
-                {
-                    std::ostringstream ss;
-                    ss << blue << "~ " << reset << green << "Brand                    " << reset
-                        << blue << ": " << reset << yellow << m.brand_name << reset;
-                    lp.push(ss.str());
-                }
-                {
-                    std::ostringstream ss;
-                    ss << blue << "~ " << reset << green << "Resolution               " << reset
-                        << blue << ": " << reset << cyan << m.resolution << reset;
-                    lp.push(ss.str());
-                }
-                {
-                    std::ostringstream ss;
-                    ss << blue << "~ " << reset << green << "Refresh Rate             " << reset
-                        << blue << ": " << reset << magenta << m.refresh_rate << reset << green << " Hz" << reset;
-                    lp.push(ss.str());
-                }
-            }
-        }
-    }
-
-
-    // BIOS & Motherboard Info
-    {
-        lp.push("");
-        {
-            std::ostringstream ss;
-            ss << blue << "#- " << reset << green << "BIOS & Motherboard Info " << reset
-                << blue << "----------------------------------------#" << reset;
-            lp.push(ss.str());
-        }
-
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Bios Vendor              " << reset
-                << blue << ": " << reset << yellow << sys.get_bios_vendor() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Bios Version             " << reset
-                << blue << ": " << reset << cyan << sys.get_bios_version() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Bios Date                " << reset
-                << blue << ": " << reset << magenta << sys.get_bios_date() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Motherboard Model        " << reset
-                << blue << ": " << reset << yellow << sys.get_motherboard_model() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Motherboard Manufacturer " << reset
-                << blue << ": " << reset << yellow << sys.get_motherboard_manufacturer() << reset;
-            lp.push(ss.str());
-        }
-    }
-
-    // User Info
-    {
-        lp.push("");
-        {
-            std::ostringstream ss;
-            ss << blue << "#- " << reset << green << "User Info " << reset
-                << blue << "------------------------------------------------------#" << reset;
-            lp.push(ss.str());
-        }
-
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Username                 " << reset
-                << blue << ": " << reset << yellow << user.get_username() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Computer Name            " << reset
-                << blue << ": " << reset << yellow << user.get_computer_name() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Domain                   " << reset
-                << blue << ": " << reset << cyan << user.get_domain_name() << reset;
-            lp.push(ss.str());
-        }
-    }
-
-    // Performance Info
-    {
-        lp.push("");
-        {
-            std::ostringstream ss;
-            ss << blue << "#- " << reset << green << "Performance Info " << reset
-                << blue << "-----------------------------------------------#" << reset;
-            lp.push(ss.str());
-        }
-
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "System Uptime            " << reset
-                << blue << ": " << reset << magenta << perf.get_system_uptime() << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "CPU Usage                " << reset
-                << blue << ": " << reset << red << perf.get_cpu_usage_percent() << reset << green << "%" << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "RAM Usage                " << reset
-                << blue << ": " << reset << red << perf.get_ram_usage_percent() << reset << green << "%" << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "Disk Usage               " << reset
-                << blue << ": " << reset << red << perf.get_disk_usage_percent() << reset << green << "%" << reset;
-            lp.push(ss.str());
-        }
-        {
-            std::ostringstream ss;
-            ss << blue << "~ " << reset << green << "GPU Usage                " << reset
-                << blue << ": " << reset << red << perf.get_gpu_usage_percent() << reset << green << "%" << reset;
-            lp.push(ss.str());
-        }
-    }
-
-    // Audio & Power
-    {
-        lp.push("");
-        ExtraInfo audio;
-
-        // Output devices
-        vector<AudioDevice> outputDevices = audio.get_output_devices();
-        {
-            std::ostringstream ss;
-            ss << blue << "#- " << reset << green << "Audio Output " << reset
-                << blue << "---------------------------------------------------#" << reset;
-            lp.push(ss.str());
-        }
-
-        int audio_output_device_count = 0;
-        for (const auto& device : outputDevices) {
-            audio_output_device_count++;
-            ostringstream oss;
-            oss << blue << "~ " << reset << yellow << audio_output_device_count << reset << " " << cyan << device.name << reset;
-            if (device.isActive) {
-                oss << " " << green << "(active)" << reset;
-            }
-            lp.push(oss.str());
-        }
-
-        // Input devices
-        vector<AudioDevice> inputDevices = audio.get_input_devices();
-        {
-            std::ostringstream ss;
-            ss << blue << "#- " << reset << green << "Audio Input " << reset
-                << blue << "-----------------------------------------------------#" << reset;
-            lp.push(ss.str());
-        }
-
-        int audio_input_device_count = 0;
-        for (const auto& device : inputDevices) {
-            audio_input_device_count++;
-            ostringstream oss;
-            oss << blue << "~ " << reset << yellow << audio_input_device_count << reset << " " << cyan << device.name << reset;
-            if (device.isActive) {
-                oss << " " << green << "(active)" << reset;
-            }
-            lp.push(oss.str());
-        }
-
-        lp.push("");
-
-        // Power Status
-        PowerStatus power = audio.get_power_status();
-        {
-            std::ostringstream ss;
-            ss << blue << "#- " << reset << green << "Power  " << reset
-                << blue << "---------------------------------------------------------#" << reset;
-            lp.push(ss.str());
-        }
-
-        ostringstream ossPower;
-        if (!power.hasBattery) {
-            ossPower << blue << "[" << reset << yellow << "Wired connection" << reset << blue << "]" << reset;
-        }
-        else {
-            ossPower << blue << "~ " << reset << green << "Battery powered " << reset
-                << blue << "(" << reset << red << power.batteryPercent << reset << green << "%)" << reset;
-
-            if (power.isCharging) {
-                ossPower << " " << yellow << "(Charging)" << reset;
-            }
-            else {
-                ossPower << " " << white << "(Not Charging)" << reset;
-            }
-        }
-        lp.push(ossPower.str());
-    }
-
+ 
 
     // ---------------- End of info lines ----------------
 
