@@ -87,8 +87,6 @@ int main(){
         // Program continues even if art fails to load
     }
 
-
-
     // ========== AUTO CONFIG FILE SETUP (Windows only) ==========
     std::string userConfigPath;
     std::string configDir;
