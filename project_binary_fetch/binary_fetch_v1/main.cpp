@@ -222,7 +222,7 @@ int main(){
 // false = load user config from AppData
 // appdata path: C:\Users\Default\AppData\Local\BinaryFetch
 
-    bool LOAD_DEFAULT_CONFIG = true;
+    bool LOAD_DEFAULT_CONFIG = false;
     // ======================================================
 
 
