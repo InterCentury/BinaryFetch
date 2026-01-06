@@ -114,17 +114,17 @@
       "[Display]": "red",
       "->": "red",
       "header_text": "red",
-      "name_color": "red",
-      "(": "red",
-      ")": "red",
+      "name_color": "blue",
+      "(": "cyan",
+      ")": "cyan",
       "resolution_color": "red",
-      "x": "red",
+      "x": "cyan",
       "scale_label": "red",
-      "scale_value": "red",
+      "scale_value": "blue",
       "upscale_label": "red",
       "upscale_value": "red",
       "@": "red",
-      "refresh_color": "red"
+      "refresh_color": "blue"
     }
   },
   "compact_memory": {
