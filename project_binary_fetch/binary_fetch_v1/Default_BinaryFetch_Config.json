@@ -201,10 +201,10 @@
     "show_domain": true,
     "show_type": true,
     "colors": {
-      "[User]": "cyan",
+      "User": "cyan",
       "(": "red",
       ")": "red",
-      "->": "bright_magenta",
+      "User_:": "bright_magenta",
       "username_color": "red",
       "label_color": "blue",
       "domain_color": "blue",

@@ -701,8 +701,8 @@ int main(){
         // Compact User
         if (isEnabled("compact_user")) {
             std::ostringstream ss;
-            ss << getColor("compact_user", "[User]", "white") << "[User]" << r
-                << getColor("compact_user", "->", "white") << " -> " << r;
+            ss << getColor("compact_user", "User", "white") << "User" << r
+                << getColor("compact_user", "User_:", "white") << ": " << r;
 
             if (isSubEnabled("compact_user", "show_username")) ss << getColor("compact_user", "username_color", "white") << "@" << c_user.getUsername() << r;
             if (isSubEnabled("compact_user", "show_domain")) {
