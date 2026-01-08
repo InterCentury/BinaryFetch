@@ -232,8 +232,10 @@
     "show_usage": true,
     "show_capacity": true,
     "colors": {
-      "[Disk Usage]": "green",
-      "[Disk Cap]": "green",
+      "Disk Usage": "green",
+      "Disk_Usage_:": "red",
+      "Disk Cap": "green",
+      "Disk_Cap_:": "red",
       "(": "red",
       ")": "red",
       "->": "bright_cyan",

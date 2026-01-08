@@ -752,7 +752,7 @@ int main(){
             if (isSubEnabled("compact_disk", "show_usage")) {
                 auto disks = disk.getAllDiskUsage();
                 std::ostringstream ss;
-                ss << getColor("compact_disk", "[Disk Usage]", "white") << "[Disk Usage]" << r << getColor("compact_disk", "->", "white") << " -> " << r;
+                ss << getColor("compact_disk", "Disk Usage", "white") << "Disk Usage" << r << getColor("compact_disk", "Disk_Usage_:", "white") << ": " << r;
                 for (const auto& d : disks) {
                     ss << getColor("compact_disk", "(", "white") << "(" << r << getColor("compact_disk", "letter_color", "white") << d.first[0] << ":" << r
                         << " " << getColor("compact_disk", "percent_color", "white") << std::fixed << std::setprecision(1) << d.second << "%" << r
@@ -764,7 +764,7 @@ int main(){
             if (isSubEnabled("compact_disk", "show_capacity")) {
                 auto caps = disk.getDiskCapacity();
                 std::ostringstream sc;
-                sc << getColor("compact_disk", "[Disk Cap]", "white") << "[Disk Cap]" << r << getColor("compact_disk", "->", "white") << " -> " << r;
+                sc << getColor("compact_disk", "Disk Cap", "white") << "Disk Cap" << r << getColor("compact_disk", "Disk_Cap_:", "white") << ": " << r;
                 for (const auto& c : caps) {
                     sc << getColor("compact_disk", "(", "white") << "(" << r << getColor("compact_disk", "letter_color", "white") << c.first[0] << r
                         << getColor("compact_disk", "separator_color", "white") << "-" << r << getColor("compact_disk", "capacity_color", "white") << c.second << "GB" << r
