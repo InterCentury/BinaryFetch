@@ -628,8 +628,8 @@ int main(){
         if (isEnabled("compact_audio")) {
             if (isSubEnabled("compact_audio", "show_input")) {
                 std::ostringstream ss1;
-                ss1 << getColor("compact_audio", "[Audio Input]", "white") << "[Audio Input]" << r
-                    << getColor("compact_audio", "->", "white") << " -> " << r
+                ss1 << getColor("compact_audio", "Audio Input", "white") << "Audio Input" << r
+                    << getColor("compact_audio", "Audio_Input_:", "white") << ": " << r
                     << getColor("compact_audio", "device_color", "white") << c_audio.active_audio_input() << r << " "
                     << getColor("compact_audio", "(", "white") << "[" << r
                     << getColor("compact_audio", "status_color", "white") << c_audio.active_audio_input_status() << r
@@ -638,8 +638,8 @@ int main(){
             }
             if (isSubEnabled("compact_audio", "show_output")) {
                 std::ostringstream ss2;
-                ss2 << getColor("compact_audio", "[Audio Output]", "white") << "[Audio Output]" << r
-                    << getColor("compact_audio", "->", "white") << " -> " << r
+                ss2 << getColor("compact_audio", "Audio Output", "white") << "Audio Output" << r
+                    << getColor("compact_audio", "Audio_Output_:", "white") << ": " << r
                     << getColor("compact_audio", "device_color", "white") << c_audio.active_audio_output() << r << " "
                     << getColor("compact_audio", "(", "white") << "[" << r
                     << getColor("compact_audio", "status_color", "white") << c_audio.active_audio_output_status() << r

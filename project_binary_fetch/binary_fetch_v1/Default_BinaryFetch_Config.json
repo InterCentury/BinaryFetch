@@ -148,8 +148,10 @@
     "show_input": true,
     "show_output": true,
     "colors": {
-      "[Audio Input]": "red",
-      "[Audio Output]": "red",
+      "Audio Input": "red",
+      "Audio_Input_:": "blue",
+      "Audio Output": "red",
+      "Audio_Output_:": "blue", 
       "(": "cyan",
       ")": "cyan",
       "->": "cyan",
