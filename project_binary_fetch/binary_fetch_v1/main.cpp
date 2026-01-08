@@ -783,9 +783,9 @@ int main(){
             // ---------- HEADER ----------
             if (isSectionEnabled("detailed_memory", "header")) {
                 std::ostringstream ss;
-                ss << getColor("detailed_memory", ">>~", "blue") << ">>~ " << r
-                    << getColor("detailed_memory", "header_title", "red") << "Memory Info" << r
-                    << getColor("detailed_memory", "-------------------------*", "blue") << " -------------------------*" << r;
+                ss << getColor("detailed_memory", ">>~", "white") << ">>~ " << r
+                    << getColor("detailed_memory", "header_title", "white") << "Memory Info" << r
+                    << getColor("detailed_memory", "-------------------------*", "white") << " -------------------------*" << r;
                 lp.push(ss.str());
             }
 
@@ -797,27 +797,27 @@ int main(){
 
                 // ---------- TOTAL ----------
                 if (isSectionEnabled("detailed_memory", "total")) {
-                    ss << getColor("detailed_memory", "~", "green") << "~" << r
-                        << getColor("detailed_memory", "brackets", "blue") << " (" << r
-                        << getColor("detailed_memory", "label", "green") << "Total: " << r
-                        << getColor("detailed_memory", "total_value", "yellow") << ram.getTotal() << " GB" << r
-                        << getColor("detailed_memory", "brackets", "blue") << ") " << r;
+                    ss << getColor("detailed_memory", "~", "white") << "~" << r
+                        << getColor("detailed_memory", "brackets", "white") << " (" << r
+                        << getColor("detailed_memory", "label", "white") << "Total: " << r
+                        << getColor("detailed_memory", "total_value", "white") << ram.getTotal() << " GB" << r
+                        << getColor("detailed_memory", "brackets", "white") << ") " << r;
                 }
 
                 // ---------- FREE ----------
                 if (isSectionEnabled("detailed_memory", "free")) {
-                    ss << getColor("detailed_memory", "brackets", "blue") << "(" << r
-                        << getColor("detailed_memory", "label", "green") << "Free: " << r
-                        << getColor("detailed_memory", "free_value", "cyan") << ram.getFree() << " GB" << r
-                        << getColor("detailed_memory", "brackets", "blue") << ") " << r;
+                    ss << getColor("detailed_memory", "brackets", "white") << "(" << r
+                        << getColor("detailed_memory", "label", "white") << "Free: " << r
+                        << getColor("detailed_memory", "free_value", "white") << ram.getFree() << " GB" << r
+                        << getColor("detailed_memory", "brackets", "white") << ") " << r;
                 }
 
                 // ---------- USED PERCENTAGE ----------
                 if (isSectionEnabled("detailed_memory", "used_percentage")) {
-                    ss << getColor("detailed_memory", "brackets", "blue") << "(" << r
-                        << getColor("detailed_memory", "label", "green") << "Used: " << r
-                        << getColor("detailed_memory", "used_value", "red") << ram.getUsedPercentage() << "%" << r
-                        << getColor("detailed_memory", "brackets", "blue") << ")" << r;
+                    ss << getColor("detailed_memory", "brackets", "white") << "(" << r
+                        << getColor("detailed_memory", "label", "white") << "Used: " << r
+                        << getColor("detailed_memory", "used_value", "white") << ram.getUsedPercentage() << "%" << r
+                        << getColor("detailed_memory", "brackets", "white") << ")" << r;
                 }
 
                 lp.push(ss.str());
