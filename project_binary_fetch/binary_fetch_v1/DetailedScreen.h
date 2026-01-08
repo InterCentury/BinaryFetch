@@ -5,60 +5,56 @@
 
 struct DetailedScreenInfo {
     // Basic Information
-    std::string name;                  // Friendly display name from EDID
-    std::string deviceName;            // Windows device name (e.g., \\.\DISPLAY1)
-    std::string deviceID;              // Hardware ID (e.g., MONITOR\DEL4067\...)
-    bool isPrimary;                    // Is this the primary display?
+    std::string name;
+    std::string deviceName;
+    std::string deviceID;
+    bool isPrimary;
 
     // Resolution Information
-    int native_width;                  // Physical panel resolution width
-    int native_height;                 // Physical panel resolution height
-    int current_width;                 // Current Windows resolution width
-    int current_height;                // Current Windows resolution height
-    int desktop_width;                 // Desktop coordinate space width
-    int desktop_height;                // Desktop coordinate space height
+    int native_width;
+    int native_height;
+    int current_width;
+    int current_height;
+    int desktop_width;
+    int desktop_height;
 
     // Display Properties
-    int refresh_rate;                  // Current refresh rate in Hz
-    int max_refresh_rate;              // Maximum supported refresh rate
-    int bit_depth;                     // Color bit depth (8, 10, 12, etc.)
-    std::string color_format;          // RGB, YCbCr444, YCbCr422, etc.
+    int refresh_rate;
+    int bit_depth;
+    std::string color_format;
 
     // Scaling Information
-    int scale_percent;                 // Windows DPI scaling percentage
-    std::string scale_mul;             // Formatted multiplier (e.g., "1.75x")
-    int raw_dpi_x;                     // Raw DPI value X
-    int raw_dpi_y;                     // Raw DPI value Y
+    int scale_percent;
+    std::string scale_mul;
+    int raw_dpi_x;
+    int raw_dpi_y;
 
     // GPU Upscaling
-    std::string upscale;               // Upscale factor (e.g., "4x")
-    std::string upscale_technology;    // DSR, VSR, or None
-    bool has_upscaling;                // Is upscaling active?
+    std::string upscale;
+    std::string upscale_technology;
+    bool has_upscaling;
 
     // Physical Dimensions
-    float diagonal_inches;             // Screen size in inches
-    float width_mm;                    // Physical width in mm
-    float height_mm;                   // Physical height in mm
-    float ppi;                         // Pixels per inch
+    float diagonal_inches;
+    float width_mm;
+    float height_mm;
+    float ppi;
 
     // Position & Orientation
-    int pos_x;                         // Desktop X coordinate
-    int pos_y;                         // Desktop Y coordinate
-    int rotation;                      // 0, 90, 180, 270 degrees
+    int pos_x;
+    int pos_y;
+    int rotation;
 
     // Technology & Features
-    std::string panel_type;            // IPS, TN, VA, OLED, etc.
-    bool hdr_capable;                  // HDR support
-    bool g_sync;                       // G-SYNC support
-    bool freesync;                     // FreeSync support
-    std::string connection_type;       // HDMI, DisplayPort, DVI, etc.
+    std::string panel_type;
+    bool hdr_capable;
+    bool g_sync;
+    bool freesync;
+    std::string connection_type;
 
     // EDID Information
-    std::string manufacturer;          // Manufacturer ID
-    std::string serial_number;         // Serial number
-    int manufacture_year;              // Year of manufacture
-    int manufacture_week;              // Week of manufacture
-    std::string edid_version;          // EDID version
+    std::string manufacturer;
+    std::string edid_version;
 };
 
 class DetailedScreen {
@@ -74,11 +70,12 @@ public:
     static bool isAMDPresent();
     static std::string getGPUVendor();
 
-    // Utility methods
+    // Utility methods - MAKE SURE THESE ARE ALL HERE
     static std::string scaleMultiplier(int scalePercent);
     static int computeUpscaleFactor(int currentWidth, int nativeWidth);
     static float calculatePPI(int width, int height, float diagonalInches);
     static float calculateDiagonal(float widthMM, float heightMM);
+    static float calculateScreenSizeInches(float widthMM, float heightMM);  // <-- THIS ONE
 
 private:
     std::vector<DetailedScreenInfo> screens;
@@ -98,11 +95,7 @@ private:
         float widthMM;
         float heightMM;
         std::string manufacturer;
-        std::string serialNumber;
-        int manufactureYear;
-        int manufactureWeek;
         std::string edidVersion;
-        int maxRefreshRate;
         bool valid;
     };
 

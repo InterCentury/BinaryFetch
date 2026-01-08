@@ -170,61 +170,59 @@ int main(){
 
 
     //-----------------------------testing site start-------------------------
-    std::cout << "Initializing display detector...\n\n";
+    std::cout << "DetailedScreen Test Program\n";
+    std::cout << "==========================\n\n";
 
+    std::cout << "Initializing display detector...\n";
     DetailedScreen detector;
 
     if (!detector.refresh()) {
-        std::cout << "ERROR: Failed to detect displays!\n";
+        std::cerr << "ERROR: Failed to detect displays!\n";
+        std::cerr << "Press Enter to exit...";
+        std::cin.get();
         return 1;
     }
 
     auto screens = detector.getScreens();
 
     if (screens.empty()) {
-        std::cout << "No displays detected.\n";
+        std::cerr << "ERROR: No displays detected.\n";
+        std::cerr << "Press Enter to exit...";
+        std::cin.get();
         return 1;
     }
 
-    // System Info
-    std::cout << "======================================\n";
+    std::cout << "Detection successful!\n";
+
+    // System Information
+    std::cout << "\n========================================\n";
     std::cout << "SYSTEM INFORMATION\n";
-    std::cout << "======================================\n";
+    std::cout << "========================================\n";
     std::cout << "GPU Vendor:      " << DetailedScreen::getGPUVendor() << "\n";
     std::cout << "Total Displays:  " << screens.size() << "\n";
-    std::cout << "\n";
 
     // Display detailed information for each screen
     for (size_t i = 0; i < screens.size(); ++i) {
         const auto& s = screens[i];
 
-        std::cout << "======================================\n";
+        std::cout << "\n========================================\n";
         std::cout << "DISPLAY " << (i + 1);
         if (s.isPrimary) std::cout << " (PRIMARY)";
-        std::cout << "\n";
-        std::cout << "======================================\n\n";
+        std::cout << "\n========================================\n";
 
         // Basic Information
-        std::cout << "--- Basic Information ---\n";
+        std::cout << "\n--- Basic Information ---\n";
         std::cout << "Model Name:          " << s.name << "\n";
         std::cout << "Device Name:         " << s.deviceName << "\n";
         if (!s.manufacturer.empty()) {
             std::cout << "Manufacturer:        " << s.manufacturer << "\n";
         }
-        if (!s.serial_number.empty()) {
-            std::cout << "Serial Number:       " << s.serial_number << "\n";
-        }
-        if (s.manufacture_year > 0) {
-            std::cout << "Manufacture Date:    Week " << s.manufacture_week
-                << ", " << s.manufacture_year << "\n";
-        }
         if (!s.edid_version.empty()) {
             std::cout << "EDID Version:        " << s.edid_version << "\n";
         }
-        std::cout << "\n";
 
         // Resolution & Scaling
-        std::cout << "--- Resolution & Scaling ---\n";
+        std::cout << "\n--- Resolution & Scaling ---\n";
         std::cout << "Native Resolution:   " << s.native_width << " x " << s.native_height;
         if (s.diagonal_inches > 0) {
             std::cout << std::fixed << std::setprecision(1);
@@ -234,7 +232,6 @@ int main(){
 
         std::cout << "Current Resolution:  " << s.current_width << " x " << s.current_height << "\n";
         std::cout << "Desktop Resolution:  " << s.desktop_width << " x " << s.desktop_height << "\n";
-
         std::cout << "Windows DPI Scale:   " << s.scale_percent << "% (" << s.scale_mul << ")\n";
         std::cout << "Raw DPI:             " << s.raw_dpi_x << " x " << s.raw_dpi_y << "\n";
 
@@ -250,21 +247,17 @@ int main(){
         else {
             std::cout << "GPU Upscaling:       None\n";
         }
-        std::cout << "\n";
 
         // Display Properties
-        std::cout << "--- Display Properties ---\n";
+        std::cout << "\n--- Display Properties ---\n";
         std::cout << "Refresh Rate:        " << s.refresh_rate << " Hz\n";
-        if (s.max_refresh_rate > 0) {
-            std::cout << "Max Refresh Rate:    " << s.max_refresh_rate << " Hz\n";
-        }
         if (s.bit_depth > 0) {
             std::cout << "Color Bit Depth:     " << s.bit_depth << "-bit\n";
         }
         std::cout << "Color Format:        " << s.color_format << "\n";
         std::cout << "HDR Capable:         " << (s.hdr_capable ? "Yes" : "No") << "\n";
 
-        if (!s.connection_type.empty()) {
+        if (!s.connection_type.empty() && s.connection_type != "Unknown") {
             std::cout << "Connection Type:     " << s.connection_type << "\n";
         }
 
@@ -274,10 +267,9 @@ int main(){
         if (s.freesync) {
             std::cout << "FreeSync:            Enabled\n";
         }
-        std::cout << "\n";
 
         // Physical & Position
-        std::cout << "--- Physical & Position ---\n";
+        std::cout << "\n--- Physical & Position ---\n";
         if (s.width_mm > 0 && s.height_mm > 0) {
             std::cout << std::fixed << std::setprecision(1);
             std::cout << "Physical Size:       " << (s.width_mm / 10.0f) << " cm x "
@@ -297,14 +289,51 @@ int main(){
         if (!s.deviceID.empty()) {
             std::cout << "Device ID:           " << s.deviceID << "\n";
         }
+    }
+
+    // Summary Table
+    std::cout << "\n========================================\n";
+    std::cout << "QUICK SUMMARY\n";
+    std::cout << "========================================\n\n";
+
+    std::cout << std::left;
+    std::cout << std::setw(4) << "#"
+        << std::setw(25) << "Model"
+        << std::setw(15) << "Resolution"
+        << std::setw(10) << "Refresh"
+        << std::setw(10) << "Scale"
+        << std::setw(8) << "HDR"
+        << "\n";
+    std::cout << std::string(72, '-') << "\n";
+
+    for (size_t i = 0; i < screens.size(); ++i) {
+        const auto& s = screens[i];
+
+        std::cout << std::setw(4) << (i + 1);
+
+        std::string displayName = s.name;
+        if (displayName.length() > 24) {
+            displayName = displayName.substr(0, 21) + "...";
+        }
+        std::cout << std::setw(25) << displayName;
+
+        std::string resolution = std::to_string(s.current_width) + "x" + std::to_string(s.current_height);
+        std::cout << std::setw(15) << resolution;
+
+        std::string refresh = std::to_string(s.refresh_rate) + "Hz";
+        std::cout << std::setw(10) << refresh;
+
+        std::string scale = std::to_string(s.scale_percent) + "%";
+        std::cout << std::setw(10) << scale;
+
+        std::cout << std::setw(8) << (s.hdr_capable ? "Yes" : "No");
+
+        if (s.isPrimary) {
+            std::cout << " [PRIMARY]";
+        }
 
         std::cout << "\n";
     }
-
-    std::cout << "======================================\n";
-    std::cout << "Test completed successfully!\n";
-    std::cout << "======================================\n";
-
     //-----------------------------testing site end-------------------------
 
 
