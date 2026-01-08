@@ -71,10 +71,10 @@
     "show_arch": true,
     "show_uptime": true,
     "colors": {
-      "[OS]": "red",
+      "OS": "red",
       "(": "blue",
       ")": "blue",
-      "->": "blue",
+      "OS_:": "blue",
       "name_color": "red",
       "build_color": "cyan",
       "arch_color": "blue",
@@ -97,7 +97,7 @@
       "core_color": "red",
       "thread_color": "red",
       "text_color": "red",
-      "separator_color": "red",
+      "separator_color": "red", 
       "at_symbol_color": "red",
       "clock_color": "red"
     }
@@ -261,7 +261,7 @@
       "brackets": "red",
       "~": "cyan",
       "module_label": "bright_blue",
-      " : ": "bright_black",
+      " : ": "red",
       "capacity": "bright_cyan",
       "type": "magenta",
       "speed": "bright_blue"

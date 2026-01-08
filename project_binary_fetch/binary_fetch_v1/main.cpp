@@ -455,8 +455,8 @@ int main(){
         // Compact OS
         if (isEnabled("compact_os")) {
             std::ostringstream ss;
-            ss << getColor("compact_os", "[OS]", "white") << "[OS]" << r
-                << getColor("compact_os", "->", "white") << "  -> " << r;
+            ss << getColor("compact_os", "OS", "white") << "OS" << r
+                << getColor("compact_os", "OS_:", "white") << ": " << r;
 
             if (isSubEnabled("compact_os", "show_name")) ss << getColor("compact_os", "name_color", "white") << c_os.getOSName() << r << " ";
             if (isSubEnabled("compact_os", "show_build")) ss << getColor("compact_os", "build_color", "white") << c_os.getOSBuild() << r;
@@ -611,7 +611,7 @@ int main(){
                     << getColor("compact_memory", ")", "white") << ")" << r;
             }
             if (isSubEnabled("compact_memory", "show_free")) {
-                ss << " " << getColor("compact_memory", "(", "red") << "(" << r
+                ss << " " << getColor("compact_memory", "(", "white") << "(" << r
                     << getColor("compact_memory", "label_color", "white") << "free: " << r
                     << getColor("compact_memory", "free_color", "white") << c_memory.get_free_memory() << " GB" << r
                     << getColor("compact_memory", ")", "white") << ")" << r;
