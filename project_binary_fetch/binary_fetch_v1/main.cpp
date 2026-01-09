@@ -97,6 +97,7 @@ int main(){
         // - If missing, copies from Default_Ascii_Art.txt and creates it
         // - User can modify their art anytime in AppData folder
 
+	SetConsoleOutputCP(CP_UTF8); // UTF-8 output on Windows console (for emoji printing)
     AsciiArt art;
     if (!art.loadFromFile()) {
         std::cout << "Warning: ASCII art could not be loaded. Continuing without art.\n";
@@ -170,7 +171,7 @@ int main(){
 
 
     //-----------------------------testing site start-------------------------
-
+    std::cout << u8"😄 ❤️ 🎉 🚀 ⭐ 🐱 🍕 🎮 😭 🌈\n";
     //-----------------------------testing site end-------------------------
 
 
