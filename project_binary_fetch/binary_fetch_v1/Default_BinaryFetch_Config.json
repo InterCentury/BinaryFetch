@@ -198,7 +198,9 @@
     "show_gpu": true,
     "show_ram": true,
     "show_disk": true,
+    "show_emoji": true,
     "colors": {
+      "emoji_color": "green",
       "Performance": "blue",
       "(": "red",
       ")": "red",
