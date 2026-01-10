@@ -710,7 +710,7 @@ int main(){
         if (isEnabled("compact_performance")) {
             std::ostringstream ss;
 
-            if (isSubEnabled("compact_performancec", "show_emoji")) ss << getColor("compact_performance", "emoji_color", "white") << u8"🧩" << r << " ";
+            if (isSubEnabled("compact_performancec", "show_emoji")) ss << getColor("compact_performance", "emoji_color", "white") << u8"🔋" << r << " ";
 
             ss << getColor("compact_performance", "Performance", "white") << "Performance" << r
                 << getColor("compact_performance", "Performance_:", "white") << ": " << r;
