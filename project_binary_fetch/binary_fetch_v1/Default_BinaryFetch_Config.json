@@ -235,7 +235,9 @@
     "show_name": true,
     "show_type": true,
     "show_ip": true,
+    "show_emoji": true,
     "colors": {
+      "emoji_color": "green",
       "Network": "cyan",
       "(": "red",
       ")": "red",
