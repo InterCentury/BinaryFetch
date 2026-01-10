@@ -217,7 +217,9 @@
     "show_username": true,
     "show_domain": true,
     "show_type": true,
+    "show_emoji": true,
     "colors": {
+      "emoji_color": "green",
       "User": "cyan",
       "(": "red",
       ")": "red",
