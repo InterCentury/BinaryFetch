@@ -791,7 +791,7 @@ int main(){
                 auto disks = disk.getAllDiskUsage();
                 std::ostringstream ss;
 
-                if (isSubEnabled("compact_disk", "show_disk_usage_emoji")) ss << getColor("compact_disk", "disk_usage_emoji_color", "white") << u8"🧩" << r << " ";
+                if (isSubEnabled("compact_disk", "show_disk_usage_emoji")) ss << getColor("compact_disk", "disk_usage_emoji_color", "white") << u8"📂" << r << " ";
 
                 ss << getColor("compact_disk", "Disk Usage", "white") << "Disk Usage" << r << getColor("compact_disk", "Disk_Usage_:", "white") << ": " << r;
                 for (const auto& d : disks) {
