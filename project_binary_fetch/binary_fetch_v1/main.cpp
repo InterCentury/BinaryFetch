@@ -150,7 +150,7 @@ int main(){
     NetworkInfo net;
     UserInfo user;
     PerformanceInfo perf;
-   // DisplayInfo display;
+    DisplayInfo di;
     ExtraInfo extra;
     SystemInfo sys;
 
@@ -173,7 +173,7 @@ int main(){
     //-----------------------------testing site start-------------------------
     // std::cout << u8"😄 ❤️ 🎉 🚀 ⭐ 🐱 🍕 🎮 😭 🌈\n";
     
-    DisplayInfo di;
+    
     if (!di.refresh()) {
         std::cerr << "Failed to enumerate displays.\n";
         return 1;
@@ -635,7 +635,7 @@ int main(){
                             << getColor("compact_screen", ")", "white") << ") " << r;
                     }
 
-                    // Refresh rate: (60Hz)
+                    // Refresh rate: 
                     if (isSubEnabled("compact_screen", "show_refresh")) {
                         ss << getColor("compact_screen", "(", "white") << "(" << r
                             << getColor("compact_screen", "@", "white") << "@" << r
@@ -1719,11 +1719,133 @@ int main(){
 
 		// end of the GPU info section////////////////////////////////////////////////
          
+        // ================= DISPLAY INFO (FULLY JSON DRIVEN) =================
+        if (isEnabled("display_info")) {
+            lp.push("");
 
+            // ---------- Header ----------
+            if (isSubEnabled("display_info", "show_header")) {
+                std::ostringstream ss;
+                ss << getColor("display_info", "#-", "blue") << "#- " << r
+                    << getColor("display_info", "header_text_color", "cyan")
+                    << "Display Info " << r
+                    << getColor("display_info", "separator_line", "red")
+                    << "-----------------------------------------------------#" << r;
+                lp.push(ss.str());
+            }
 
+            for (size_t i = 0; i < screens.size(); ++i) {
+                const auto& s = screens[i];
 
+                // ---------- Display Index ----------
+                if (isSubEnabled("display_info", "show_display_index")) {
+                    std::ostringstream ss;
+                    ss << getColor("display_info", "index_color", "cyan")
+                        << "Display " << (i + 1) << r;
+                    lp.push(ss.str());
+                }
 
+                // ---------- Name ----------
+                if (isSubEnabled("display_info", "show_name")) {
+                    lp.push(
+                        getColor("display_info", "|->", "cyan") + "|-> " + r +
+                        getColor("display_info", "name_label_color", "blue") + "Name                   " + r +
+                        getColor("display_info", ":", "blue") + ": " + r +
+                        getColor("display_info", "name_value_color", "cyan") + s.name + r
+                    );
+                }
 
+                // ---------- Applied Resolution ----------
+                if (isSubEnabled("display_info", "show_applied_resolution")) {
+                    std::ostringstream ss;
+                    ss << getColor("display_info", "|->", "cyan") << "|-> " << r
+                        << getColor("display_info", "applied_res_label_color", "blue")
+                        << "Applied Resolution     " << r
+                        << getColor("display_info", ":", "blue") << ": " << r
+                        << getColor("display_info", "applied_res_value_color", "cyan")
+                        << s.current_width
+                        << getColor("display_info", "x", "blue") << "x"
+                        << s.current_height
+                        << getColor("display_info", "@", "blue") << " @"
+                        << s.refresh_rate
+                        << getColor("display_info", "hz_color", "red") << "Hz" << r;
+                    lp.push(ss.str());
+                }
+
+                // ---------- Native Resolution ----------
+                if (isSubEnabled("display_info", "show_native_resolution")) {
+                    lp.push(
+                        getColor("display_info", "|->", "cyan") + "|-> " + r +
+                        getColor("display_info", "native_res_label_color", "blue")
+                        + "Native Resolution      " + r +
+                        getColor("display_info", ":", "blue") + ": " + r +
+                        getColor("display_info", "native_res_value_color", "cyan")
+                        + s.native_resolution + r
+                    );
+                }
+
+                // ---------- Aspect Ratio ----------
+                if (isSubEnabled("display_info", "show_aspect_ratio")) {
+                    lp.push(
+                        getColor("display_info", "|->", "cyan") + "|-> " + r +
+                        getColor("display_info", "aspect_ratio_label_color", "blue")
+                        + "Aspect Ratio           " + r +
+                        getColor("display_info", ":", "blue") + ": " + r +
+                        getColor("display_info", "aspect_ratio_value_color", "cyan")
+                        + s.aspect_ratio + r
+                    );
+                }
+
+                // ---------- Scaling ----------
+                if (isSubEnabled("display_info", "show_scaling")) {
+                    std::ostringstream ss;
+                    ss << getColor("display_info", "|->", "cyan") << "|-> " << r
+                        << getColor("display_info", "scaling_label_color", "blue")
+                        << "Scaling                " << r
+                        << getColor("display_info", ":", "blue") << ": " << r
+                        << getColor("display_info", "scaling_value_color", "cyan")
+                        << s.scale_percent
+                        << getColor("display_info", "%", "blue") << "%" << r;
+                    lp.push(ss.str());
+                }
+
+                // ---------- Upscale ----------
+                if (isSubEnabled("display_info", "show_upscale")) {
+                    lp.push(
+                        getColor("display_info", "|->", "cyan") + "|-> " + r +
+                        getColor("display_info", "upscale_label_color", "blue")
+                        + "Upscale                " + r +
+                        getColor("display_info", ":", "blue") + ": " + r +
+                        getColor("display_info", "upscale_value_color", "cyan")
+                        + s.upscale + r
+                    );
+                }
+
+                // ---------- DSR / VSR ----------
+                if (isSubEnabled("display_info", "show_dsr")) {
+                    std::ostringstream ss;
+                    ss << getColor("display_info", "|->", "cyan") << "|-> " << r
+                        << getColor("display_info", "dsr_label_color", "blue")
+                        << "DSR / VSR              " << r
+                        << getColor("display_info", ":", "blue") << ": " << r
+                        << getColor(
+                            "display_info",
+                            s.dsr_enabled ? "dsr_enabled_color" : "dsr_disabled_color",
+                            s.dsr_enabled ? "green" : "red"
+                        )
+                        << (s.dsr_enabled ? "Enabled" : "Disabled") << r
+                        << getColor("display_info", "dsr_brackets_color", "blue")
+                        << " (" << r
+                        << getColor("display_info", "dsr_type_color", "cyan")
+                        << s.dsr_type
+                        << getColor("display_info", "dsr_brackets_color", "blue")
+                        << ")" << r;
+                    lp.push(ss.str());
+                }
+
+                lp.push("");
+            }
+        }
 
         /*
         

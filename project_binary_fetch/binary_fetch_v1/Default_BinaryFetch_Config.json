@@ -3,8 +3,8 @@
     "enabled": true,
     "prefix_color": "bright_red",
     "title_color": "bright_cyan",
-      "show_line": true,
-      "line_color": "green"
+    "show_line": true,
+    "line_color": "green"
   },
   "compact_time": {
     "enabled": true,
@@ -509,23 +509,58 @@
   },
   "display_info": {
     "enabled": true,
+
     "show_header": true,
-    "show_brand": true,
-    "show_resolution": true,
-    "show_refresh_rate": true,
-    "#-": "bright_green",
-    "~": "green",
-    ":": "magenta",
-    "unit_color": "bright_cyan",
-    "separator_line": "bright_green",
-    "header_text_color": "bright_yellow",
-    "error_header_color": "bright_red",
-    "label_color": "cyan",
-    "error_color": "red",
-    "brand_value_color": "bright_cyan",
-    "resolution_value_color": "bright_blue",
-    "refresh_rate_value_color": "bright_magenta"
-  },
+    "show_display_index": false,
+    "show_name": true,
+    "show_applied_resolution": true,
+    "show_native_resolution": true,
+    "show_aspect_ratio": true,
+    "show_scaling": true,
+    "show_upscale": true,
+    "show_dsr": true,
+
+    "colors": {
+      "#-": "blue",
+      "|->": "cyan",
+      ":": "blue",
+      "x": "blue",
+      "@": "blue",
+      "%": "blue",
+
+      "header_text_color": "cyan",
+      "separator_line": "red",
+
+      "index_color": "cyan",
+
+      "name_label_color": "blue",
+      "name_value_color": "cyan",
+
+      "applied_res_label_color": "blue",
+      "applied_res_value_color": "cyan",
+
+      "native_res_label_color": "blue",
+      "native_res_value_color": "cyan",
+
+      "aspect_ratio_label_color": "blue",
+      "aspect_ratio_value_color": "cyan",
+
+      "scaling_label_color": "blue",
+      "scaling_value_color": "cyan",
+
+      "upscale_label_color": "blue",
+      "upscale_value_color": "cyan",
+
+      "hz_color": "red",
+
+      "dsr_label_color": "blue",
+      "dsr_enabled_color": "cyan",
+      "dsr_disabled_color": "red",
+      "dsr_brackets_color": "blue",
+      "dsr_type_color": "cyan"
+    }
+  
+},
   "bios_mb_info": {
     "enabled": true,
     "show_header": true,
