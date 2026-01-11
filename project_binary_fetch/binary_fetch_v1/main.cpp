@@ -2006,13 +2006,13 @@ int main(){
 
 		// end of the Performance info section////////////////////////////////////////
 
+ 
         // Audio & Power Info (JSON Driven)
         if (isEnabled("audio_power_info")) {
             lp.push("");
             ExtraInfo audio;
 
             // --- Output devices ---
-            // Declare this here so it's accessible to the loop regardless of header status
             vector<AudioDevice> outputDevices = audio.get_output_devices();
 
             if (isSubEnabled("audio_power_info", "show_output_header")) {
@@ -2039,7 +2039,6 @@ int main(){
             }
 
             // --- Input devices ---
-            // FIX: Declare inputDevices here so the loop below can find it!
             vector<AudioDevice> inputDevices = audio.get_input_devices();
 
             if (isSubEnabled("audio_power_info", "show_input_header")) {
@@ -2087,7 +2086,7 @@ int main(){
                 }
                 else {
                     ossPower << getColor("audio_power_info", "~", "white") << "~ " << r
-                        << getColor("audio_power_info", "label_color", "white") << "Battery powered " << r
+                        << getColor("audio_power_info", "battery_label_color", "white") << "Battery powered " << r
                         << getColor("audio_power_info", "bracket_color", "white") << "(" << r
                         << getColor("audio_power_info", "battery_percent_color", "white") << power.batteryPercent << r
                         << getColor("audio_power_info", "unit_color", "white") << "%)" << r;
@@ -2102,7 +2101,6 @@ int main(){
                 lp.push(ossPower.str());
             }
         }
-
 
 
         /*
