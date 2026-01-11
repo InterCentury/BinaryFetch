@@ -1335,7 +1335,7 @@ int main(){
             if (isSubEnabled("os_info", "show_name")) {
                 std::ostringstream ss;
                 ss << getColor("os_info", "~", "white") << "~ " << r
-                    << getColor("os_info", "label_color", "white") << "Name                      " << r
+                    << getColor("os_info", "name_label_color", "white") << "Name                      " << r
                     << getColor("os_info", ":", "white") << ": " << r
                     << getColor("os_info", "name_value_color", "white") << os.GetOSName() << r;
                 lp.push(ss.str());
@@ -1345,7 +1345,7 @@ int main(){
             if (isSubEnabled("os_info", "show_build")) {
                 std::ostringstream ss;
                 ss << getColor("os_info", "~", "white") << "~ " << r
-                    << getColor("os_info", "label_color", "white") << "Build                     " << r
+                    << getColor("os_info", "build_label_color", "white") << "Build                     " << r
                     << getColor("os_info", ":", "white") << ": " << r
                     << getColor("os_info", "build_value_color", "white") << os.GetOSVersion() << r;
                 lp.push(ss.str());
@@ -1355,7 +1355,7 @@ int main(){
             if (isSubEnabled("os_info", "show_architecture")) {
                 std::ostringstream ss;
                 ss << getColor("os_info", "~", "white") << "~ " << r
-                    << getColor("os_info", "label_color", "white") << "Architecture              " << r
+                    << getColor("os_info", "arch_label_color", "white") << "Architecture              " << r
                     << getColor("os_info", ":", "white") << ": " << r
                     << getColor("os_info", "arch_value_color", "white") << os.GetOSArchitecture() << r;
                 lp.push(ss.str());
@@ -1365,7 +1365,7 @@ int main(){
             if (isSubEnabled("os_info", "show_kernel")) {
                 std::ostringstream ss;
                 ss << getColor("os_info", "~", "white") << "~ " << r
-                    << getColor("os_info", "label_color", "white") << "Kernel                    " << r
+                    << getColor("os_info", "kernel_label_color", "white") << "Kernel                    " << r
                     << getColor("os_info", ":", "white") << ": " << r
                     << getColor("os_info", "kernel_value_color", "white") << os.get_os_kernel_info() << r;
                 lp.push(ss.str());
@@ -1375,7 +1375,7 @@ int main(){
             if (isSubEnabled("os_info", "show_uptime")) {
                 std::ostringstream ss;
                 ss << getColor("os_info", "~", "white") << "~ " << r
-                    << getColor("os_info", "label_color", "white") << "Uptime                    " << r
+                    << getColor("os_info", "uptime_label_color", "white") << "Uptime                    " << r
                     << getColor("os_info", ":", "white") << ": " << r
                     << getColor("os_info", "uptime_value_color", "white") << os.get_os_uptime() << r;
                 lp.push(ss.str());
@@ -1385,7 +1385,7 @@ int main(){
             if (isSubEnabled("os_info", "show_install_date")) {
                 std::ostringstream ss;
                 ss << getColor("os_info", "~", "white") << "~ " << r
-                    << getColor("os_info", "label_color", "white") << "Install Date              " << r
+                    << getColor("os_info", "install_date_label_color", "white") << "Install Date              " << r
                     << getColor("os_info", ":", "white") << ": " << r
                     << getColor("os_info", "install_date_value_color", "white")
                     << os.get_os_install_date() << r;
@@ -1396,7 +1396,7 @@ int main(){
             if (isSubEnabled("os_info", "show_serial")) {
                 std::ostringstream ss;
                 ss << getColor("os_info", "~", "white") << "~ " << r
-                    << getColor("os_info", "label_color", "white") << "Serial                    " << r
+                    << getColor("os_info", "serial_label_color", "white") << "Serial                    " << r
                     << getColor("os_info", ":", "white") << ": " << r
                     << getColor("os_info", "serial_value_color", "white")
                     << os.get_os_serial_number() << r;
