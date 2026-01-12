@@ -167,10 +167,10 @@ int main(){
     DiskInfo disk;
     TimeInfo time;
 
-    // toggle dummy ip for network section for better DX testing
-    bool dummy_compact_network = true;
+    // toggle dummy ip  and direct load from config for better DX testing
+    bool dummy_compact_network = false;
 	bool dummy_detailed_network = true;
-
+    bool LOAD_DEFAULT_CONFIG = true;
     //-----------------------------testing site start-------------------------
     // std::cout << u8"😄 ❤️ 🎉 🚀 ⭐ 🐱 🍕 🎮 😭 🌈\n";
     
@@ -235,7 +235,7 @@ int main(){
 // false = load user config from AppData
 // appdata path: C:\Users\Default\AppData\Local\BinaryFetch
 
-    bool LOAD_DEFAULT_CONFIG = false;
+
     // ======================================================
 
 
@@ -762,35 +762,80 @@ int main(){
             lp.push(ss.str());
         }
 
-        // Compact Network
-        if (isEnabled("compact_network")) {
-            std::ostringstream ss;
 
-            if (isSubEnabled("compact_network", "show_emoji")) ss << getColor("compact_network", "emoji_color", "white") << u8"🌐" << r << " ";
+        if (dummy_compact_network == false)
+        {
 
-            ss << getColor("compact_network", "Network", "white") << "Network" << r
-                << getColor("compact_network", "Network_:", "white") << ": " << r;
 
-            if (isSubEnabled("compact_network", "show_name")) {
-                ss << getColor("compact_network", "(", "white") << "(" << r
-                    << getColor("compact_network", "label_color", "white") << "Name: " << r
-                    << getColor("compact_network", "name_color", "white") << c_net.get_network_name()<< r
-                    << getColor("compact_network", ")", "white") << ") " << r;
+            // Compact Network (real)
+            if (isEnabled("compact_network")) {
+                std::ostringstream ss;
+
+                if (isSubEnabled("compact_network", "show_emoji")) ss << getColor("compact_network", "emoji_color", "white") << u8"🌐" << r << " ";
+
+                ss << getColor("compact_network", "Network", "white") << "Network" << r
+                    << getColor("compact_network", "Network_:", "white") << ": " << r;
+
+                if (isSubEnabled("compact_network", "show_name")) {
+                    ss << getColor("compact_network", "(", "white") << "(" << r
+                        << getColor("compact_network", "label_color", "white") << "Name: " << r
+                        << getColor("compact_network", "name_color", "white") << c_net.get_network_name() << r
+                        << getColor("compact_network", ")", "white") << ") " << r;
+                }
+                if (isSubEnabled("compact_network", "show_type")) {
+                    ss << getColor("compact_network", "(", "white") << "(" << r
+                        << getColor("compact_network", "label_color", "white") << "Type: " << r
+                        << getColor("compact_network", "type_color", "white") << c_net.get_network_type() << r
+                        << getColor("compact_network", ")", "white") << ") " << r;
+                }
+                if (isSubEnabled("compact_network", "show_ip")) {
+                    ss << getColor("compact_network", "(", "white") << "(" << r
+                        << getColor("compact_network", "label_color", "white") << "ip: " << r
+                        << getColor("compact_network", "ip_color", "white") << c_net.get_network_ip() << r
+                        << getColor("compact_network", ")", "white") << ")" << r;
+                }
+                lp.push(ss.str());
             }
-            if (isSubEnabled("compact_network", "show_type")) {
-                ss << getColor("compact_network", "(", "white") << "(" << r
-                    << getColor("compact_network", "label_color", "white") << "Type: " << r
-                    << getColor("compact_network", "type_color", "white") << c_net.get_network_type() << r
-                    << getColor("compact_network", ")", "white") << ") " << r;
-            }
-            if (isSubEnabled("compact_network", "show_ip")) {
-                ss << getColor("compact_network", "(", "white") << "(" << r
-                    << getColor("compact_network", "label_color", "white") << "ip: " << r
-                    << getColor("compact_network", "ip_color", "white") << c_net.get_network_ip() << r
-                    << getColor("compact_network", ")", "white") << ")" << r;
-            }
-            lp.push(ss.str());
+
+
         }
+        else { // dummy compact network
+
+
+
+            // Compact Network (dummy)
+            if (isEnabled("compact_network")) {
+                std::ostringstream ss;
+
+                if (isSubEnabled("compact_network", "show_emoji")) ss << getColor("compact_network", "emoji_color", "white") << u8"🌐" << r << " ";
+
+                ss << getColor("compact_network", "Network", "white") << "Network" << r
+                    << getColor("compact_network", "Network_:", "white") << ": " << r;
+
+                if (isSubEnabled("compact_network", "show_name")) {
+                    ss << getColor("compact_network", "(", "white") << "(" << r
+                        << getColor("compact_network", "label_color", "white") << "Name: " << r
+                        << getColor("compact_network", "name_color", "white") << "InterCentury" << r
+                        << getColor("compact_network", ")", "white") << ") " << r;
+                }
+                if (isSubEnabled("compact_network", "show_type")) {
+                    ss << getColor("compact_network", "(", "white") << "(" << r
+                        << getColor("compact_network", "label_color", "white") << "Type: " << r
+                        << getColor("compact_network", "type_color", "white") << c_net.get_network_type() << r
+                        << getColor("compact_network", ")", "white") << ") " << r;
+                }
+                if (isSubEnabled("compact_network", "show_ip")) {
+                    ss << getColor("compact_network", "(", "white") << "(" << r
+                        << getColor("compact_network", "label_color", "white") << "ip: " << r
+                        << getColor("compact_network", "ip_color", "white") << "198.32.34.234.2" << r
+                        << getColor("compact_network", ")", "white") << ")" << r;
+                }
+                lp.push(ss.str());
+            }
+
+
+        }
+        
 
         // Compact Disk
         if (isEnabled("compact_disk")) {
