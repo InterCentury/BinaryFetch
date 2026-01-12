@@ -168,8 +168,8 @@ int main(){
     TimeInfo time;
 
     // toggle dummy ip  and direct load from config for better DX testing
-    bool dummy_compact_network = false;
-	bool dummy_detailed_network = false;
+    bool dummy_compact_network = true;
+	bool dummy_detailed_network = true;
     bool LOAD_DEFAULT_CONFIG = true;
     //-----------------------------testing site start-------------------------
     // std::cout << u8"😄 ❤️ 🎉 🚀 ⭐ 🐱 🍕 🎮 😭 🌈\n";
