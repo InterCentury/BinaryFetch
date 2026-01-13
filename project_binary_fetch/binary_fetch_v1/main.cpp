@@ -12,6 +12,8 @@
 #include <windows.h>
 #include <shlobj.h>
 #include <direct.h>
+#include <comdef.h>
+#include <Wbemidl.h>
 // ASCII Art functionality
 #include "AsciiArt.h" // main.cpp (AsciiArt separated into header and implementation files)
 
@@ -91,6 +93,18 @@ it is a sign that the logic should be moved into a new module.
 
 
 int main(){
+
+    // Initialize COM
+    HRESULT hr = CoInitializeEx(0, COINIT_MULTITHREADED);
+    if (FAILED(hr)) {
+        std::cout << "Failed to initialize COM library. Error: 0x"
+            << std::hex << hr << std::endl;
+        return 1;
+    }
+
+
+
+    
     // ========== SIMPLIFIED ASCII ART LOADING ==========
         // Just call loadFromFile() - it handles everything automatically!
         // - Checks C:\Users\<User>\AppData\BinaryFetch\BinaryArt.txt
@@ -2279,6 +2293,9 @@ int main(){
     lp.finish();
 
     std::cout << std::endl;
+
+
+    CoUninitialize();
     return 0;
 }
 
