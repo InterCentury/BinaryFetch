@@ -105,100 +105,68 @@ int main(){
     }
 
     // ========== AUTO CONFIG FILE SETUP ==========
-    // Toggle for developer convenience
-    bool LOAD_DEFAULT_CONFIG = false;  // true = dev mode, false = production mode
+    // true = dev mode (loads local file), false = production mode (extracts from EXE)
+    bool LOAD_DEFAULT_CONFIG = false;
 
-    std::string userConfigPath;
-    std::string configDir;
+    std::string configDir = "C:\\Users\\Public\\BinaryFetch";
+    std::string userConfigPath = configDir + "\\BinaryFetch_Config.json";
     std::string configPath;
 
-    // Windows: C:\Users\Default\AppData\Local\BinaryFetch\BinaryFetch_Config.json
-    configDir = "C:\\Users\\Default\\AppData\\Local\\BinaryFetch";
-    userConfigPath = configDir + "\\BinaryFetch_Config.json";
-
-    // Helper function to find default config (like ASCII art does)
-    auto findDefaultConfig = []() -> std::string {
-        std::vector<std::string> searchPaths = {
-            "Default_BinaryFetch_Config.json",
-            "./Default_BinaryFetch_Config.json",
-            "../Default_BinaryFetch_Config.json",
-            "../../Default_BinaryFetch_Config.json",      // For x64/Debug builds
-            "../../../Default_BinaryFetch_Config.json"
-        };
-
-        // Add executable directory
-        char exePath[MAX_PATH];
-        if (GetModuleFileNameA(NULL, exePath, MAX_PATH)) {
-            std::string exeDir = exePath;
-            size_t lastSlash = exeDir.find_last_of("\\/");
-            if (lastSlash != std::string::npos) {
-                exeDir = exeDir.substr(0, lastSlash);
-                searchPaths.push_back(exeDir + "\\Default_BinaryFetch_Config.json");
-            }
-        }
-
-        // Try each path
-        for (const auto& path : searchPaths) {
-            std::ifstream test(path);
-            if (test.good()) {
-                test.close();
-                return path;
-            }
-        }
-        return "";  // Not found
-        };
-
-    // Determine which config to load
     if (LOAD_DEFAULT_CONFIG) {
-        // DEV MODE: Load from project folder
-        configPath = findDefaultConfig();
-        if (configPath.empty()) {
-            std::cout << "Warning: Could not find Default_BinaryFetch_Config.json" << std::endl;
-            configPath = "Default_BinaryFetch_Config.json";  // Fallback
-        }
+        // DEV MODE: Load directly from project folder for fast iteration 🧪
+        configPath = "Default_BinaryFetch_Config.json";
     }
     else {
-        // PRODUCTION MODE: Use AppData with auto-copy
+        // PRODUCTION MODE: Use constant public folder 🛰️
         configPath = userConfigPath;
 
-        // Create directory if it doesn't exist
-        DWORD attribs = GetFileAttributesA(configDir.c_str());
-        bool dirExists = (attribs != INVALID_FILE_ATTRIBUTES && (attribs & FILE_ATTRIBUTE_DIRECTORY));
-        if (!dirExists) {
+        // 1. Create directory if it doesn't exist
+        if (GetFileAttributesA(configDir.c_str()) == INVALID_FILE_ATTRIBUTES) {
             _mkdir(configDir.c_str());
         }
 
-        // Check if user config exists
+        // 2. Self-Healing: Check if user config exists, if not, extract from EXE memory
         std::ifstream checkConfig(userConfigPath);
         bool userConfigExists = checkConfig.good();
         checkConfig.close();
 
         if (!userConfigExists) {
-            // Find default config using multi-path search
-            std::string defaultConfigPath = findDefaultConfig();
+            // IDR_DEFAULT_CONFIG is 101 in your resource.h
+            HRSRC hRes = FindResource(NULL, MAKEINTRESOURCE(101), RT_RCDATA);
+            if (hRes) {
+                HGLOBAL hData = LoadResource(NULL, hRes);
+                DWORD size = SizeofResource(NULL, hRes);
+                const char* data = static_cast<const char*>(LockResource(hData));
 
-            if (!defaultConfigPath.empty()) {
-                // Copy default config to AppData
-                std::ifstream defaultConfig(defaultConfigPath, std::ios::binary);
-                if (defaultConfig.is_open()) {
-                    std::ofstream userConfig(userConfigPath, std::ios::binary);
-                    if (userConfig.is_open()) {
-                        userConfig << defaultConfig.rdbuf();
-                        userConfig.close();
-                        // std::cout << "Config copied to: " << userConfigPath << std::endl;
-                    }
-                    defaultConfig.close();
+                std::ofstream userConfig(userConfigPath, std::ios::binary);
+                if (userConfig.is_open()) {
+                    userConfig.write(data, size);
+                    userConfig.close();
                 }
             }
             else {
-                std::cout << "Warning: Could not find Default_BinaryFetch_Config.json to copy." << std::endl;
-                // Try to use any found config as fallback
-                std::string fallback = findDefaultConfig();
-                if (!fallback.empty()) {
-                    configPath = fallback;
-                }
+                std::cout << "Warning: Internal resource IDR_DEFAULT_CONFIG not found." << std::endl;
             }
         }
+    }
+
+    // ========== CONFIG LOADING ==========
+    json config;
+    bool config_loaded = false;
+
+    std::ifstream config_file(configPath);
+    if (config_file.is_open()) {
+        try {
+            config = json::parse(config_file);
+            config_loaded = true;
+        }
+        catch (const std::exception& e) {
+            std::cout << "Warning: Failed to parse config file. Using hardcoded defaults." << std::endl;
+        }
+        config_file.close();
+    }
+    else {
+        std::cout << "Warning: Could not open config file: " << configPath << std::endl;
     }
 
     // Color map
@@ -210,26 +178,6 @@ int main(){
         {"bright_magenta", "\033[95m"}, {"bright_cyan", "\033[96m"},
         {"bright_white", "\033[97m"}, {"reset", "\033[0m"}
     };
-
-    // Load Config
-    json config;
-    bool config_loaded = false;
-
-    std::ifstream config_file(configPath);
-    if (config_file.is_open()) {
-        try {
-            config = json::parse(config_file);
-            config_loaded = true;
-            // std::cout << "Config loaded from: " << configPath << std::endl;
-        }
-        catch (const std::exception& e) {
-            std::cout << "Warning: Failed to parse config file. Using defaults." << std::endl;
-        }
-        config_file.close();
-    }
-    else {
-        std::cout << "Warning: Could not open config file: " << configPath << std::endl;
-    }
 
     // Helper functions
     auto getColor = [&](const std::string& section, const std::string& key, const std::string& defaultColor = "white") -> std::string {
