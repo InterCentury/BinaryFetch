@@ -1214,7 +1214,8 @@ int main(){
 
 
             // Network Info (Compact + Extra) (real)
-            if (isEnabled("network_info")) {
+            if (isEnabled("network_info")) 
+            {
 
                 lp.push("");//blank line....don't use cout !!! it might break the allignment
 
@@ -1328,7 +1329,7 @@ int main(){
        
         
             // Network Info (Compact + Extra) (dummy)
-            if (isEnabled("network_info")) {
+            if (isEnabled("dummy_network_info")) {
 
                 lp.push("");//blank line....don't use cout !!! it might break the allignment
 
