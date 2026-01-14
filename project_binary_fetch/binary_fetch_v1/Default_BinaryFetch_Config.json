@@ -251,6 +251,24 @@
       "ip_color": "bright_cyan"
     }
   },
+  "dummy_compact_network": {
+    "enabled": true,
+    "show_name": true,
+    "show_type": true,
+    "show_ip": true,
+    "show_emoji": true,
+    "colors": {
+      "emoji_color": "yellow",
+      "Network": "cyan",
+      "(": "red",
+      ")": "red",
+      "Network_:": "bright_cyan",
+      "label_color": "bright_cyan",
+      "name_color": "bright_cyan",
+      "type_color": "bright_cyan",
+      "ip_color": "bright_cyan"
+    }
+  },
   "compact_disk": {
     "enabled": true,
     "show_usage": true,

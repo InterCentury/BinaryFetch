@@ -120,7 +120,7 @@ int main(){
 
     // ========== AUTO CONFIG FILE SETUP ==========
     // true = dev mode (loads local file), false = production mode (extracts from EXE)
-    bool LOAD_DEFAULT_CONFIG = false;
+    bool LOAD_DEFAULT_CONFIG = true;
 
     std::string configDir = "C:\\Users\\Public\\BinaryFetch";
     std::string userConfigPath = configDir + "\\BinaryFetch_Config.json";
@@ -265,8 +265,9 @@ int main(){
     TimeInfo time;
 
     // toggle dummy ip  and direct load from config for better DX testing
-    bool dummy_compact_network = false;
-	bool dummy_detailed_network = false;
+    // bool dummy_compact_network = false;
+	// bool dummy_detailed_network = false;
+    // removed these feature....now we can toggle them straight form the json config
     //-----------------------------testing site start-------------------------
     // std::cout << u8"😄 ❤️ 🎉 🚀 ⭐ 🐱 🍕 🎮 😭 🌈\n";
     
@@ -730,9 +731,6 @@ int main(){
         }
 
 
-        if (dummy_compact_network == false)
-        {
-
 
             // Compact Network (real)
             if (isEnabled("compact_network")) {
@@ -765,13 +763,11 @@ int main(){
             }
 
 
-        }
-        else { // dummy compact network
 
 
 
             // Compact Network (dummy)
-            if (isEnabled("compact_network")) {
+            if (isEnabled("dummy_compact_network")) {
                 std::ostringstream ss;
 
                 if (isSubEnabled("compact_network", "show_emoji")) ss << getColor("compact_network", "emoji_color", "white") << u8"🌐" << r << " ";
@@ -801,7 +797,7 @@ int main(){
             }
 
 
-        }
+        
         
 
         // Compact Disk
@@ -1216,8 +1212,6 @@ int main(){
         // ----------------- END DETAILED STORAGE ----------------- //
 
 
-        if (dummy_detailed_network == false)
-        {
 
             // Network Info (Compact + Extra) (real)
             if (isEnabled("network_info")) {
@@ -1331,9 +1325,8 @@ int main(){
                 }
             }
 
-        }
-        else
-        {
+       
+        
             // Network Info (Compact + Extra) (dummy)
             if (isEnabled("network_info")) {
 
@@ -1447,7 +1440,7 @@ int main(){
             }
 
 
-        }
+        
 
  
         // end of the detailed network section////////////////////////////////////////////////
