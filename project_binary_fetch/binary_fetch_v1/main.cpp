@@ -120,7 +120,7 @@ int main(){
 
     // ========== AUTO CONFIG FILE SETUP ==========
     // true = dev mode (loads local file), false = production mode (extracts from EXE)
-    bool LOAD_DEFAULT_CONFIG = true;
+    bool LOAD_DEFAULT_CONFIG = false;
 
     std::string configDir = "C:\\Users\\Public\\BinaryFetch";
     std::string userConfigPath = configDir + "\\BinaryFetch_Config.json";
