@@ -173,16 +173,18 @@ int main(){
 
     // ========== CONFIG LOADING ==========
     json config;
-    bool config_loaded = false;
+    bool config_loaded = false; // must be false by default
 
     std::ifstream config_file(configPath);
     if (config_file.is_open()) {
         try {
             config = json::parse(config_file);
-            config_loaded = true;
+            config_loaded = true; // if the json is successfully loaded
         }
         catch (const std::exception& e) {
             std::cout << "Warning: Failed to parse config file. Using hardcoded defaults." << std::endl;
+
+            // provide warning msg if the json parsing fails
         }
         config_file.close();
     }
@@ -190,8 +192,10 @@ int main(){
         std::cout << "Warning: Could not open config file: " << configPath << std::endl;
     }
 
-    // Color map
-    std::map<std::string, std::string> colors = {
+	// Color map (for ANSI escape codes) 
+    // for beginners, we're simply assign colors like how we 
+    // assin vaules in variables 
+    map<string, string> colors = {
         {"red", "\033[31m"}, {"green", "\033[32m"}, {"yellow", "\033[33m"},
         {"blue", "\033[34m"}, {"magenta", "\033[35m"}, {"cyan", "\033[36m"},
         {"white", "\033[37m"}, {"bright_red", "\033[91m"}, {"bright_green", "\033[92m"},
@@ -200,10 +204,11 @@ int main(){
         {"bright_white", "\033[97m"}, {"reset", "\033[0m"}
     };
 
-    // Helper functions
+    // Helper functions 
     auto getColor = [&](const std::string& section, const std::string& key, const std::string& defaultColor = "white") -> std::string {
         if (!config_loaded || !config.contains(section)) return colors[defaultColor];
 
+        //
         if (config[section].contains("colors") && config[section]["colors"].contains(key)) {
             std::string colorName = config[section]["colors"][key].get<std::string>();
             return colors.count(colorName) ? colors[colorName] : colors[defaultColor];
