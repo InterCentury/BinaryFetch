@@ -238,14 +238,24 @@ int main(){
         if (!config_loaded || !config.contains(section)) return true;
         return config[section].value(key, true);
         };
-	// check for each section inside a module,
-	// is it enabled or not (Aka section-module)
+    // checks whether a specific section inside a module is enabled or not
+     // example:
+     // module  -> "network"
+     // section -> "ipv4"
+     //
+     // logic:
+     // - if config is not loaded, allow it (default ON)
+     // - if the module does not exist in config, allow it
+     // - if the module has no "sections" block, allow all sections
+     // - otherwise, read the value from: config[module]["sections"][section]
+     // - if the section key is missing, default to true...
     auto isSectionEnabled = [&](const std::string& module, const std::string& section) -> bool {
         if (!config_loaded || !config.contains(module)) return true;
         if (!config[module].contains("sections")) return true;
         return config[module]["sections"].value(section, true);
         };
      
+
     auto isNestedEnabled = [&](const std::string& module, const std::string& section, const std::string& key) -> bool {
         if (!config_loaded || !config.contains(module)) return true;
         if (!config[module].contains(section)) return true;
