@@ -313,9 +313,9 @@ int main(){
 
     
 
-    // removed these feature....now we can toggle them straight form the json config
-    //-----------------------------testing site start-------------------------
     
+    //-----------------------------testing site start-------------------------
+	// here, we can test new features before adding them to the main codebase
     
    
     
