@@ -162,7 +162,7 @@ int main(){
                 std::cout << "Warning: Internal resource IDR_DEFAULT_CONFIG not found." << std::endl;
             }
         }
-    }
+    } 
 
     // ========== CONFIG LOADING ==========
     json config;
