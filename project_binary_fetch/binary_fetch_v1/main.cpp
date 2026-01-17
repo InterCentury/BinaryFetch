@@ -282,6 +282,8 @@ int main(){
     // Create LivePrinter
     LivePrinter lp(art);
 
+
+    // create objects of all classes here 
     OSInfo os;
     CPUInfo cpu;
     MemoryInfo ram;
@@ -2332,7 +2334,7 @@ int main(){
 
     std::cout << std::endl;
 
-
+    // End of CoUninitialize 
     CoUninitialize();
     return 0;
 }
