@@ -81,12 +81,12 @@ $2⠀⣿⣿⣿⣿⣿⣿$3⣿⣿⣿⣿⣿⣿$1⣿⣿⣿⣿⣿⣿
 ```
 Output: Green → Yellow → Red
 
-**No color (default white):**
+**No color (default white or the default text color of your terminal):**
 ```
 ⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿
 ```
 Output: Standard white text
----
+
 
 ## 🧩 Core Features Overview
 
