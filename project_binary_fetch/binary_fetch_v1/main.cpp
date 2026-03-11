@@ -133,7 +133,7 @@ int main(){
 
     // ========== AUTO CONFIG FILE SETUP ==========
     // true = dev mode (loads local file), false = production mode (extracts from EXE)
-    bool LOAD_DEFAULT_CONFIG = true; // must be false for production releases
+    bool LOAD_DEFAULT_CONFIG = false; // must be false for production releases
 
     std::string configDir = "C:\\Users\\Public\\BinaryFetch";
     std::string userConfigPath = configDir + "\\BinaryFetch_Config.json";
@@ -1100,10 +1100,31 @@ int main(){
 
                     ss << getNestedColor("storage_summary.total_GIB", "white") << " GiB  " << r;
 
-                    // Percentage
+                   
+                    /*
+                    
+                    
+                     // Percentage
                     if (getNestedBool("storage_summary.show_used_percentage", true)) {
                         ss << getNestedColor("storage_summary.used_percentage_color", "white") << d.used_percentage << r;
                     }
+                    */
+
+                    // Percentage
+                    if (getNestedBool("storage_summary.show_used_percentage", true)) {
+                        auto fmt_percentage = [](int percentage) -> std::string {
+                            std::ostringstream oss;
+
+                            // Use a FIXED width for all percentages (4 chars: " 99%" or "100%")
+                            // This ensures proper alignment
+                            oss << std::right << std::setw(4) << percentage << "%";
+                            return oss.str();
+                            };
+
+                        ss << getNestedColor("storage_summary.used_percentage_color", "white")
+                            << fmt_percentage(d.used_percentage) << r;
+                    }
+
 
                     // Separator
                     ss << getNestedColor("storage_summary.-", "white") << " - " << r;

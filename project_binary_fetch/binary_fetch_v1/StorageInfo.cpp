@@ -435,7 +435,7 @@ vector<storage_data> StorageInfo::get_all_storage_info() {
                 disk.drive_letter = "Disk (" + string(1, drive_letter) + ":)";
                 disk.used_space = used_str.str();
                 disk.total_space = total_str.str();
-                disk.used_percentage = percent_str.str();
+                disk.used_percentage = static_cast<int>(used_percent);  // Store as int directly
                 disk.file_system = formatted_fs;
                 disk.is_external = is_external;
 
@@ -596,7 +596,7 @@ void StorageInfo::process_storage_info(std::function<void(const storage_data&)> 
                 disk.drive_letter = "Disk (" + string(1, drive_letter) + ":)";
                 disk.used_space = used_str.str();
                 disk.total_space = total_str.str();
-                disk.used_percentage = percent_str.str();
+                disk.used_percentage = static_cast<int>(used_percent);  // Store as int directly
                 disk.file_system = formatted_fs;
                 disk.is_external = is_external;
 

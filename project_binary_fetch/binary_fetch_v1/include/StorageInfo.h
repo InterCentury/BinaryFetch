@@ -9,7 +9,7 @@ struct storage_data {
     string drive_letter;
     string used_space;
     string total_space;
-    string used_percentage;
+    int used_percentage;
     string file_system;
     bool is_external;
     string storage_type;
