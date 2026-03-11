@@ -133,7 +133,7 @@ int main(){
 
     // ========== AUTO CONFIG FILE SETUP ==========
     // true = dev mode (loads local file), false = production mode (extracts from EXE)
-    bool LOAD_DEFAULT_CONFIG = true; // must be false for production releases
+    bool LOAD_DEFAULT_CONFIG = false; // must be false for production releases
 
     string configDir = "C:\\Users\\Public\\BinaryFetch";
     string userConfigPath = configDir + "\\BinaryFetch_Config.json";
@@ -2041,7 +2041,7 @@ int main(){
             if (isSubEnabled("bios_mb_info", "show_bios_vendor")) {
                 ostringstream ss;
                 ss << getColor("bios_mb_info", "~", "white") << "~ " << r
-                    << getColor("bios_mb_info", "vendor_label_color", "white") << "Bios Vendor               " << r
+                    << getColor("bios_mb_info", "vendor_label_color", "white") << "Bios Vendor              " << r
                     << getColor("bios_mb_info", ":", "white") << ": " << r
                     << getColor("bios_mb_info", "vendor_value_color", "white") << sys.get_bios_vendor() << r;
                 lp.push(ss.str());
@@ -2051,7 +2051,7 @@ int main(){
             if (isSubEnabled("bios_mb_info", "show_bios_version")) {
                 ostringstream ss;
                 ss << getColor("bios_mb_info", "~", "white") << "~ " << r
-                    << getColor("bios_mb_info", "version_label_color", "white") << "Bios Version              " << r
+                    << getColor("bios_mb_info", "version_label_color", "white") << "Bios Version             " << r
                     << getColor("bios_mb_info", ":", "white") << ": " << r
                     << getColor("bios_mb_info", "version_value_color", "white") << sys.get_bios_version() << r;
                 lp.push(ss.str());
@@ -2061,7 +2061,7 @@ int main(){
             if (isSubEnabled("bios_mb_info", "show_bios_date")) {
                 ostringstream ss;
                 ss << getColor("bios_mb_info", "~", "white") << "~ " << r
-                    << getColor("bios_mb_info", "date_label_color", "white") << "Bios Date                 " << r
+                    << getColor("bios_mb_info", "date_label_color", "white") << "Bios Date                " << r
                     << getColor("bios_mb_info", ":", "white") << ": " << r
                     << getColor("bios_mb_info", "date_value_color", "white") << sys.get_bios_date() << r;
                 lp.push(ss.str());
@@ -2071,7 +2071,7 @@ int main(){
             if (isSubEnabled("bios_mb_info", "show_mb_model")) {
                 ostringstream ss;
                 ss << getColor("bios_mb_info", "~", "white") << "~ " << r
-                    << getColor("bios_mb_info", "model_label_color", "white") << "Motherboard Model         " << r
+                    << getColor("bios_mb_info", "model_label_color", "white") << "Motherboard Model        " << r
                     << getColor("bios_mb_info", ":", "white") << ": " << r
                     << getColor("bios_mb_info", "model_value_color", "white") << sys.get_motherboard_model() << r;
                 lp.push(ss.str());
@@ -2081,7 +2081,7 @@ int main(){
             if (isSubEnabled("bios_mb_info", "show_mb_manufacturer")) {
                 ostringstream ss;
                 ss << getColor("bios_mb_info", "~", "white") << "~ " << r
-                    << getColor("bios_mb_info", "mfg_label_color", "white") << "Motherboard Manufacturer  " << r
+                    << getColor("bios_mb_info", "mfg_label_color", "white") << "Motherboard Manufacturer " << r
                     << getColor("bios_mb_info", ":", "white") << ": " << r
                     << getColor("bios_mb_info", "mfg_value_color", "white") << sys.get_motherboard_manufacturer() << r;
                 lp.push(ss.str());
