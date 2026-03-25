@@ -91,8 +91,8 @@ using json = nlohmann::json;
 using namespace std;
 //since we've decleared std, we may no longer need it 
 
-// (start) - place holder for global 
-// (end) - place holder for global varaibles
+// (start) - place holder for global variables
+// end) - 
 
 
 
